@@ -1,7 +1,8 @@
 django==2.2.4
-django-suit
+https://github.com/darklow/django-suit/tarball/v2
 django-bootstrap4
 django-tagulous
 django-crispy-forms==1.7.2
 django-bootstrap-datepicker-plus==3.0.5
+Pillow==5.4.1
 django-multiselectfield==0.1.8
