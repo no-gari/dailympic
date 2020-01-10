@@ -53,6 +53,17 @@ class Lesson(models.Model):
     discount_rate = models.FloatField(verbose_name='할인율')
     start_date = models.DateField(verbose_name='시작일')
     end_date = models.DateField(verbose_name='종료일')
+    description = models.TextField()
+    LESSON_TYPE_CHOICES = (
+        ('DAILY', '일일 레슨'),
+        ('ONE_POINT', '원포인트 레슨'),
+    )
+    lesson_type = models.CharField(choices=LESSON_TYPE_CHOICES)
+    rating = models.FloatField(default=0)
+    review_count = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    instagram = models.URLField(null=True, blank=True)
+    navercafe = models.URLField(null=True, blank=True)
 
     class Meta:
         verbose_name = '레슨'
@@ -62,15 +73,27 @@ class Lesson(models.Model):
         return str(self.academy.name) + '의 ' + str(self.title)
 
 
+class LessonImage(models.Model):
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='/img/')
+
+
+class Review(models.Model):
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+    written_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    rating = models.IntegerField()
+
+
 class District (models.Model):
+    # 서울시 마포구 신수동
     name = models.CharField(max_length=20, verbose_name='지역')
-    icon = models.ImageField(default=None, blank=True)
 
 
 class Location (models.Model):
     district = models.ForeignKey(District, on_delete=models.CASCADE, related_name='locations')
     lati = models.FloatField()
     long = models.FloatField()
+    # 중앙로 23길 3층 서강클라이밍
     address = models.CharField(max_length=255)
     lesson = models.ForeignKey(Lesson, null=True, on_delete=models.SET_NULL, blank=True)
 
