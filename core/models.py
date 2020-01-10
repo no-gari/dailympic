@@ -57,7 +57,7 @@ class Lesson(models.Model):
         ('DAILY', '일일 레슨'),
         ('ONE_POINT', '원포인트 레슨'),
     )
-    lesson_type = models.CharField(choices=LESSON_TYPE_CHOICES)
+    lesson_type = models.CharField(choices=LESSON_TYPE_CHOICES, max_length=127)
     rating = models.FloatField(default=0)
     review_count = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -74,7 +74,7 @@ class Lesson(models.Model):
 
 class LessonImage(models.Model):
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='/img/')
+    image = models.ImageField()
 
 
 class Review(models.Model):
