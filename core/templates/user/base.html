@@ -1,14 +1,110 @@
 {% extends 'user/bootstrap.html' %}
+{% load staticfiles %}
 {% load bootstrap4 %}
-{% load static %}
-{% load templatehelpers %}
 {% block bootstrap4_extra_head %}
-{% endblock %}
-{% block bootstrap4_before_content %}
-{% endblock %}
-{% block bootstrap4_content %}
-    {% block content %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700&display=swap&subset=korean" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'fonts/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'fonts/ionicons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'fonts/line-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/Footer-Dark.css' %}">
+    <link rel="stylesheet" href="https://unpkg.com/@bootstrapstudio/bootstrap-better-nav/dist/bootstrap-better-nav.min.css">
+    <style>
+        body {font-family: 'Nanum Gothic', sans-serif;}
+        .nav li a {font-weight: bold;}
+        @media screen and (max-width: 766px) {
+            nav a.navbar-brand{
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+    .search-container {	position: absolute; left: 0; top: 0; width: 100%; height: 100vh; background-color: rgba( 255, 255, 255, 0.9 ); z-index: 1000;}
+    </style>
+    {% block base_extra_head %}
     {% endblock %}
 {% endblock %}
+
+{% block bootstrap4_before_content %}
+    <nav class="navbar navbar-light navbar-expand-md better-bootstrap-nav-left">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Dailympic</a>
+            <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1" style="border: none;"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse"
+                 id="navcol-1">
+                <ul class="nav navbar-nav ml-auto">
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="#">레슨</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="#">커뮤니티</a></li>
+                </ul>
+                <ul class="nav navbar-nav ml-auto">
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="#">로그인</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="#">회원가입</a></li>
+                </ul>
+            </div>
+            <i class="fa fa-search d-block d-md-none" style="cursor: pointer;" id="main_search_button"></i>
+        </div>
+    </nav>
+    <div class="search-container" style="display: none;">
+        <form class="search-box text-center w-100 px-5 d-flex">
+            <input type="text" class="w-100 form-control" style="margin-top: 10px;"/>
+            <i style="font-size: 30px;" class="fa fa-times-circle mt-3 ml-2" id="main_search_button_close"></i>
+        </form>
+    </div>
+{% endblock %}
+{% block bootstrap4_content %}
+    <div id="main_content">
+        {% block maincontent %}
+        {% endblock %}
+    </div>
+{% endblock %}
 {% block bootstrap4_after_content %}
+    <div class="footer-dark">
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6 col-md-3 item">
+                        <h3>Services</h3>
+                        <ul>
+                            <li><a href="#">이용약관</a></li>
+                            <li><a href="#">개인정보 처리방침</a></li>
+                            <li><a href="#">개인 문의</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-6 col-md-3 item">
+                        <h3>About</h3>
+                        <ul>
+                            <li><a href="#">Dailympic Teams</a></li>
+                            <li><a href="#">FAQ/자주하는 질문</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6 item text">
+                        <h3>Dailympic</h3>
+                        <p>데일림픽 어쩌구 저쩌구</p>
+                    </div>
+                    <div class="col item social"><a href="#"><i class="icon ion-social-facebook"></i></a><a href="#"><i class="icon ion-ios-email-outline"></i></a><a href="#"><i class="icon ion-social-instagram-outline"></i></a></div>
+                </div>
+                <p class="copyright">Dailympic © 2020</p>
+            </div>
+        </footer>
+    </div>
+{% endblock %}
+
+{% block bootstrap4_extra_script %}
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/@bootstrapstudio/bootstrap-better-nav/dist/bootstrap-better-nav.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#main_search_button').on('click', function(){
+                $('.search-container').show();
+            });
+            $('#main_search_button_close').on('click', function(){
+                $('.search-container').hide();
+            });
+
+        });
+    </script>
+    {% block base_extra_script %}
+    {% endblock %}
 {% endblock %}
