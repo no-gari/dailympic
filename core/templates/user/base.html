@@ -45,9 +45,10 @@
         </div>
     </nav>
     <div class="search-container" style="display: none;">
-        <form class="search-box text-center w-100 px-5 d-flex">
+        <form class="search-box text-center w-100 px-2 d-flex">
+            <i style="font-size: 30px;" class="fa fa-times-circle mt-3 mr-2" id="main_search_button_close"></i>
             <input type="text" class="w-100 form-control" style="margin-top: 10px;"/>
-            <i style="font-size: 30px;" class="fa fa-times-circle mt-3 ml-2" id="main_search_button_close"></i>
+            <button type="submit" style="margin-top: 5px; font-size: 30px; border: none; background-color: rgba(255,255,255,0);"><i class="fa fa-search d-block d-md-none ml-1" style="cursor: pointer;"></i></button>
         </form>
     </div>
 {% endblock %}
@@ -97,12 +98,11 @@
     <script>
         $(document).ready(function(){
             $('#main_search_button').on('click', function(){
-                $('.search-container').show();
+                $('.search-container').fadeIn(500);
             });
             $('#main_search_button_close').on('click', function(){
-                $('.search-container').hide();
+                $('.search-container').fadeOut(500);
             });
-
         });
     </script>
     {% block base_extra_script %}
