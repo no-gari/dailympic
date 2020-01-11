@@ -1,12 +1,11 @@
 from django.apps import AppConfig
+from suit.apps import DjangoSuitConfig
+from suit.menu import ParentItem, ChildItem
 
 
 class CoreConfig(AppConfig):
     name = 'core'
     verbose_name = '핵심 기능'
-
-from suit.apps import DjangoSuitConfig
-from suit.menu import ParentItem, ChildItem
 
 
 class SuitConfig(DjangoSuitConfig):
