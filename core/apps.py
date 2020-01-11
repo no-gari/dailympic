@@ -33,4 +33,12 @@ class SuitConfig(DjangoSuitConfig):
             ChildItem(model='core.district'),
             ChildItem(model='core.location'),
         ], icon='fa fa-leaf'),
+        ParentItem('board_manage', children=[
+            ChildItem(model='board.board'),
+            ChildItem(model='board.documents'),
+            ChildItem(model='board.comments'),
+            ChildItem(model='board.files'),
+            ChildItem(model='board.summernote'),
+            ChildItem(model='board.deniedword'),
+        ], icon='fa fa-users'),
     )

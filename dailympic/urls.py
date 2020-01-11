@@ -15,8 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls import url
+from board.views import upload_attachment
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
+    path('board/', include('board.urls')),
+    url(r'^summernote/upload_attachment/$', upload_attachment, name='django_summernote-upload_attachment'),
+    path('summernote/', include('django_summernote.urls')),
 ]

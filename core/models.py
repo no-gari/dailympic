@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User, Group, UserManager
+from datetime import datetime
 
 
 class Sport(models.Model):
@@ -52,15 +53,15 @@ class Lesson(models.Model):
     discount_rate = models.FloatField(verbose_name='할인율')
     start_date = models.DateField(verbose_name='시작일')
     end_date = models.DateField(verbose_name='종료일')
-    description = models.TextField()
+    description = models.TextField(null=True, blank=True)
     LESSON_TYPE_CHOICES = (
         ('DAILY', '일일 레슨'),
         ('ONE_POINT', '원포인트 레슨'),
     )
-    lesson_type = models.CharField(choices=LESSON_TYPE_CHOICES, max_length=127)
+    lesson_type = models.CharField(choices=LESSON_TYPE_CHOICES, default='DAILY',max_length=127)
     rating = models.FloatField(default=0)
     review_count = models.IntegerField(default=0)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
     instagram = models.URLField(null=True, blank=True)
     navercafe = models.URLField(null=True, blank=True)
 
