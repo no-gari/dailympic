@@ -1,3 +1,9 @@
+.card {padding: 0 0; margin: 0 0;}
+hr {font-weight: bold;}
+.card-title {font-weight: bold; font-size: 18px;}
+.card-text {font-size: 15px; color:#333333;}
+.card-body small {text-decoration: line-through;}
+
 .footer-dark {
   padding: 50px 0;
   color: #f0f9ff;
