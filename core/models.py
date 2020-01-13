@@ -1,6 +1,10 @@
+from django.contrib.auth import get_user_model
 from django.db import models
-from django.contrib.auth.models import User, Group, UserManager
+from django.contrib.auth.models import Group, UserManager, AbstractUser
 from datetime import datetime
+
+class User(AbstractUser):
+    profile_image = models.ImageField()
 
 
 class Sport(models.Model):
@@ -18,9 +22,15 @@ class Sport(models.Model):
 class Academy(models.Model):
     name = models.CharField(max_length=255, verbose_name='업체명')
     sport = models.ForeignKey(Sport, on_delete=models.CASCADE, verbose_name='종목', related_name='academies')
+    profile_image = models.ImageField(default=None, null=True, blank=True)
     introduction = models.TextField(blank=True, null=True, verbose_name='업체 소개')
     tel_num = models.CharField(max_length=255, verbose_name='업체 문의번호')
     email = models.EmailField(verbose_name='업체 이메일')
+    weekday_operation_begin_time = models.TimeField()
+    weekday_operation_end_time = models.TimeField()
+    weekend_operation_begin_time = models.TimeField()
+    weekend_operation_end_time = models.TimeField()
+    dayoff = models.CharField(max_length=127)
 
     class Meta:
         verbose_name = '업체'
@@ -59,6 +69,7 @@ class Lesson(models.Model):
         ('ONE_POINT', '원포인트 레슨'),
     )
     lesson_type = models.CharField(choices=LESSON_TYPE_CHOICES, default='DAILY',max_length=127)
+    week_frequency = models.IntegerField(default=0)
     rating = models.FloatField(default=0)
     review_count = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
@@ -97,3 +108,7 @@ class Location (models.Model):
     address = models.CharField(max_length=255)
     lesson = models.ForeignKey(Lesson, null=True, on_delete=models.SET_NULL, blank=True)
 
+
+class Like (models.Model):
+    liked_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='likes')
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name='likes')
