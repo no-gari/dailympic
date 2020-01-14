@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.models import Group, UserManager, AbstractUser
 from datetime import datetime
 
+
 class User(AbstractUser):
     profile_image = models.ImageField()
 
