@@ -1,11 +1,11 @@
 from django.contrib.auth import get_user_model
 from django.db import models
-from django.contrib.auth.models import Group, UserManager, AbstractUser
+from django.contrib.auth.models import Group, UserManager, User, AbstractUser
 from datetime import datetime
 
-
-class User(AbstractUser):
-    profile_image = models.ImageField()
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    image = models.ImageField(default=None,null=True,blank=True)
 
 
 class Sport(models.Model):
