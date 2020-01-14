@@ -67,8 +67,9 @@ class Lesson(models.Model):
     end_date = models.DateField(verbose_name='종료일')
     description = models.TextField(null=True, blank=True)
     LESSON_TYPE_CHOICES = (
-        ('DAILY', '일일 레슨'),
+        ('ONE_DAY', '원데이 레슨'),
         ('ONE_POINT', '원포인트 레슨'),
+
     )
     lesson_type = models.CharField(choices=LESSON_TYPE_CHOICES, default='DAILY',max_length=127)
     week_frequency = models.IntegerField(default=0)
@@ -85,6 +86,7 @@ class Lesson(models.Model):
 
     def __str__(self):
         return str(self.academy.name) + '의 ' + str(self.title)
+
 
     def update_hits(self):
         self.hits += 1
