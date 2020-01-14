@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.models import Group, UserManager, User, AbstractUser
 from datetime import datetime
 
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default=None,null=True,blank=True)
@@ -74,6 +75,7 @@ class Lesson(models.Model):
     rating = models.FloatField(default=0)
     review_count = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
+    hits = models.PositiveIntegerField(default=0)
     instagram = models.URLField(null=True, blank=True)
     navercafe = models.URLField(null=True, blank=True)
 
@@ -83,6 +85,10 @@ class Lesson(models.Model):
 
     def __str__(self):
         return str(self.academy.name) + '의 ' + str(self.title)
+
+    def update_hits(self):
+        self.hits += 1
+        self.save()
 
 
 class LessonImage(models.Model):

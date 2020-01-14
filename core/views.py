@@ -1,5 +1,10 @@
 from django.shortcuts import render
 
-# Create your views here.
+from core.models import Lesson
+
+
 def index(request):
+    hot_lessons = Lesson.objects.order_by('-hits')[:5]
+
+
     return render(request, '../templates/user/index.html')
