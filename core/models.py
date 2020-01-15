@@ -1,8 +1,10 @@
-from django.contrib.auth import get_user_model
+from django import template
 from django.db import models
 from django.contrib.auth.models import Group, UserManager, User, AbstractUser
 from datetime import datetime
 
+
+register = template.Library()
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -74,11 +76,11 @@ class Lesson(models.Model):
     lesson_type = models.CharField(choices=LESSON_TYPE_CHOICES, default='DAILY',max_length=127)
     week_frequency = models.IntegerField(default=0)
     rating = models.FloatField(default=0)
-    review_count = models.IntegerField(default=0)
+    review_count = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
-    hits = models.PositiveIntegerField(default=0)
     instagram = models.URLField(null=True, blank=True)
     navercafe = models.URLField(null=True, blank=True)
+    like_count = models.PositiveIntegerField(default=0)
 
     class Meta:
         verbose_name = '레슨'
@@ -87,9 +89,9 @@ class Lesson(models.Model):
     def __str__(self):
         return str(self.academy.name) + '의 ' + str(self.title)
 
-
-    def update_hits(self):
-        self.hits += 1
+    @register.filter(name='update_like_counte')
+    def update_like_count(self, delta):
+        self.like_count += delta
         self.save()
 
 
