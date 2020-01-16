@@ -47,6 +47,14 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'django_filters',
     'simple_history',
+
+    #allauth
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
+    #provider
+    'allauth.socialaccount.providers.google'
 ]
 
 MIDDLEWARE = [
@@ -142,3 +150,12 @@ BOOTSTRAP4 = {
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 SUMMERNOTE_CONFIG = {'attachment_model': 'board.Summernote',}
+
+#social login
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+SITE_ID = 1
+LOGIN_REDIRECT_URL = '/'

@@ -46,3 +46,6 @@ class OneDayLessonListView(ListView):
         return Lesson.objects.filter(lesson_type='ONE_DAY').order_by('-hits')
 
 
+def login(request):
+    return render(request, "../templates/user/login.html")
+
