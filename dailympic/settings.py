@@ -48,6 +48,9 @@ INSTALLED_APPS = [
     'django_filters',
     'simple_history',
 
+    #django-sties
+    'django.contrib.sites',
+
     #allauth
     'allauth',
     'allauth.account',
