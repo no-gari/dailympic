@@ -13,7 +13,7 @@ def index(request):
         'hot_lessons' : hot_lessons,
         'recent_lessons' : recent_lessons,
     }
-    return render(request, '../templates/user/index.html')
+    return render(request, './user/index.html')
 
 
 class HotLessonListView(ListView):
@@ -47,5 +47,5 @@ class OneDayLessonListView(ListView):
 
 
 def login(request):
-    return render(request, "../templates/user/login.html")
+    return render(request, "./user/login.html")
 
