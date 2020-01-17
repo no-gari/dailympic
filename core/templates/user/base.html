@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{% static 'fonts/line-awesome.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/Footer-Dark.css' %}">
     <link rel="stylesheet" href="https://unpkg.com/@bootstrapstudio/bootstrap-better-nav/dist/bootstrap-better-nav.min.css">
+    <link rel="icon" href="{% static 'img/dailympic_logo_small.png' %}" type="image/x-icon" />
     <style>
         body {font-family: 'Nanum Gothic', sans-serif;}
         .nav li a {font-weight: bold;}
@@ -28,7 +29,7 @@
 {% block bootstrap4_before_content %}
     <nav class="navbar navbar-light navbar-expand-md better-bootstrap-nav-left">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'index' %}">Dailympic</a>
+            <a class="navbar-brand" href="{% url 'index' %}"><img style="width: 150px;" src="{% static 'img/dailympic_logo.png' %}" alt=""></a>
             <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1" style="border: none;"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse"
                  id="navcol-1">
