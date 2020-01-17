@@ -1,0 +1,20 @@
+{% extends 'user/base.html' %}
+{% load staticfiles %}
+{% block base_extra_head %}
+
+{% endblock %}
+{% block maincontent %}
+    <h3 class="text-center">종목 전체보기</h3>
+    <div class="row w-100 mx-0 px-2">
+        <div class="card col-lg-4 col-md-6 col-sm-6 col-6">
+            <div class="card-body">
+                <h5 class="card-title">펜싱</h5>
+            </div>
+            <img src="{% static 'img/team.png' %}" class="card-img-top" alt="...">
+        </div>
+    </div>
+{% endblock %}
+
+{% block base_extra_script %}
+
+{% endblock %}
