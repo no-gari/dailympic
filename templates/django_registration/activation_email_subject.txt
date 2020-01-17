@@ -1,0 +1,1 @@
+{{user.first_name}}님 {{site}} 회원가입 인증요청 메일 입니다.

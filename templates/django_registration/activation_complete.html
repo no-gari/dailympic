@@ -1,0 +1,24 @@
+{% extends 'user/base.html' %}
+
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+{% load static %}
+
+{# Read the documentation for more information #}
+{% block title %}
+    회원가입
+{% endblock %}
+
+{% block content %}
+
+    <div class="needlogin">
+        <div class="mesicon">
+            <img src="{% static "it_woman/img/icon_massage02.gif" %}" alt="">
+        </div>
+        <div class="mestxt">
+            <span>회원가입이 완료되었습니다. 로그인해주세요.</span>
+            <div style="clear: both;"></div>
+        </div>
+        <button type="button" onclick="setMovePage('{% url 'login' %}');">로그인</button>
+    </div>
+{% endblock %}

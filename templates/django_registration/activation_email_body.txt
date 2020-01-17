@@ -1,0 +1,8 @@
+인증키 : {{activation_key}}
+인증기간 : {{expiration_days}}일
+request : {{request}}
+scheme : {{scheme}}
+site : {{site}}
+user : {{user}}
+
+{{scheme}}://{{site}}/activate/{{activation_key}}

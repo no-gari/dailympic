@@ -1,7 +1,7 @@
 .card {padding: 0 0; margin: 0 0;}
 hr {font-weight: bold;}
-.card-title {font-weight: bold; font-size: 18px;}
-.card-text {font-size: 15px; color:#333333;}
+.card-title {font-weight: bold; font-size: 15px;}
+.card-text {font-size: 12px; color:#333333;}
 .card-body small {text-decoration: line-through;}
 
 .footer-dark {
