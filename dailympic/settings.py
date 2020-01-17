@@ -53,11 +53,11 @@ INSTALLED_APPS = [
     'django_filters',
     'simple_history',
 
-    #django-sties
-    'django.contrib.sites',
-
     #social_django
     'social_django',
+
+    #registration
+    'django-registration',
 ]
 
 MIDDLEWARE = [
