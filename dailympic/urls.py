@@ -24,5 +24,5 @@ urlpatterns = [
     path('community/', include('board.urls'), name='community'),
     url(r'^summernote/upload_attachment/$', upload_attachment, name='django_summernote-upload_attachment'),
     path('summernote/', include('django_summernote.urls')),
-    path('accounts/', include('allauth.urls')),
+    path('',include('social_django.urls', namespace='social'))
 ]

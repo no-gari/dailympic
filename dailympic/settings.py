@@ -11,9 +11,14 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import json
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+with open(os.path.join(BASE_DIR, 'envs_dev.json'), 'rb') as json_file:
+    social_login_data = json.load(json_file)
 
 
 # Quick-start development settings - unsuitable for production
@@ -51,13 +56,8 @@ INSTALLED_APPS = [
     #django-sties
     'django.contrib.sites',
 
-    #allauth
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-
-    #provider
-    'allauth.socialaccount.providers.google'
+    #social_django
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -141,8 +141,6 @@ USE_TZ = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles/")
 STATIC_URL = '/static/'
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -155,9 +153,21 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 SUMMERNOTE_CONFIG = {'attachment_model': 'board.Summernote',}
 
 #social login
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
-)
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.google.GoogleOAuth2', # Google
+    'social_core.backends.facebook.FacebookOAuth2', # Facebook
 
-SITE_ID = 1
+    'django.contrib.auth.backends.ModelBackend', # Django 기본 유저모델
+]
+
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
+# Facebook
+SOCIAL_AUTH_FACEBOOK_KEY = social_login_data['FACEBOOK_KEY']
+SOCIAL_AUTH_FACEBOOK_SECRET = social_login_data['FACEBOOK_SECRET']
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCAIL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+    'fields': 'id, name'
+}
