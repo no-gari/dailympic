@@ -57,7 +57,7 @@ INSTALLED_APPS = [
     'social_django',
 
     #registration
-    'django-registration',
+    'django_registration',
 ]
 
 MIDDLEWARE = [
@@ -171,3 +171,8 @@ SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 SOCAIL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
     'fields': 'id, name'
 }
+
+# SocialLogin: Google
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = social_login_data['GOOGLE_KEY']
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = social_login_data['GOOGLE_SECRET']
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['email']
