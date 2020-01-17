@@ -156,6 +156,7 @@ SUMMERNOTE_CONFIG = {'attachment_model': 'board.Summernote',}
 AUTHENTICATION_BACKENDS = [
     'social_core.backends.google.GoogleOAuth2', # Google
     'social_core.backends.facebook.FacebookOAuth2', # Facebook
+    'social_core.backends.naver.NaverOAuth2', #Naver
 
     'django.contrib.auth.backends.ModelBackend', # Django 기본 유저모델
 ]
@@ -176,3 +177,8 @@ SOCAIL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = social_login_data['GOOGLE_KEY']
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = social_login_data['GOOGLE_SECRET']
 SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['email']
+
+# SocialLogin: Naver
+SOCIAL_AUTH_NAVER_KEY = social_login_data['NAVER_KEY']
+SOCIAL_AUTH_NAVER_SECRET = social_login_data['NAVER_SECRET']
+SOCIAL_AUTH_NAVER_SCOPE = ['email']
