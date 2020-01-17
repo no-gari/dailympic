@@ -49,3 +49,5 @@ class OneDayLessonListView(ListView):
 def login(request):
     return render(request, "./user/login.html")
 
+def sportlists(request):
+    return render(request, 'user/sportslists.html')
