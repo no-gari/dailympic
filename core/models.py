@@ -6,6 +6,7 @@ from datetime import datetime
 
 register = template.Library()
 
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default=None,null=True,blank=True)

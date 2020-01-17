@@ -48,6 +48,9 @@ INSTALLED_APPS = [
     'django_filters',
     'simple_history',
 
+    #django-sties
+    'django.contrib.sites',
+
     #allauth
     'allauth',
     'allauth.account',
@@ -158,4 +161,3 @@ AUTHENTICATION_BACKENDS = (
 )
 
 SITE_ID = 1
-LOGIN_REDIRECT_URL = '/'
