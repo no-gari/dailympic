@@ -1,14 +1,16 @@
-{% extends 'base.html' %}
+{% extends 'user/base.html' %}
 {% load staticfiles %}
 {% load crispy_forms_tags %}
 {% load widget_tweaks %}
 {% load bootstrap4 %}
-{% block base_header %}
+{% block base_extra_head %}
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" />
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/3.0.0/js/bootstrap-datetimepicker.min.js"></script>
 {% endblock %}
 {% block maincontent %}
-    <div class="container" style="background-image: url({% static 'img/paw_prints.png' %}); background-size: contain; background-repeat: no-repeat;">
+    <div class="container">
         <div class="row">
             <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
                 <div class="card card-signin my-5">
@@ -57,7 +59,7 @@
                                 <span class="float-left">계정이 있으신가요?</span>
                                 <span class="float-right"><a href="{% url 'login' %}">로그인 하기</a></span>
                             </div>
-                            <button class="btn btn-lg btn-cogi btn-block text-uppercase" type="submit">회원가입</button>
+                            <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">회원가입</button>
                             <hr class="my-4">
                                 <div class="text-center mb-3">소셜 계정으로 로그인</div>
                             <div class="btn btn-lg btn-block text-uppercase" style="background-color: #03CF5D;"><a style="text-decoration: none; color: white; " href="{% url 'social:begin' 'naver' %}"><img src="{% static 'img/naver.png' %}" alt="" style="height: 20px; margin-right: 5px;">네이버 계정으로 로그인</a></div>

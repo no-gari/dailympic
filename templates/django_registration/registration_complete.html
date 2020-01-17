@@ -1,0 +1,22 @@
+{% extends 'user/base.html' %}
+
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+{% load static %}
+
+{# Read the documentation for more information #}
+{% block title %}
+    회원가입
+{% endblock %}
+
+{% block content %}
+    <div class="messagemail">
+        <div class="mesicon">
+            <img src="{% static "it_woman/img/icon_massage01.gif" %}" alt="">
+        </div>
+        <div class="mestxt">
+            <span>인증메일을 발송하였습니다. 메일을 확인하세요.</span>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+{% endblock %}
