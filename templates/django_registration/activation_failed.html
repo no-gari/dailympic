@@ -1,0 +1,27 @@
+{% extends 'user/base.html' %}
+
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+
+{# Read the documentation for more information #}
+{% block title %}
+    회원가입
+{% endblock %}
+
+{% block content %}
+    <div class="col-md-6 mx-auto">
+        <div class="card card-body">
+            <form method='post' action='' enctype="multipart/form-data">
+                {% if activation_error %}
+                    <div class="alert alert-danger" role="alert">
+                        <ul>
+                            {% for error in activation_error %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+{% endblock %}
