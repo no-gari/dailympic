@@ -62,6 +62,9 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.naver',
+    'allauth.socialaccount.providers.facebook',
+
 
     #registration
     'django_registration',
@@ -163,48 +166,31 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 SUMMERNOTE_CONFIG = {'attachment_model': 'board.Summernote',}
 
 #social login
-AUTHENTICATION_BACKENDS = [
-    # 'social_core.backends.google.GoogleOAuth2', # Google
-    # 'social_core.backends.facebook.FacebookOAuth2', # Facebook
-    # 'social_core.backends.naver.NaverOAuth2', #Naver
-
-    'django.contrib.auth.backends.ModelBackend', # Django 기본 유저모델
-    'allauth.account.auth_backends.AuthenticationBackend',
-]
+# AUTHENTICATION_BACKENDS = [
+#     # 'social_core.backends.google.GoogleOAuth2', # Google
+#     # 'social_core.backends.facebook.FacebookOAuth2', # Facebook
+#     # 'social_core.backends.naver.NaverOAuth2', #Naver
+#
+#     'django.contrib.auth.backends.ModelBackend', # Django 기본 유저모델
+#     'allauth.account.auth_backends.AuthenticationBackend',
+# ]
 
 SITE_ID = 1
 # SOCIAL_AUTH_URL_NAMESPACE = 'social'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
-# # Facebook
-# SOCIAL_AUTH_FACEBOOK_KEY = social_login_data['FACEBOOK_KEY']
-# SOCIAL_AUTH_FACEBOOK_SECRET = social_login_data['FACEBOOK_SECRET']
-# SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
-# SOCAIL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
-#     'fields': 'id, name'
+# list the info of providers in settings.py
+# or make an instance of social application in admin page
+# SOCIALACCOUNT_PROVIDERS = {
+#     'google': {
+#         'APP':{
+#             'client_id': '123',
+#             'secret': '456',
+#             'key': ''
+#         }
+#     }
 # }
-#
-# # SocialLogin: Google
-# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = social_login_data['GOOGLE_KEY']
-# SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = social_login_data['GOOGLE_SECRET']
-# SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['email']
-#
-# # SocialLogin: Naver
-# SOCIAL_AUTH_NAVER_KEY = social_login_data['NAVER_KEY']
-# SOCIAL_AUTH_NAVER_SECRET = social_login_data['NAVER_SECRET']
-# SOCIAL_AUTH_NAVER_SCOPE = ['email']
-#
-#
-# SOCIAL_AUTH_PIPELINE = (
-#     'social_core.pipeline.social_auth.social_details',
-#     'social_core.pipeline.social_auth.social_uid',
-#     'social_core.pipeline.social_auth.auth_allowed',
-#     # Path to your overrided method
-#     # You can set any other valid path.
-#     'social_core.pipeline.user.get_username',
-#     'social_core.pipeline.user.create_user',
-#     'social_core.pipeline.social_auth.associate_user',
-#     'social_core.pipeline.social_auth.load_extra_data',
-#     'social_core.pipeline.user.user_details',
-# )
+
+# solution for https problem
+# SECURE_SSL_REDIRECT = True
