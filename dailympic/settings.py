@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     'django_filters',
     'simple_history',
 
-    #social_django
+    # social_django
     # 'social_django',
 
     #allauth
@@ -65,9 +65,10 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.naver',
     'allauth.socialaccount.providers.facebook',
 
-
     #registration
     'django_registration',
+
+    'sslserver',
 ]
 
 MIDDLEWARE = [
@@ -191,6 +192,3 @@ LOGOUT_REDIRECT_URL = '/'
 #         }
 #     }
 # }
-
-# solution for https problem
-# SECURE_SSL_REDIRECT = True
