@@ -21,7 +21,6 @@
             }
         }
         .search-container {	position: absolute; left: 0; top: 0; width: 100%; height: 100vh; background-color: rgba( 255, 255, 255, 0.9 ); z-index: 1000;}
-        #main_content {margin-top: 20px;}
     </style>
     {% block base_extra_head %}
     {% endblock %}
@@ -55,18 +54,15 @@
     <div class="search-container" style="display: none;">
         <form class="search-box text-center w-100 px-2 d-flex">
             <i style="font-size: 33px;" class="fa fa-angle-left mt-2 mr-2" id="main_search_button_close"></i>
-            <input type="text" class="w-100 form-control" style="margin-top: 10px;"/>
-            <button type="submit" style="margin-top: 5px; font-size: 30px; border: none; background-color: rgba(255,255,255,0);"><i class="fa fa-search d-block d-md-none ml-1" style="cursor: pointer;"></i></button>
+            <input type="text" class="w-100 form-control" style="margin-top: 10px;" value="지역, 종목 등을 검색하세요." id="search_bar_input"/>
+            <button type="button" style="margin-top: 5px; font-size: 30px; border: none; background-color: rgba(255,255,255,0);"><i class="fa fa-search d-block d-md-none ml-1" style="cursor: pointer;" id="search_button"></i></button>
         </form>
     </div>
 {% endblock %}
 {% block bootstrap4_content %}
-    <div class="px-3" style="min-height: 45vh;">
-        {% block content %}
+    <div id="main_content" style="min-height: 45vh;">
+        {% block maincontent %}
         {% endblock %}
-    </div>
-    <div class="fixed-bottom w-100 text-center pb-5">
-        <a href="kakaoplus://plusfriend/home/{plusFriendId}"><h4 id="inquiry" class="p-2" style="cursor: pointer; display: inline-block; background-color: #699A3C; color: white; font-weight: bold;">문의하기</h4></a>
     </div>
 {% endblock %}
 {% block bootstrap4_after_content %}
@@ -89,7 +85,7 @@
                             <li><a href="#">FAQ/자주하는 질문</a></li>
                         </ul>
                     </div>
-                    <div class="col-12 item text">
+                    <div class="col-md-6 item text">
                         <h3>Dailympic</h3>
                         <p>데일림픽 어쩌구 저쩌구</p>
                     </div>
@@ -99,6 +95,13 @@
             </div>
         </footer>
     </div>
+    <form action="{% url 'lesson_list' %}" method="get" id="hidden_form" name="filter_info">
+        <input type="hidden" name="region" value="" id="hidden_region">
+        <input type="hidden" name="type" value="" id="hidden_type">
+        <input type="hidden" name="order" value="" id="hidden_order">
+        <input type="hidden" name="is_search" value="" id="hidden_is_search">
+        <input type="hidden" name="keyword" value="" id="hidden_keyword">
+    </form>
 {% endblock %}
 
 {% block bootstrap4_extra_script %}
@@ -113,6 +116,11 @@
             });
             $('#main_search_button_close').on('click', function(){
                 $('.search-container').fadeOut(500);
+            });
+
+            $("#search_button").click(function () {
+                var keywords = $('#search_bar_input').val().trim();
+                $.queue($('#hidden_is_search').val(true).queue($('#hidden_keyword').val(keywords)).queue($('#hidden_form').submit()))
             });
         });
     </script>
