@@ -1,6 +1,6 @@
 from django import template
 from django.db import models
-from django.contrib.auth.models import Group, UserManager, User, AbstractUser
+from django.contrib.auth.models import Group, UserManager, User
 from datetime import datetime
 
 

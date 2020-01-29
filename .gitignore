@@ -6,3 +6,6 @@ db.sqlite3
 migrations/
 envs.json
 envs_dev.json
+server.crt
+server.key
+local-ssl-server.py
