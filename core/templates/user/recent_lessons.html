@@ -1,0 +1,53 @@
+{% extends 'user/base.html' %}
+{% load staticfiles %}
+{% block base_extra_head %}
+
+{% endblock %}
+{% block maincontent %}
+    <h5 class="my-3 px-3" style="font-weight: bold; color: #699A3C;"><span style="color: blue;">최근에</span> 개설한 레슨</h5>
+
+    <div class="row w-100 mx-0 px-2">
+        <div class="card col-lg-4 col-md-6 col-sm-6 col-6">
+            <img src="{% static 'img/balls.jpg' %}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">펜싱 One Day 클래스</h5>
+                <p class="card-text">새로운 취미를 함께 도전해봐요</p>
+                <h5 class="card-title">30,000원 <small>50,000원</small></h5>
+                <p class="badge badge-success">New</p>
+                <p class="badge badge-danger">HOT</p>
+            </div>
+        </div>
+        <div class="card col-lg-4 col-md-6 col-sm-6 col-6">
+            <img src="{% static 'img/balls.jpg' %}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">펜싱 One Day 클래스</h5>
+                <p class="card-text">새로운 취미를 함께 도전해봐요</p>
+                <h5 class="card-title">30,000원 <small>50,000원</small></h5>
+                <p class="badge badge-success">New</p>
+            </div>
+        </div>
+        <div class="card col-lg-4 col-md-6 col-sm-6 col-6">
+            <img src="{% static 'img/balls.jpg' %}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">펜싱 One Day 클래스</h5>
+                <p class="card-text">새로운 취미를 함께 도전해봐요</p>
+                <h5 class="card-title">30,000원 <small>50,000원</small></h5>
+                <p class="badge badge-success">New</p>
+                <p class="badge badge-danger">HOT</p>
+            </div>
+        </div>
+        <div class="card col-lg-4 col-md-6 col-sm-6 col-6">
+            <img src="{% static 'img/balls.jpg' %}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">펜싱 One Day 클래스</h5>
+                <p class="card-text">새로운 취미를 함께 도전해봐요</p>
+                <h5 class="card-title">30,000원 <small>50,000원</small></h5>
+                <p class="badge badge-success">New</p>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block base_extra_script %}
+
+{% endblock %}

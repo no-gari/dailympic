@@ -1,0 +1,180 @@
+{% extends 'user/base.html' %}
+{% load staticfiles %}
+{% block base_extra_head %}
+    <link rel="stylesheet" href="https://unpkg.com/swiper/css/swiper.min.css">
+    <style>
+        a {color: black; text-decoration: none;}
+        a:hover {color: black;}
+        .swiper-container {width: 100%; height: 30vh;}
+        .swiper-slide { text-align: center; font-size: 18px; background: #fff; display: -webkit-box; display: -ms-flexbox; display: -webkit-flex; display: flex; -webkit-box-pack: center; -ms-flex-pack: center; -webkit-justify-content: center; justify-content: center; -webkit-box-align: center; -ms-flex-align: center; -webkit-align-items: center; align-items: center;}
+        .lesson_title { text-decoration: underline; font-weight: bold; margin-left: 10px; margin-top: 7px; }
+        .class_info { background-color: white; top: 50px; padding: 5px 10px; z-index: 10000; display: flex; justify-content: space-between; }
+        .sticky { position: fixed; top: 0; background-color: white; padding: 5px 10px; z-index: 10000;  display: flex; justify-content: space-between;}
+        .margin-container { margin-top: 34px; }
+        hr { margin-top: 10px; margin-bottom: 10px; }
+    </style>
+{% endblock %}
+{% block maincontent %}
+    <div>
+        <div id="class_info" class="class_info" style="width: 100%;">
+            <a href="#overview">Overview</a>|
+            <a href="#coach">코치</a>|
+            <a href="#program-detail">상세 소개</a>|
+            <a href="#company">업체 정보</a>
+        </div>
+        <div class="swiper-container" id="swiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><a href="">slide1</a></div>
+                <div class="swiper-slide"><a href="">Slide 2</a></div>
+                <div class="swiper-slide"><a href="">Slide 3</a></div>
+            </div>
+            <!-- Add Arrows -->
+            <div class="swiper-button-next" style="color: #699A3C;"></div>
+            <div class="swiper-button-prev" style="color: #699A3C;"></div>
+            <!-- Add Pagination -->
+            <div class="swiper-pagination"></div>
+        </div>
+        <div id="share_button" class="d-flex" style="position: absolute; top: 100px; right: 10px; z-index: 10000;">
+            <i class="fa fa-share-alt mr-2" style="font-size: 25px;"></i>
+            <i class="fa fa-heart-o mr-1" style="font-size: 25px;"></i>
+        </div>
+        <div id="overview">
+            <h5 class="lesson_title">Overview</h5>
+            <div class="d-flex">
+                <div style="width: 30%;" class="p-3">
+                    <img src="{% static 'img/dailympic_logo_small.png' %}" alt="" class="img-fluid">
+                </div>
+                <div style="width: 70%;">
+                    <div style="width: 100%; padding-left: 20px; padding-right: 20px; background-color: #E2F0D9;">
+                        <span>"</span><span>플러렌의 화려함을 보여드리겠습니다</span><span>"</span>
+                    </div>
+                    <div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div id="coach">
+            <h5 class="lesson_title">Coach</h5>
+            <div class="d-flex">
+                <div style="width: 30%;" class="p-3">
+                    <img src="{% static 'img/dailympic_logo_small.png' %}" alt="" class="img-fluid">
+                </div>
+                <div style="width: 70%;" class="px-2">
+                    <div style="width: 100%;">
+                        <span style="font-weight: bold; color: deepskyblue; font-size: 20px;">박상영</span><span> 코치</span>
+                    </div>
+                    <div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="px-3">
+                <div style="font-weight: bold;">자기소개</div>
+                <div>안녕하세요 펜싱 선수 박상영입니다.
+                    올림픽 스포츠인 펜싱을 데일림픽을 통해 가르치게 …
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div id="program-detail">
+            <h5 class="lesson_title">프로그램</h5>
+            <div class="d-flex px-3">
+                <div style="background-color: #E2F0D9;" class="p-1">일일 클래스</div>
+            </div>
+            <div class="px-3 mt-1">
+                펜싱 일일Class는 체험형 코스로 누구나 부담없이 펜싱에 대해 경험할 수 있는 프로그램입니다 …
+            </div>
+            <div class="px-3 mt-1">
+                <h6 style="font-weight: bold;">시간</h6>
+                <div>월,목 17:00 ~ 20:00</div>
+            </div>
+        </div>
+        <hr>
+        <div id="company">
+            <h5 class="lesson_title">업체 운영시간</h5>
+            <div class="px-3 mt-1">평일 - 07:00 ~ 23:00</div>
+            <div class="px-3 mt-1">주말 - 07:00 ~ 23:00</div>
+            <div class="px-3 mt-1">휴무일 - 매주 일요일 및 공휴일</div>
+        </div>
+        <hr>
+        <div id="location">
+            <h5 class="lesson_title">위치</h5>
+            <div class="px-3">서울특별시 마포구 토정로 16길 19</div>
+            <div class="px-3">
+                <div id="map" style="width:100%; height:200px;"></div>
+            </div>
+        </div>
+        <hr>
+        <div id="sns" class="mb-4">
+            <h5 class="lesson_title">바로가기</h5>
+            <div class="instagram px-4"><span><i class="fa fa-instagram"></i>  </span><span>인스타 주소</span></div>
+            <div class="facebook px-4"><span><i class="fa fa-facebook-square"></i>  </span><span>페북 주소</span></div>
+            <div class="naver-cafe px-4"><span><img src="{% static 'img/naver.png' %}" alt="" style="width: 14px;">  </span><span>네이버 카페 주소</span></div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block base_extra_script %}
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b6ed4d84c9a34763dcf92d3b6e590838"></script>
+    <script src="https://unpkg.com/swiper/js/swiper.min.js"></script>
+    <script>
+        var swiper = new Swiper('.swiper-container', {
+            slidesPerView: 1,
+            spaceBetween: 30,
+            loop: true,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+
+        $('#main_search_button').on('click', function(){
+            $('.class_info').css('z-index', '1');
+            $('#share_button').css('z-index', '2');
+        });
+        $('#main_search_button_close').on('click', function(){
+            $('.class_info').css('z-index', '');
+            $('#share_button').css('z-index', '10000');
+        });
+
+        window.onscroll = function() {myFunction()};
+
+        var navbar = document.getElementById("class_info");
+        var swiper = document.getElementById("swiper");
+
+        var sticky = navbar.offsetTop;
+
+        function myFunction() {
+            if (window.pageYOffset >= sticky) {
+                navbar.classList.add("sticky");
+                navbar.classList.remove("class_info");
+                swiper.classList.add("margin-container");
+            } else {
+                navbar.classList.add("class_info");
+                navbar.classList.remove("sticky");
+                swiper.classList.remove("margin-container");
+            }
+        }
+        var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+        var options = { //지도를 생성할 때 필요한 기본 옵션
+            center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
+            level: 3 //지도의 레벨(확대, 축소 정도)
+        };
+        var map = new kakao.maps.Map(container, options);
+
+        $(document).on('click', 'a[href^="#"]', function (event) {
+            event.preventDefault();
+            $('html, body').animate({
+                scrollTop: $($.attr(this, 'href')).offset().top
+            }, 500, 'swing');
+        });
+
+    </script>
+{% endblock %}
