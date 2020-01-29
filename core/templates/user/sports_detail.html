@@ -1,0 +1,356 @@
+{% extends 'user/base.html' %}
+{% load staticfiles %}
+{% block base_extra_head %}
+    <style>
+        .w-33 {font-weight: bold; height: 30px; border: white 1px solid; background-color: #E2F0D9; padding-left: 10px; padding-right: 10px; margin-right: 5px;}
+        #filter_details {padding-left: 10px; padding-right: 10px;}
+        .region_detail_hidden {width: 100%; display: none; z-index: 50; position: absolute; top: 130px; display: none; background-color: #E2F0D9;}
+        .table2 {display: none;}
+        .region_detail_hidden_inner {position: relative; width: 100%; }
+        .region_detail_hidden_inner > .container {padding: 15px 15px;}
+        .lesson_form_title {margin-top: 12px;}
+        .lesson_form_body {padding-top: 5px;}
+        .lesson_form_contents {background-color: #F4F3D9; padding: 5px 5px; margin-right: 5px;}
+        #region_indicator {width: 100%; min-height: 15px;}
+        .badge-dailympic {background-color: #A9D18E; color: white; margin: 4px 7px; padding: 5px 5px 5px 5px;}
+        .active {background-color: #A9D18E;}
+        .lesson_form_title {font-weight: bold;}
+        .list-group-item a {text-decoration: none; color: black;}
+    </style>
+{% endblock %}
+{% block maincontent %}
+    <div class="d-flex ml-3 mt-1" data-toggle="collapse" data-target="#sports_lists" aria-expanded="false" aria-controls="sports_lists">
+        <h4 class="sports_name" style="font-weight: bold;">펜싱</h4>
+        <i style="font-size: 33px;" class="fa fa-angle-down"></i>
+    </div>
+    <div class="collapse" id="sports_lists">
+        <ul class="list-group">
+            <li class="list-group-item"><a href="">펜싱</a></li>
+            <li class="list-group-item"><a href="">다른거</a></li>
+            <li class="list-group-item"><a href="">또 다른 거</a></li>
+        </ul>
+    </div>
+    <div id="filter_details" class="d-flex">
+        <div class="w-33" id="region_detail">지역</div>
+        <div class="w-33" id="lesson_form">수업형태</div>
+        <div class="w-33" id="lesson_form_detail">상세필터</div>
+    </div>
+
+    <div class="region_detail_hidden region_detail_hidden1">
+        <form class="region_detail_hidden_inner" id="region_detail_hidden_inner">
+            <div class="d-flex">
+                <div style="width: 30%;">
+                    <table class="table table1">
+                        <tr>
+                            <td>hi</td>
+                        </tr>
+                        <tr>
+                            <td>hi</td>
+                        </tr>
+                        <tr>
+                            <td>hi</td>
+                        </tr>
+                    </table>
+                </div>
+                <div style="width: 70%;">
+                    <table class="table table2">
+                        <tr>
+                            <td>hi</td>
+                        </tr>
+                        <tr>
+                            <td>hi</td>
+                        </tr>
+                        <tr>
+                            <td>hi</td>
+                        </tr>
+                        <tr>
+                            <td>hi</td>
+                        </tr>
+                        <tr>
+                            <td>hi</td>
+                        </tr>
+                    </table>
+                    <table class="table table2">
+                        <tr>
+                            <td>hi2</td>
+                        </tr>
+                        <tr>
+                            <td>hi2</td>
+                        </tr>
+                        <tr>
+                            <td>hi2</td>
+                        </tr>
+                        <tr>
+                            <td>hi2</td>
+                        </tr>
+                        <tr>
+                            <td>hi2</td>
+                        </tr>
+                    </table>
+                    <table class="table table2">
+                        <tr>
+                            <td>hi3</td>
+                        </tr>
+                        <tr>
+                            <td>hi3</td>
+                        </tr>
+                        <tr>
+                            <td>hi</td>
+                        </tr>
+                        <tr>
+                            <td>hi3</td>
+                        </tr>
+                        <tr>
+                            <td>hi3</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div>
+                <button class="btn btn-block btn-success btn-sm float-right my-1" type="button" id="first_button">검색하기</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="region_detail_hidden lesson_form_hidden">
+        <form class="region_detail_hidden_inner" id="lesson_form_hidden_inner">
+            <div class="container">
+                <div class="lesson_form_title">
+                    체험형
+                </div>
+                <div class="lesson_form_body d-flex">
+                    <div class="lesson_form_contents">
+                        일일 클래스
+                    </div>
+                </div>
+                <div class="lesson_form_title">
+                    레슨형
+                </div>
+                <div class="lesson_form_body d-flex">
+                    <div class="lesson_form_contents">
+                        원포인트 레슨
+                    </div>
+                    <div class="lesson_form_contents">
+                        단기간 레슨
+                    </div>
+                    <div class="lesson_form_contents">
+                        장기간 레슨
+                    </div>
+                </div>
+                <div class="lesson_form_title">
+                    횟수
+                </div>
+                <div class="lesson_form_body d-flex">
+                    <div class="lesson_form_contents">
+                        주1회
+                    </div>
+                    <div class="lesson_form_contents">
+                        주2회
+                    </div>
+                    <div class="lesson_form_contents">
+                        주3회
+                    </div>
+                    <div class="lesson_form_contents">
+                        주5회
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button class="btn btn-block btn-success btn-sm float-right my-1" type="button" id="second_button">검색하기</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="region_detail_hidden lesson_form_detail_hidden">
+        <form class="region_detail_hidden_inner">
+            <div class="container">
+                <div class="lesson_form_title">
+                    정렬
+                </div>
+                <div class="lesson_form_body d-flex">
+                    <div class="lesson_form_contents lesson_form_contents_detail">
+                        추천순
+                    </div>
+                    <div class="lesson_form_contents lesson_form_contents_detail">
+                        최신순
+                    </div>
+                    <div class="lesson_form_contents lesson_form_contents_detail">
+                        거리순
+                    </div>
+                </div>
+                <div class="lesson_form_title">
+                    가격
+                </div>
+                <div class="lesson_form_body d-flex">
+                    <div class="lesson_form_contents lesson_form_contents_detail">
+                        가격 낮은 순
+                    </div>
+                    <div class="lesson_form_contents lesson_form_contents_detail">
+                        가격 높은 순
+                    </div>
+                </div>
+                <div class="lesson_form_title">
+                    평점
+                </div>
+                <div class="lesson_form_body d-flex">
+                    <div class="lesson_form_contents lesson_form_contents_detail">
+                        평점 낮은 순
+                    </div>
+                    <div class="lesson_form_contents lesson_form_contents_detail">
+                        평점 높은 순
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button class="btn btn-block btn-success btn-sm float-right my-1" type="button" id="third_button">검색하기</button>
+            </div>
+        </form>
+    </div>
+
+
+    <section class="w-100 my-3">
+        <div class="row w-100 mx-0 px-2">
+            <div class="card col-lg-4 col-md-6 col-sm-6 col-6">
+                <img src="{% static 'img/balls.jpg' %}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">펜싱 One Day 클래스</h5>
+                    <p class="card-text">새로운 취미를 함께 도전해봐요</p>
+                    <h5 class="card-title">30,000원 <small>50,000원</small></h5>
+                    <p class="badge badge-success">New</p>
+                    <p class="badge badge-danger">HOT</p>
+                </div>
+            </div>
+            <div class="card col-lg-4 col-md-6 col-sm-6 col-6">
+                <img src="{% static 'img/balls.jpg' %}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">펜싱 One Day 클래스</h5>
+                    <p class="card-text">새로운 취미를 함께 도전해봐요</p>
+                    <h5 class="card-title">30,000원 <small>50,000원</small></h5>
+                    <p class="badge badge-success">New</p>
+                </div>
+            </div>
+            <div class="card col-lg-4 col-md-6 col-sm-6 col-6">
+                <img src="{% static 'img/balls.jpg' %}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">펜싱 One Day 클래스</h5>
+                    <p class="card-text">새로운 취미를 함께 도전해봐요</p>
+                    <h5 class="card-title">30,000원 <small>50,000원</small></h5>
+                    <p class="badge badge-success">New</p>
+                    <p class="badge badge-danger">HOT</p>
+                </div>
+            </div>
+            <div class="card col-lg-4 col-md-6 col-sm-6 col-6">
+                <img src="{% static 'img/balls.jpg' %}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">펜싱 One Day 클래스</h5>
+                    <p class="card-text">새로운 취미를 함께 도전해봐요</p>
+                    <h5 class="card-title">30,000원 <small>50,000원</small></h5>
+                    <p class="badge badge-success">New</p>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block base_extra_script %}
+    <script>
+        $(document).ready(function () {
+            $('.table2 tr').on('click', function () {
+                if ($(this).hasClass('active')) {
+                    $(this).removeClass('active');
+                    return false;
+                }
+                $(this).addClass('active');
+            });
+            $('.table1 tr').on('click', function () {
+                try {
+                    $(this).siblings('tr').removeClass('active')
+                    $(this).addClass('active');
+                } catch {
+                    $(this).addClass('active');
+                }
+                $('.table2').hide();
+                var idx = $( ".table1 tr" ).index( this );
+                $('.table2').eq(idx).show();
+            });
+
+            $('#region_detail').on('click', function () {
+                if ($(this).siblings().hasClass('active')) {
+                    $(this).siblings().removeClass('active');
+                    $('.region_detail_hidden').hide();
+                }
+                if ($(this).hasClass('active')) {
+                    $(this).removeClass('active');
+                    $('.region_detail_hidden1').fadeOut(200);
+                    return false;
+                }
+                $('.region_detail_hidden1').fadeIn(200);
+                $(this).addClass('active');
+            });
+
+            $('#lesson_form').on('click', function () {
+                if ($(this).siblings().hasClass('active')) {
+                    $(this).siblings().removeClass('active');
+                    $('.region_detail_hidden').hide();
+                }
+                if ($(this).hasClass('active')) {
+                    $(this).removeClass('active');
+                    $('.lesson_form_hidden').fadeOut(200);
+                    return false;
+                }
+                $('.lesson_form_hidden').fadeIn(200);
+                $(this).addClass('active');
+            });
+
+            $('#lesson_form_detail').on('click', function () {
+                if ($(this).siblings().hasClass('active')) {
+                    $(this).siblings().removeClass('active');
+                    $('.region_detail_hidden').hide();
+                }
+                if ($(this).hasClass('active')) {
+                    $(this).removeClass('active');
+                    $('.lesson_form_detail_hidden').fadeOut(200);
+                    return false;
+                }
+                $('.lesson_form_detail_hidden').fadeIn(200);
+                $(this).addClass('active');
+            });
+
+            $('.lesson_form_contents').on('click', function () {
+                if ($(this).hasClass('active')) {
+                    $(this).removeClass('active');
+                } else {
+                    if ($('.lesson_form_contents_detail').hasClass('active')) {
+                        $('.lesson_form_contents_detail').removeClass('active');
+                    }
+                    $(this).addClass('active');
+                }
+        });
+
+        setTimeout(function () {
+            $('.table1 tr').first().click();
+        }, 200);
+        });
+
+
+        $("#first_button").click(function () {
+            $('#region_detail_hidden_inner .table2 .active').each(function () {
+                    alert($(this).html());
+                }
+            )
+        });
+        $("#second_button").click(function () {
+            $('#lesson_form_hidden_inner .lesson_form_body .active').each(function () {
+                    alert($(this).html());
+                }
+            )
+        });
+        $("#third_button").click(function () {
+            $('.lesson_form_detail_hidden .active').each(function () {
+                    alert($(this).html());
+                }
+            )
+        });
+
+
+    </script>
+{% endblock %}

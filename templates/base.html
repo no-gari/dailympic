@@ -9,8 +9,9 @@
     <link rel="stylesheet" href="{% static 'fonts/line-awesome.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/Footer-Dark.css' %}">
     <link rel="stylesheet" href="https://unpkg.com/@bootstrapstudio/bootstrap-better-nav/dist/bootstrap-better-nav.min.css">
+    <link rel="icon" href="{% static 'img/dailympic_logo_small.png' %}" type="image/x-icon" />
     <style>
-        body {font-family: 'Nanum Gothic', sans-serif;}
+        body {font-family: 'Nanum Gothic', sans-serif !important;}
         .nav li a {font-weight: bold;}
         @media screen and (max-width: 766px) {
             nav a.navbar-brand{
@@ -19,7 +20,8 @@
                 transform: translateX(-50%);
             }
         }
-    .search-container {	position: absolute; left: 0; top: 0; width: 100%; height: 100vh; background-color: rgba( 255, 255, 255, 0.9 ); z-index: 1000;}
+        .search-container {	position: absolute; left: 0; top: 0; width: 100%; height: 100vh; background-color: rgba( 255, 255, 255, 0.9 ); z-index: 1000;}
+        #main_content {margin-top: 20px;}
     </style>
     {% block base_extra_head %}
     {% endblock %}
@@ -28,7 +30,7 @@
 {% block bootstrap4_before_content %}
     <nav class="navbar navbar-light navbar-expand-md better-bootstrap-nav-left">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'index' %}">Dailympic</a>
+            <a class="navbar-brand" href="{% url 'index' %}"><img style="width: 150px;" src="{% static 'img/dailympic_logo.png' %}" alt=""></a>
             <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1" style="border: none;"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse"
                  id="navcol-1">
@@ -39,8 +41,12 @@
                     <li class="nav-item" role="presentation"><a class="nav-link" href="/community/customer">고객센터</a></li>
                 </ul>
                 <ul class="nav navbar-nav ml-auto">
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="#">로그인</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="#">회원가입</a></li>
+                    {% if not request.user.is_authenticated %}
+                        <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'login' %}">로그인</a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link" href="#">회원가입</a></li>
+                    {% else %}
+                        <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'logout' %}">로그아웃</a></li>
+                    {% endif %}
                 </ul>
             </div>
             <i class="fa fa-search d-block d-md-none" style="cursor: pointer;" id="main_search_button"></i>
@@ -48,16 +54,19 @@
     </nav>
     <div class="search-container" style="display: none;">
         <form class="search-box text-center w-100 px-2 d-flex">
-            <i style="font-size: 30px;" class="fa fa-times-circle mt-3 mr-2" id="main_search_button_close"></i>
+            <i style="font-size: 33px;" class="fa fa-angle-left mt-2 mr-2" id="main_search_button_close"></i>
             <input type="text" class="w-100 form-control" style="margin-top: 10px;"/>
             <button type="submit" style="margin-top: 5px; font-size: 30px; border: none; background-color: rgba(255,255,255,0);"><i class="fa fa-search d-block d-md-none ml-1" style="cursor: pointer;"></i></button>
         </form>
     </div>
 {% endblock %}
 {% block bootstrap4_content %}
-    <div id="main_content">
+    <div class="px-3" style="min-height: 45vh;">
         {% block content %}
         {% endblock %}
+    </div>
+    <div class="fixed-bottom w-100 text-center pb-5">
+        <a href="kakaoplus://plusfriend/home/{plusFriendId}"><h4 id="inquiry" class="p-2" style="cursor: pointer; display: inline-block; background-color: #699A3C; color: white; font-weight: bold;">문의하기</h4></a>
     </div>
 {% endblock %}
 {% block bootstrap4_after_content %}
@@ -65,7 +74,7 @@
         <footer>
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-6 col-md-3 item">
+                    <div class="col-6 col-sm-6 col-md-3 item">
                         <h3>Services</h3>
                         <ul>
                             <li><a href="#">이용약관</a></li>
@@ -73,14 +82,14 @@
                             <li><a href="#">개인 문의</a></li>
                         </ul>
                     </div>
-                    <div class="col-sm-6 col-md-3 item">
+                    <div class="col-6 col-sm-6 col-md-3 item">
                         <h3>About</h3>
                         <ul>
                             <li><a href="#">Dailympic Teams</a></li>
                             <li><a href="#">FAQ/자주하는 질문</a></li>
                         </ul>
                     </div>
-                    <div class="col-md-6 item text">
+                    <div class="col-12 item text">
                         <h3>Dailympic</h3>
                         <p>데일림픽 어쩌구 저쩌구</p>
                     </div>

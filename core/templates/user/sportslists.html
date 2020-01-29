@@ -1,46 +1,59 @@
 {% extends 'user/base.html' %}
 {% load staticfiles %}
 {% block base_extra_head %}
-
+    <style>
+        @media screen and (max-width: 766px) {
+            .sports_lists{height: 150px !important;}
+        }
+        .sports_lists {background-color: #E2F0D9;}
+        .sports_lists:hover {background-color: #A9D18E;}
+    </style>
 {% endblock %}
 {% block maincontent %}
-    <h4 class="mt-3 ml-5">종목 전체보기</h4>
-    <div class="row w-100 mx-0 p-5">
-        <div class="card col-lg-4 col-md-6 col-sm-6 col-6" style="height: 215px;">
-            <div class="card-body text-center">
-                <h4 style="font-weight: bold;">펜싱</h4>
-            </div>
-            <div class="p-4">
-                <img src="{% static 'img/sport1.png' %}" class="card-img-top" alt="...">
-            </div>
+    <h4 class="mt-3 ml-5" style="font-weight: bold;">종목 전체보기</h4>
+    <div class="row w-100 mx-0 px-5 pt-0 pb-2">
+        <div class="card col-lg-4 col-md-6 col-sm-6 col-6 sports_lists">
+            <a href="{% url 'sportsdetail' %}" style="text-decoration: none; color: black;">
+                <div class="card-body text-center">
+                    <h4 style="font-weight: bold;">펜싱</h4>
+                </div>
+                <div class="p-4">
+                    <img src="{% static 'img/sport1.png' %}" class="card-img-top" alt="...">
+                </div>
+            </a>
         </div>
-        <div class="card col-lg-4 col-md-6 col-sm-6 col-6" style="height: 215px;">
-            <div class="card-body text-center">
-                <h4 style="font-weight: bold;">펜싱</h4>
-            </div>
-            <div class="p-4">
-                <img src="{% static 'img/sport1.png' %}" class="card-img-top" alt="...">
-            </div>
+        <div class="card col-lg-4 col-md-6 col-sm-6 col-6 sports_lists">
+            <a href="{% url 'sportsdetail' %}" style="text-decoration: none; color: black;">
+                <div class="card-body text-center">
+                    <h4 style="font-weight: bold;">펜싱</h4>
+                </div>
+                <div class="p-4">
+                    <img src="{% static 'img/sport1.png' %}" class="card-img-top" alt="...">
+                </div>
+            </a>
         </div>
-        <div class="card col-lg-4 col-md-6 col-sm-6 col-6" style="height: 215px;">
-            <div class="card-body text-center">
-                <h4 style="font-weight: bold;">펜싱</h4>
-            </div>
-            <div class="p-4">
-                <img src="{% static 'img/sport1.png' %}" class="card-img-top" alt="...">
-            </div>
+            <div class="card col-lg-4 col-md-6 col-sm-6 col-6 sports_lists">
+            <a href="{% url 'sportsdetail' %}" style="text-decoration: none; color: black;">
+                <div class="card-body text-center">
+                    <h4 style="font-weight: bold;">펜싱</h4>
+                </div>
+                <div class="p-4">
+                    <img src="{% static 'img/sport1.png' %}" class="card-img-top" alt="...">
+                </div>
+            </a>
         </div>
-        <div class="card col-lg-4 col-md-6 col-sm-6 col-6" style="height: 215px;">
-            <div class="card-body text-center">
-                <h4 style="font-weight: bold;">펜싱</h4>
-            </div>
-            <div class="p-4">
-                <img src="{% static 'img/sport1.png' %}" class="card-img-top" alt="...">
-            </div>
+            <div class="card col-lg-4 col-md-6 col-sm-6 col-6 sports_lists">
+            <a href="{% url 'sportsdetail' %}" style="text-decoration: none; color: black;">
+                <div class="card-body text-center">
+                    <h4 style="font-weight: bold;">펜싱</h4>
+                </div>
+                <div class="p-4">
+                    <img src="{% static 'img/sport1.png' %}" class="card-img-top" alt="...">
+                </div>
+            </a>
         </div>
     </div>
 {% endblock %}
 
 {% block base_extra_script %}
-
 {% endblock %}
