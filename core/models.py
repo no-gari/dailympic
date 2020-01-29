@@ -29,7 +29,7 @@ class Sport(models.Model):
     name = models.CharField(
         max_length=255, verbose_name='종목명',
     )
-    icon = models.ImageField(default=None, blank=True)
+    icon = models.ImageField(default=None, null=True, blank=True,)
 
     class Meta:
         verbose_name = '종목'
@@ -40,12 +40,12 @@ class Sport(models.Model):
 
 
 class Academy(models.Model):
-    name = models.CharField(max_length=255, verbose_name='업체명')
     sport = models.ForeignKey(
         Sport,
         on_delete=models.CASCADE,
         verbose_name='종목', related_name='academies',
     )
+    name = models.CharField(max_length=255, verbose_name='업체명')
     profile_image = models.ImageField(
         default=None, null=True, blank=True,
     )
@@ -55,12 +55,12 @@ class Academy(models.Model):
     phone = models.CharField(
         max_length=31, verbose_name='업체 문의번호',
     )
-    email = models.EmailField(verbose_name='업체 이메일')
-    weekday_operation_begin_time = models.TimeField()
-    weekday_operation_end_time = models.TimeField()
-    weekend_operation_begin_time = models.TimeField()
-    weekend_operation_end_time = models.TimeField()
-    dayoff = models.CharField(max_length=127)
+    email = models.EmailField(
+        blank=True, null=True, verbose_name='업체 이메일',
+    )
+    operation_time = models.CharField(
+        default='업체에 문의해주세요!', max_length=255,
+    )
 
     class Meta:
         verbose_name = '업체'
@@ -81,7 +81,7 @@ class Coach(models.Model):
     introduction = models.TextField(
         blank=True, null=True, verbose_name='코치 소개',
     )
-    tel_num = models.CharField(
+    phone = models.CharField(
         max_length=255, verbose_name='코치 번호',
     )
     email = models.EmailField(verbose_name='코치 이메일')
@@ -95,21 +95,30 @@ class Coach(models.Model):
 
 
 class Lesson(models.Model):
-    title = models.CharField(max_length=255, verbose_name='레슨명')
     academy = models.ForeignKey(
         Academy,
         null=True,
         on_delete=models.CASCADE,
         related_name='lessons',
     )
+    title = models.CharField(max_length=255, verbose_name='수업 이름')
+    price = models.IntegerField(verbose_name='가격')
+    discount_rate = models.FloatField(verbose_name='할인율', null=True, blank=True)
+    lesson_time = models.CharField(
+        default='코치에게 문의해주세요!',
+        max_length=255, verbose_name='수업 시간',
+    )
+    lesson_days = models.CharField(
+        default='코치에게 문의해주세요!',
+        max_length=255, verbose_name='수업 요일',
+    )
+    week_frequency = models.IntegerField(verbose_name='주간 횟수')
     coach = models.ForeignKey(
         Coach,
         null=True,
         on_delete=models.CASCADE,
         related_name='lessons',
     )
-    price = models.IntegerField(verbose_name='정가')
-    discount_rate = models.FloatField(verbose_name='할인율')
     description = models.TextField(null=True, blank=True)
     LESSON_TYPE_CHOICES = (
         ('ONE_DAY', '원데이 레슨'),
@@ -122,9 +131,9 @@ class Lesson(models.Model):
     )
     lesson_type = models.CharField(
         choices=LESSON_TYPE_CHOICES,
+        default='ONE_DAY',
         max_length=127,
     )
-    week_frequency = models.IntegerField(default=0)
     rating = models.FloatField(default=0)
     review_count = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(
@@ -189,21 +198,20 @@ class SmallDistrict (models.Model):
 
 
 class Location (models.Model):
+    academy = models.ForeignKey(
+        Academy,
+        on_delete=models.SET_NULL,
+        null=True, blank=True
+    )
+    # 중앙로 23길 3층 서강클라이밍
+    address = models.CharField(max_length=255)
     small_district = models.ForeignKey(
         SmallDistrict,
         on_delete=models.CASCADE,
         related_name='locations'
     )
-    lati = models.FloatField()
-    long = models.FloatField()
-
-    # 중앙로 23길 3층 서강클라이밍
-    address = models.CharField(max_length=255)
-    lesson = models.ForeignKey(
-        Lesson,
-        on_delete=models.SET_NULL,
-        null=True, blank=True
-    )
+    lati = models.FloatField(default=0)
+    long = models.FloatField(default=0)
 
 
 class Like (models.Model):
