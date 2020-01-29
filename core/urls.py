@@ -3,8 +3,7 @@ from django_registration.backends.one_step.views import RegistrationView
 
 from core.views import HotLessonListView, RecentLessonListView, SportsDetailView, LessonDetailView, LikesTemplateView
 from . import views
-from django.contrib.auth.views import LoginView
-
+from django.contrib.auth.views import LoginView, LogoutView
 
 urlpatterns = [
     path('sports_lists', views.sportlists, name='sportslists'),
@@ -19,4 +18,5 @@ urlpatterns = [
     path('lessondetail/<int:pk>/', LessonDetailView.as_view(), name='lessondetail'),
     path('sportsdetail/<int:pk>/', SportsDetailView.as_view(), name='sportsdetail'),
     path('likes/', LikesTemplateView.as_view(), name='likes'),
+    path('logout/', LogoutView.as_view(), name='logout'),
 ]
