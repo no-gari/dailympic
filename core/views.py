@@ -60,7 +60,7 @@ class SportsDetailView(DetailView):
     template_name = 'user/sports_detail.html'
 
 
-def sportlists(request):
+def sport_list(request):
     return render(request, 'user/sportslists.html')
 
 
