@@ -198,7 +198,7 @@ class SmallDistrict (models.Model):
 
 
 class Location (models.Model):
-    academy = models.ForeignKey(
+    academy = models.OneToOneField(
         Academy,
         on_delete=models.SET_NULL,
         null=True, blank=True

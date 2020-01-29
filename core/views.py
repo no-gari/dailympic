@@ -6,15 +6,22 @@ from core.models import Lesson, Sport
 
 
 def index(request):
-    hot_lessons = Lesson.objects.order_by('-like_count')[:3]
+    hot_lessons = Lesson.objects.order_by('-like_count')[:4]
     recent_lessons = Lesson.objects.filter(
         created_at__gte=dt.datetime.today() - dt.timedelta(days=14)
-    ).order_by('-create_at')[:3]
+    ).order_by('-create_at')[:4]
     ctx = {
         'hot_lessons' : hot_lessons,
         'recent_lessons' : recent_lessons,
     }
     return render(request, './user/index.html')
+
+
+class LessonListView(ListView):
+    model = Lesson
+    paginate_by = 20
+    template_name='user/lesson_list.html'
+    context_object_name = 'lessons'
 
 
 class HotLessonListView(ListView):
