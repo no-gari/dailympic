@@ -16,48 +16,45 @@
             <div class="swiper-slide"><a href="">Slide 3</a></div>
         </div>
         <!-- Add Arrows -->
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next" style="color: #699A3C;"></div>
+        <div class="swiper-button-prev" style="color: #699A3C;"></div>
         <!-- Add Pagination -->
         <div class="swiper-pagination"></div>
     </div>
 
-    <section id="main_menu1" class="w-100 my-3">
+    <section id="main_menu1">
         <div class="d-flex justify-content-between text-center">
-            <div class="w-100 text-center rounded mx-2 p-3" style="background-color: #F1F3F4;">
-                <h6 style="font-weight: bold;">종목 보기</h6>
-                <div class="w-100"><img src="{% static 'img/team.png' %}" alt="" class="img-fluid"></div>
+            <a href="{% url 'sportslists' %}" class="w-33 mx-1" style="cursor: pointer; text-decoration: none; color: black;">
+                <div class="w-100 text-center rounded p-1" style="background-color: #F1F3F4; height:180px;">
+                <h6 style="font-weight: bold; margin-top: 13px;">종목별 레슨</h6>
+                <div class="w-100" style="margin-top: 21px;"><img src="{% static 'img/team.png' %}" alt="" class="img-fluid"></div>
             </div>
-            <div class="w-100 text-center rounded mx-2 p-3" style="background-color: #F1F3F4;">
-                <h6 style="font-weight: bold;">원데이 클래스</h5>
-                <div class="w-100"><img src="{% static 'img/team.png' %}" alt="" class="img-fluid"></div>
-            </div>
-            <div class="w-100 text-center rounded mx-2 p-3" style="background-color: #F1F3F4;">
-                <h6 style="font-weight: bold;">레슨 보기</h6>
-                <div class="w-100"><img src="{% static 'img/team.png' %}" alt="" class="img-fluid"></div>
-            </div>
+            </a>
+            <a href="" class="w-33 mx-1" style="cursor: pointer; text-decoration: none; color: black;">
+                <div class="w-100 text-center rounded p-1" style="background-color: #F1F3F4; height:180px;">
+                    <h6 style="font-weight: bold;">원데이</h6>
+                    <h6 style="font-weight: bold;">클래스</h6>
+                    <div class="w-100"><img src="{% static 'img/team.png' %}" alt="" class="img-fluid"></div>
+                </div>
+            </a>
+            <a href="{% url 'sportsdetail' %}" class="w-33 mx-1" style="cursor: pointer; text-decoration: none; color: black;">
+                <div class="w-100 text-center rounded p-1" style="background-color: #F1F3F4; height:180px;">
+                    <h6 style="font-weight: bold; margin-top: 13px;">전체 레슨</h6>
+                    <div class="w-100" style="margin-top: 21px;"><img src="{% static 'img/team.png' %}" alt="" class="img-fluid"></div>
+                </div>
+            </a>
         </div>
     </section>
 
-        <hr>
+    <hr>
 
-    <section id="main_menu2 my-3">
+    <section id="main_menu2">
         <div class="index_hot d-flex justify-content-between px-3">
-            <div>지금 <span style="color: red; font-weight: bold;">HOT</span> 한 종목 보기</div>
-            <div><a href="" style="text-decoration: none;">전체보기 >>></a></div>
+            <div>지금 <span style="color: red; font-weight: bold;">HOT</span> 한 수업 보기</div>
+            <div><a href="{% url 'hot_lessons' %}" style="text-decoration: none;">전체보기 >>></a></div>
         </div>
         <div class="row w-100 mx-0 px-2">
-            <div class="card col-lg-4 col-md-4 col-sm-4 col-4">
-                <img src="{% static 'img/balls.jpg' %}" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h6 class="card-title">펜싱 One Day 클래스</h6>
-                    <p class="card-text">새로운 취미를 함께 도전해봐요</p>
-                    <h6 class="card-title">30,000원 <small>50,000원</small></h6>
-                    <p class="badge badge-success">New</p>
-                    <p class="badge badge-danger">HOT</p>
-                </div>
-            </div>
-            <div class="card col-lg-4 col-md-4 col-sm-4 col-4">
+            <div class="card col-lg-4 col-md-6 col-sm-6 col-6">
                 <img src="{% static 'img/balls.jpg' %}" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">펜싱 One Day 클래스</h5>
@@ -67,7 +64,16 @@
                     <p class="badge badge-danger">HOT</p>
                 </div>
             </div>
-            <div class="card col-lg-4 col-md-4 col-sm-4 col-4">
+            <div class="card col-lg-4 col-md-6 col-sm-6 col-6">
+                <img src="{% static 'img/balls.jpg' %}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">펜싱 One Day 클래스</h5>
+                    <p class="card-text">새로운 취미를 함께 도전해봐요</p>
+                    <h5 class="card-title">30,000원 <small>50,000원</small></h5>
+                    <p class="badge badge-success">New</p>
+                </div>
+            </div>
+            <div class="card col-lg-4 col-md-6 col-sm-6 col-6">
                 <img src="{% static 'img/balls.jpg' %}" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">펜싱 One Day 클래스</h5>
@@ -75,6 +81,15 @@
                     <h5 class="card-title">30,000원 <small>50,000원</small></h5>
                     <p class="badge badge-success">New</p>
                     <p class="badge badge-danger">HOT</p>
+                </div>
+            </div>
+            <div class="card col-lg-4 col-md-6 col-sm-6 col-6">
+                <img src="{% static 'img/balls.jpg' %}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">펜싱 One Day 클래스</h5>
+                    <p class="card-text">새로운 취미를 함께 도전해봐요</p>
+                    <h5 class="card-title">30,000원 <small>50,000원</small></h5>
+                    <p class="badge badge-success">New</p>
                 </div>
             </div>
         </div>
@@ -85,7 +100,7 @@
     <section id="main_menu3 my-3">
         <div class="index_hot d-flex justify-content-between px-3">
             <div style="font-style: italic;"><span style="color: blue; font-weight: bold;">NOW</span> OPEN</div>
-            <div><a href="" style="text-decoration: none;">전체보기 >>></a></div>
+            <div><a href="{% url 'recent_lessons' %}" style="text-decoration: none;">전체보기 >>></a></div>
         </div>
         <div class="row w-100 mx-0 px-2">
             <div class="card col-lg-4 col-md-6 col-sm-6 col-6">
@@ -127,6 +142,11 @@
                 </div>
             </div>
 
+        </div>
+    </section>
+    <section id="proceeding_event">
+        <div style="width: 100%; height: 50px; background-color: #1f7e9a;">
+            진행중인 이벤트 어쩌구 저쩌구
         </div>
     </section>
 {% endblock %}
