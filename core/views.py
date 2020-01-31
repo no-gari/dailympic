@@ -1,8 +1,13 @@
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import render
 from django.views.generic import DetailView, ListView, TemplateView
 import datetime as dt
 from core.models import Lesson, Sport
+
+
+def login(request):
+    return render(request, 'user/test_login.html')
 
 
 def index(request):
@@ -14,48 +19,61 @@ def index(request):
         'hot_lessons' : hot_lessons,
         'recent_lessons' : recent_lessons,
     }
-    return render(request, './user/index.html')
+    return render(request, './user/index.html', ctx)
 
 
 class LessonListView(ListView):
     model = Lesson
-    paginate_by = 20
-    template_name='user/lesson_list.html'
     context_object_name = 'lessons'
-
-
-class HotLessonListView(ListView):
-    model = Lesson
-    paginate_by = 20
-    # template_name='/templates/user/read_lessons.html'
-    context_object_name = 'lessons'
+    template_name = 'user/lesson_list.html'
 
     def get_queryset(self):
-        return Lesson.objects.order_by('-like_count')
+        region = self.kwargs.get('region')
+        lesson_type = self.kwargs.get('type')
+        # week_frequency = self.kwargs.get('week_frequency')
+        order = self.kwargs.get('order')
+        is_search = self.kwargs.get('is_search')
+        keyword = self.kwargs.get('keyword')
 
+        lessons = None
 
-class RecentLessonListView(ListView):
-    model = Lesson
-    paginate_by = 20
-    # template_name='/templates/user/read_lessons.html'
-    context_object_name = 'lessons'
+        if is_search:
+            lessons = Lesson.objects.filter(
+                Q(title__icontains=keyword) |
+                Q(coach__name__icontains=keyword) |
+                Q(academy__sport__name__icontains=keyword))
+        else :
+            # if region is None and lesson_type is None and week_frequency is None and order is None:
+            if region is None and lesson_type is None and order is None:
+                lessons = Lesson.objects.all()
 
-    def get_queryset(self):
-        return Lesson.objects.order_by('-created_at')
+            if region is not None:
+                for r in region:
+                    tmp = Lesson.objects.filter(academy__small_district=r)
+                    lessons.union(tmp)
+            if lesson_type is not None:
+                for t in lesson_type:
+                    tmp = Lesson.objects.filter(lesson_type=t)
+                    lessons.union(tmp)
+            # if week_frequency is not None:
+            #     for wf in week_frequency:
+            #         tmp = Lesson.objects.filter(week_frequency=wf)
+            #         lessons.union(tmp)
 
-
-class OneDayLessonListView(ListView):
-    model = Lesson
-    paginate_by = 20
-    # template_name='/templates/user/read_lessons.html'
-    context_object_name = 'lessons'
-
-    def get_queryset(self):
-        return Lesson.objects.filter(lesson_type='ONE_DAY').order_by('-hits')
+            if lessons is not None:
+                if order == "최신순" :
+                    lessons = lessons.order_by('-created_at')
+                elif order == "평점 낮은 순" :
+                    lessons = lessons.order_by('-rating')
+                elif order == "평점 높은 순" :
+                    lessons = lessons.order_by('rating')
+                else :
+                    lessons = lessons.order_by('likes_count')
+        return lessons
 
 
 class LessonDetailView(DetailView):
-    model=Lesson
+    model = Lesson
     context_object_name = 'lesson'
     template_name = 'user/lesson_detail.html'
 
@@ -68,18 +86,8 @@ class SportsDetailView(DetailView):
 
 
 def sport_list(request):
-    return render(request, 'user/sportslists.html')
-
-
-def login(request):
-    return render(request, 'user/test_login.html')
-
-
-def search(request):
-    q = request.GET.get('q', "")
-    lessons = Lesson.objects.filter(Q(title__icontains=q)|Q(coach__name__icontains=q))
+    return render(request, 'user/sport_list.html')
 
 
 class LikesTemplateView(TemplateView):
     template_name = 'user/likes.html'
-

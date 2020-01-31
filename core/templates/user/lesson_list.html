@@ -207,6 +207,15 @@
         </form>
     </div>
 
+     {% if lessons %}
+        {% for lesson in lessons %}
+            <h1>{{ lesson.title }}</h1>
+            <br><br>
+        {% endfor %}
+    {% else %}
+        <h1>조건을 만족하는 수업이 없습니다</h1>
+        <br><br>
+    {% endif %}
 
     <section class="w-100 my-3">
         <div class="row w-100 mx-0 px-2">
