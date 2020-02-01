@@ -27,15 +27,28 @@ class LessonListView(ListView):
     context_object_name = 'lessons'
     template_name = 'user/lesson_list.html'
 
-    def get_queryset(self):
-        region = self.kwargs.get('region')
-        lesson_type = self.kwargs.get('type')
-        # week_frequency = self.kwargs.get('week_frequency')
-        order = self.kwargs.get('order')
-        is_search = self.kwargs.get('is_search')
-        keyword = self.kwargs.get('keyword')
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tmp = {
+            'region': self.kwargs.get('region'),
+            'lesson_type': self.kwargs.get('type'),
+            # week_frequency = self.kwargs.get('week_frequency')
+            'order': self.kwargs.get('order'),
+            'is_search': self.kwargs.get('is_search'),
+            'keyword': self.kwargs.get('keyword'),
+        }
+        context.update(tmp)
+        return context
 
-        lessons = None
+    def get_queryset(self):
+        region = self.request.GET.get('region')
+        lesson_type = self.request.GET.get('type')
+        # week_frequency = self.request.GET.get('week_frequency')
+        order = self.request.GET.get('order')
+        is_search = self.request.GET.get('is_search')
+        keyword = self.request.GET.get('keyword')
+
+        lessons = Lesson.objects.none()
 
         if is_search:
             lessons = Lesson.objects.filter(
@@ -43,32 +56,36 @@ class LessonListView(ListView):
                 Q(coach__name__icontains=keyword) |
                 Q(academy__sport__name__icontains=keyword))
         else :
-            # if region is None and lesson_type is None and week_frequency is None and order is None:
-            if region is None and lesson_type is None and order is None:
+            # if region is None and lesson_type is None and week_frequency is None:
+            if region is None and lesson_type is None:
                 lessons = Lesson.objects.all()
 
             if region is not None:
-                for r in region:
+                for r in map(int, region):
                     tmp = Lesson.objects.filter(academy__small_district=r)
-                    lessons.union(tmp)
+                    lessons = lessons.union(tmp)
             if lesson_type is not None:
                 for t in lesson_type:
                     tmp = Lesson.objects.filter(lesson_type=t)
-                    lessons.union(tmp)
+                    lessons = lessons.union(tmp)
             # if week_frequency is not None:
-            #     for wf in week_frequency:
+            #     for wf in map(int, week_frequency):
             #         tmp = Lesson.objects.filter(week_frequency=wf)
             #         lessons.union(tmp)
 
-            if lessons is not None:
+            if not lessons:
                 if order == "최신순" :
                     lessons = lessons.order_by('-created_at')
                 elif order == "평점 낮은 순" :
-                    lessons = lessons.order_by('-rating')
-                elif order == "평점 높은 순" :
                     lessons = lessons.order_by('rating')
+                elif order == "평점 높은 순" :
+                    lessons = lessons.order_by('-rating')
+                elif order == "가격 낮은 순" :
+                    lessons = lessons.order_by('price')
+                elif order == "가격 높은 순" :
+                    lessons = lessons.order_by('-price')
                 else :
-                    lessons = lessons.order_by('likes_count')
+                    lessons = lessons.order_by('-likes_count')
         return lessons
 
 
