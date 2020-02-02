@@ -30,12 +30,12 @@ class LessonListView(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         tmp = {
-            'region': self.kwargs.get('region'),
-            'lesson_type': self.kwargs.get('type'),
-            # week_frequency = self.kwargs.get('week_frequency')
-            'order': self.kwargs.get('order'),
-            'is_search': self.kwargs.get('is_search'),
-            'keyword': self.kwargs.get('keyword'),
+            'region': self.request.GET.get('region'),
+            'lesson_type': self.request.GET.get('type'),
+            # week_frequency = self.request.GET.get('week_frequency')
+            'order': self.request.GET.get('order'),
+            'is_search': self.request.GET.get('is_search'),
+            'keyword': self.request.GET.get('keyword'),
         }
         context.update(tmp)
         return context
