@@ -30,6 +30,7 @@ class LessonListView(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         tmp = {
+            # 'sport': self.request.GET.get('sport'),
             'region': self.request.GET.get('region'),
             'lesson_type': self.request.GET.get('type'),
             # week_frequency = self.request.GET.get('week_frequency')
@@ -41,6 +42,7 @@ class LessonListView(ListView):
         return context
 
     def get_queryset(self):
+        # sport = self.request.GET.get('sport')
         region = self.request.GET.get('region')
         lesson_type = self.request.GET.get('type')
         # week_frequency = self.request.GET.get('week_frequency')
@@ -56,10 +58,13 @@ class LessonListView(ListView):
                 Q(coach__name__icontains=keyword) |
                 Q(academy__sport__name__icontains=keyword))
         else :
-            # if region is None and lesson_type is None and week_frequency is None:
+            # if sport is None and region is None and \
+            # lesson_type is None and week_frequency is None:
             if region is None and lesson_type is None:
                 lessons = Lesson.objects.all()
 
+            # if sport is not None:
+            #     lessons = Lesson.objects.filter(sport=sport)
             if region is not None:
                 for r in map(int, region):
                     tmp = Lesson.objects.filter(academy__small_district=r)
@@ -73,7 +78,7 @@ class LessonListView(ListView):
             #         tmp = Lesson.objects.filter(week_frequency=wf)
             #         lessons.union(tmp)
 
-            if not lessons:
+            if lessons:
                 if order == "최신순" :
                     lessons = lessons.order_by('-created_at')
                 elif order == "평점 낮은 순" :
