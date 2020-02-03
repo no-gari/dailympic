@@ -162,18 +162,16 @@
                 $.queue($('#hidden_is_search').val(true).queue($('#hidden_keyword').val(keywords)).queue($('#hidden_form').submit()))
             });
 
-            $("#search_bar_input").keydown(function () {
-                console.log(key.keyCode);
+            $("#search_bar_input").keydown(function (key) {
                 if (key.keyCode === 13) {
                     var keywords = $('#search_bar_input').val().trim();
-                    alert(keywords)
                     if (keywords.length === 0) {
                         alert('검색어를 입력해주세요');
                         return;
                     }
-                    $.queue($('#hidden_is_search').val(true).queue($('#hidden_keyword').val(keywords)).queue($('#hidden_form').submit()))
+                    $.queue($('#hidden_is_search').val(true).queue($('#hidden_keyword').val(keywords)).queue($('#hidden_form').submit()));
                 }
-            })
+            });
         });
     </script>
     {% block base_extra_script %}

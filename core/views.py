@@ -56,7 +56,8 @@ class LessonListView(ListView):
             lessons = Lesson.objects.filter(
                 Q(title__icontains=keyword) |
                 Q(coach__name__icontains=keyword) |
-                Q(academy__sport__name__icontains=keyword))
+                Q(academy__sport__name__icontains=keyword) |
+                Q(academy__name__icontains=keyword))
         else :
             # if sport is None and region is None and \
             # lesson_type is None and week_frequency is None:
@@ -79,17 +80,17 @@ class LessonListView(ListView):
             #         lessons.union(tmp)
 
             if lessons:
-                if order == "최신순" :
+                if order == "최신순":
                     lessons = lessons.order_by('-created_at')
-                elif order == "평점 낮은 순" :
+                elif order == "평점 낮은 순":
                     lessons = lessons.order_by('rating')
-                elif order == "평점 높은 순" :
+                elif order == "평점 높은 순":
                     lessons = lessons.order_by('-rating')
-                elif order == "가격 낮은 순" :
+                elif order == "가격 낮은 순":
                     lessons = lessons.order_by('price')
-                elif order == "가격 높은 순" :
+                elif order == "가격 높은 순":
                     lessons = lessons.order_by('-price')
-                else :
+                else:
                     lessons = lessons.order_by('-likes_count')
         return lessons
 
@@ -98,13 +99,6 @@ class LessonDetailView(DetailView):
     model = Lesson
     context_object_name = 'lesson'
     template_name = 'user/lesson_detail.html'
-
-
-class SportsDetailView(DetailView):
-    model = Sport
-    paginate_by=20
-    context_object_name = 'sport'
-    template_name = 'user/sports_detail.html'
 
 
 def sport_list(request):
