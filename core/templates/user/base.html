@@ -27,6 +27,10 @@
 {% endblock %}
 
 {% block bootstrap4_before_content %}
+    {% if request.user %}
+
+    {% else %}
+    {% endblock %}
     <nav class="navbar navbar-light navbar-expand-md better-bootstrap-nav-left">
         <div class="container-fluid">
             <a class="navbar-brand" href="{% url 'index' %}"><img style="width: 150px;" src="{% static 'img/dailympic_logo.png' %}" alt=""></a>

@@ -1,9 +1,10 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import render
-from django.views.generic import DetailView, ListView, TemplateView
+from django.views.generic import DetailView, ListView, TemplateView, CreateView
 import datetime as dt
 from core.models import Lesson, Sport, SmallDistrict, BigDistrict
+from django_registration.backends.one_step.views import RegistrationView
 
 
 def login(request):
@@ -109,3 +110,7 @@ def sport_list(request):
 
 class LikesTemplateView(TemplateView):
     template_name = 'user/likes.html'
+
+
+class UserCreateView(CreateView):
+    pass
