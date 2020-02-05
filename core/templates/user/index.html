@@ -37,7 +37,7 @@
                     <div class="w-100"><img src="{% static 'img/team.png' %}" alt="" class="img-fluid"></div>
                 </div>
             </a>
-            <a href="{% url 'sport_detail' 1 %}" class="w-33 mx-1" style="cursor: pointer; text-decoration: none; color: black;">
+            <a href="{% url 'lesson_list' %}" class="w-33 mx-1" style="cursor: pointer; text-decoration: none; color: black;">
                 <div class="w-100 text-center rounded p-1" style="background-color: #F1F3F4; height:180px;">
                     <h6 style="font-weight: bold; margin-top: 13px;">전체 레슨</h6>
                     <div class="w-100" style="margin-top: 21px;"><img src="{% static 'img/team.png' %}" alt="" class="img-fluid"></div>
@@ -51,7 +51,7 @@
     <section id="main_menu2">
         <div class="index_hot d-flex justify-content-between px-3">
             <div>지금 <span style="color: red; font-weight: bold;">HOT</span> 한 수업 보기</div>
-            <div><a href="{% url 'hot_lessons' %}" style="text-decoration: none;">전체보기 >>></a></div>
+            <div><a href="{% url 'lesson_list' %}" style="text-decoration: none;">전체보기 >>></a></div>
         </div>
         <div class="row w-100 mx-0 px-2">
             <div class="card col-lg-4 col-md-6 col-sm-6 col-6">
@@ -100,7 +100,7 @@
     <section id="main_menu3 my-3">
         <div class="index_hot d-flex justify-content-between px-3">
             <div style="font-style: italic;"><span style="color: blue; font-weight: bold;">NOW</span> OPEN</div>
-            <div><a href="{% url 'recent_lessons' %}" style="text-decoration: none;">전체보기 >>></a></div>
+            <div><a href="{% url 'lesson_list' %}" style="text-decoration: none;">전체보기 >>></a></div>
         </div>
         <div class="row w-100 mx-0 px-2">
             <div class="card col-lg-4 col-md-6 col-sm-6 col-6">

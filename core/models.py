@@ -22,7 +22,10 @@ class Profile(models.Model):
     )
     sex = models.CharField(max_length=7, choices=SEX_CHOICES),
     birthday = models.DateField()
-    phone = models.CharField(max_length=31)
+    phone = models.CharField(max_length=31, null=True, blank=True)
+
+    def __str__(self):
+        return self.user.username
 
 
 class Sport(models.Model):
@@ -37,6 +40,29 @@ class Sport(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class BigDistrict (models.Model):
+    # 서울시 마포구
+    name = models.CharField(
+        max_length=31, verbose_name='시군구',
+    )
+    def __str__(self):
+        return self.name
+
+
+class SmallDistrict (models.Model):
+    # 신수동
+    name = models.CharField(
+        max_length=15, verbose_name="동읍리",
+    )
+    big_district = models.ForeignKey(
+        BigDistrict,
+        on_delete=models.CASCADE,
+        related_name='small_districts'
+    )
+    def __str__(self):
+        return self.big_district.name + ' ' + self.name
 
 
 class Academy(models.Model):
@@ -60,14 +86,32 @@ class Academy(models.Model):
     )
     operation_time = models.CharField(
         default='업체에 문의해주세요!', max_length=255,
+        verbose_name='업체 운영 시간',
     )
+    sns = models.URLField(null=True, blank=True, default=None)
+    website = models.URLField(null=True, blank=True, default=None)
+    small_district = models.ForeignKey(
+        SmallDistrict,
+        on_delete=models.CASCADE,
+        related_name='locations',
+        default=1,
+        verbose_name='행정동'
+    )
+    # 중앙로 23길 3층 서강클라이밍
+    address = models.CharField(
+        max_length=255, default='업체에 문의해주세요!',
+        verbose_name='업체 세부 주소',
+    )
+
+    lati = models.FloatField(default=0)
+    long = models.FloatField(default=0)
 
     class Meta:
         verbose_name = '업체'
         verbose_name_plural = '업체'
 
     def __str__(self):
-        return str(self.sport.name) + str(self.name)
+        return "["+str(self.sport.name)+"] "+str(self.name)
 
 
 class Coach(models.Model):
@@ -83,15 +127,16 @@ class Coach(models.Model):
     )
     phone = models.CharField(
         max_length=255, verbose_name='코치 번호',
+        default='업체에 문의해주세요!',
     )
-    email = models.EmailField(verbose_name='코치 이메일')
+    email = models.EmailField(verbose_name='코치 이메일', default=None, blank=True, null=True,)
 
     class Meta:
         verbose_name = '코치'
         verbose_name_plural = '코치'
 
     def __str__(self):
-        return str(self.academy.name) + '의' + str(self.name)
+        return '['+str(self.academy.name)+'] '+str(self.name)
 
 
 class Lesson(models.Model):
@@ -140,8 +185,6 @@ class Lesson(models.Model):
         auto_now_add=True,
         null=True,
     )
-    instagram = models.URLField(null=True, blank=True)
-    navercafe = models.URLField(null=True, blank=True)
     likes_count = models.PositiveIntegerField(default=0)
 
     class Meta:
@@ -149,7 +192,7 @@ class Lesson(models.Model):
         verbose_name_plural = '레슨'
 
     def __str__(self):
-        return str(self.academy.name) + '의 ' + str(self.title)
+        return '['+str(self.academy.name)+'] ' + str(self.title)
 
     @register.filter(name='update_like_counter')
     def update_like_count(self, delta):
@@ -176,42 +219,6 @@ class Review(models.Model):
     )
     rating = models.IntegerField()
     comment = models.CharField(max_length=255)
-
-
-class BigDistrict (models.Model):
-    # 서울시 마포구
-    name = models.CharField(
-        max_length=31, verbose_name='시군구',
-    )
-
-
-class SmallDistrict (models.Model):
-    # 신수동
-    name = models.CharField(
-        max_length=15, verbose_name="동읍리",
-    )
-    big_district = models.ForeignKey(
-        BigDistrict,
-        on_delete=models.CASCADE,
-        related_name='small_districts'
-    )
-
-
-class Location (models.Model):
-    academy = models.OneToOneField(
-        Academy,
-        on_delete=models.SET_NULL,
-        null=True, blank=True
-    )
-    # 중앙로 23길 3층 서강클라이밍
-    address = models.CharField(max_length=255)
-    small_district = models.ForeignKey(
-        SmallDistrict,
-        on_delete=models.CASCADE,
-        related_name='locations'
-    )
-    lati = models.FloatField(default=0)
-    long = models.FloatField(default=0)
 
 
 class Like (models.Model):

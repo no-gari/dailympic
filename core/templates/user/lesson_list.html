@@ -19,7 +19,7 @@
     </style>
 {% endblock %}
 {% block maincontent %}
-    <div class="d-flex ml-3 mt-1" data-toggle="collapse" data-target="#sports_lists" aria-expanded="false" aria-controls="sports_lists">
+    <div class="d-flex ml-3 mt-1" data-toggle="collapse" data-target="#sports_lists" aria-expanded="false" aria-controls="sports_lists" id="sports_lists_button">
         <h4 class="sports_name" style="font-weight: bold;">펜싱</h4>
         <i style="font-size: 33px;" class="fa fa-angle-down"></i>
     </div>
@@ -30,10 +30,15 @@
             <li class="list-group-item"><a href="">또 다른 거</a></li>
         </ul>
     </div>
-    <div id="filter_details" class="d-flex">
+    <div>
+    <div id="filter_details" class="d-flex" style="float: left;">
         <div class="w-33" id="region_detail">지역</div>
         <div class="w-33" id="lesson_form">수업형태</div>
         <div class="w-33" id="lesson_form_detail">상세필터</div>
+    </div>
+        <div class="p-0 pr-3" style="float:right;">
+            <button class="btn btn-block btn-success btn-sm float-right my-1 filter_button pt-0 m-0" type="button" style="width: 50px; margin-bottom: 10px;">검색</button>
+        </div>
     </div>
 
     <div class="region_detail_hidden region_detail_hidden1">
@@ -106,9 +111,6 @@
                     </table>
                 </div>
             </div>
-            <div>
-                <button class="btn btn-block btn-success btn-sm float-right my-1 filter_button" type="button">검색하기</button>
-            </div>
         </form>
     </div>
 
@@ -120,21 +122,37 @@
                 </div>
                 <div class="lesson_form_body d-flex">
                     <div class="lesson_form_contents">
-                        일일 클래스
+                        <input type="hidden" value="ONE_DAY">
+                        원데이 클래스
                     </div>
                 </div>
                 <div class="lesson_form_title">
                     레슨형
                 </div>
-                <div class="lesson_form_body d-flex">
+                <div class="lesson_form_body row pl-3">
                     <div class="lesson_form_contents">
+                        <input type="hidden" value="ONE_POINT">
                         원포인트 레슨
                     </div>
                     <div class="lesson_form_contents">
+                        <input type="hidden" value="SHORT_TERM">
                         단기간 레슨
                     </div>
                     <div class="lesson_form_contents">
+                        <input type="hidden" value="LONG_TERM">
                         장기간 레슨
+                    </div>
+                    <div class="lesson_form_contents mt-2">
+                        <input type="hidden" value="SMALL_GROUP">
+                        소규모 그룹 레슨
+                    </div>
+                    <div class="lesson_form_contents mt-2">
+                        <input type="hidden" value="LARGE_GROUP">
+                        대규모 그룹 레슨
+                    </div>
+                    <div class="lesson_form_contents mt-2">
+                        <input type="hidden" value="ONE_TO_ONE">
+                        1:1 레슨
                     </div>
                 </div>
                 <div class="lesson_form_title">
@@ -142,21 +160,22 @@
                 </div>
                 <div class="lesson_form_body d-flex">
                     <div class="lesson_form_contents">
+                        <input type="hidden" value="1">
                         주1회
                     </div>
                     <div class="lesson_form_contents">
+                        <input type="hidden" value="2">
                         주2회
                     </div>
                     <div class="lesson_form_contents">
+                        <input type="hidden" value="3">
                         주3회
                     </div>
                     <div class="lesson_form_contents">
+                        <input type="hidden" value="5">
                         주5회
                     </div>
                 </div>
-            </div>
-            <div>
-                <button class="btn btn-block btn-success btn-sm float-right my-1 filter_button" type="button">검색하기</button>
             </div>
         </form>
     </div>
@@ -201,59 +220,38 @@
                     </div>
                 </div>
             </div>
-            <div>
-                <button class="btn btn-block btn-success btn-sm float-right my-1 filter_button" type="button">검색하기</button>
-            </div>
         </form>
     </div>
 
 
     <section class="w-100 my-3">
         <div class="row w-100 mx-0 px-2">
-            <div class="card col-lg-4 col-md-6 col-sm-6 col-6">
-                <img src="{% static 'img/balls.jpg' %}" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">펜싱 One Day 클래스</h5>
-                    <p class="card-text">새로운 취미를 함께 도전해봐요</p>
-                    <h5 class="card-title">30,000원 <small>50,000원</small></h5>
-                    <p class="badge badge-success">New</p>
-                    <p class="badge badge-danger">HOT</p>
-                </div>
-            </div>
-            <div class="card col-lg-4 col-md-6 col-sm-6 col-6">
-                <img src="{% static 'img/balls.jpg' %}" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">펜싱 One Day 클래스</h5>
-                    <p class="card-text">새로운 취미를 함께 도전해봐요</p>
-                    <h5 class="card-title">30,000원 <small>50,000원</small></h5>
-                    <p class="badge badge-success">New</p>
-                </div>
-            </div>
-            <div class="card col-lg-4 col-md-6 col-sm-6 col-6">
-                <img src="{% static 'img/balls.jpg' %}" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">펜싱 One Day 클래스</h5>
-                    <p class="card-text">새로운 취미를 함께 도전해봐요</p>
-                    <h5 class="card-title">30,000원 <small>50,000원</small></h5>
-                    <p class="badge badge-success">New</p>
-                    <p class="badge badge-danger">HOT</p>
-                </div>
-            </div>
-            <div class="card col-lg-4 col-md-6 col-sm-6 col-6">
-                <img src="{% static 'img/balls.jpg' %}" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">펜싱 One Day 클래스</h5>
-                    <p class="card-text">새로운 취미를 함께 도전해봐요</p>
-                    <h5 class="card-title">30,000원 <small>50,000원</small></h5>
-                    <p class="badge badge-success">New</p>
-                </div>
-            </div>
+            {% if lessons %}
+                {% for lesson in lessons %}
+                    <div class="card col-lg-4 col-md-6 col-sm-6 col-6">
+                        <img src="{% static 'img/balls.jpg' %}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ lesson.title }}</h5>
+                            <p class="card-text">{{ lesson.description }}</p>
+                            <h5 class="card-title">{{ lesson.price }}원 <small>50,000원</small></h5>
+                            <p class="badge badge-success">New</p>
+                            <p class="badge badge-danger">HOT</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <h1>조건을 만족하는 수업이 없습니다</h1>
+            {% endif %}
         </div>
     </section>
 {% endblock %}
 {% block base_extra_script %}
     <script>
         $(document).ready(function () {
+            $('#sports_lists_button').on('click', function () {
+                $('.region_detail_hidden').hide();
+                $('#filter_details > div').removeClass('active');
+            });
             $('.table2 tr').on('click', function () {
                 if ($(this).hasClass('active')) {
                     $(this).removeClass('active');
@@ -324,25 +322,30 @@
                     }
                     $(this).addClass('active');
                 }
-        });
+            });
 
-        setTimeout(function () {
-            $('.table1 tr').first().click();
-        }, 200);
+            setTimeout(function () {
+                $('.table1 tr').first().click();
+            }, 200);
         });
 
         $(".filter_button").click(function () {
             var region = [];
             var type = [];
             var order = [];
+            var week_frequency = [];
             $('#region_detail_hidden_inner .table2 .active').each(function () {
                     var regions = $(this).html().trim();
                     region.push(regions);
                 }
             );
             $('#lesson_form_hidden_inner .lesson_form_body .active').each(function () {
-                    var types = $(this).html().trim();
-                    type.push(types);
+                    var types = $(this).find('input').val();
+                    if (types == '1' || types == '2' || types == '3' || types == '4') {
+                        week_frequency.push(types)
+                    } else {
+                        type.push(types);
+                    }
                 }
             );
             $('.lesson_form_detail_hidden .active').each(function () {
@@ -350,7 +353,7 @@
                     order.push(orders);
                 }
             );
-            $.queue($('#hidden_is_search').val(false).queue($('#hidden_region').val(region)).queue($('#hidden_type').val(type)).queue($('#hidden_order').val(order)).queue($('#hidden_form').submit()))
+            $.queue($('#hidden_is_search').val(false).queue($('#hidden_region').val(region)).queue($('#hidden_type').val(type)).queue($('#hidden_order').val(order)).queue($('#hidden_week_frequency').val(week_frequency)).queue($('#hidden_form').submit()))
         });
     </script>
 {% endblock %}
