@@ -12,46 +12,19 @@
 {% block maincontent %}
     <h4 class="mt-3 ml-5" style="font-weight: bold;">종목 전체보기</h4>
     <div class="row w-100 mx-0 px-5 pt-0 pb-2">
-        <div class="card col-lg-4 col-md-6 col-sm-6 col-6 sports_lists">
-            <a href="{% url 'lesson_list' %}" style="text-decoration: none; color: black;">
-                <div class="card-body text-center">
-                    <h4 style="font-weight: bold;">펜싱</h4>
-                </div>
-                <div class="p-4">
-                    <img src="{% static 'img/sport1.png' %}" class="card-img-top" alt="...">
-                </div>
-            </a>
-        </div>
-        <div class="card col-lg-4 col-md-6 col-sm-6 col-6 sports_lists">
-            <a href="{% url 'lesson_list' %}" style="text-decoration: none; color: black;">
-                <div class="card-body text-center">
-                    <h4 style="font-weight: bold;">펜싱</h4>
-                </div>
-                <div class="p-4">
-                    <img src="{% static 'img/sport1.png' %}" class="card-img-top" alt="...">
-                </div>
-            </a>
-        </div>
+        {% for sport in sports %}
             <div class="card col-lg-4 col-md-6 col-sm-6 col-6 sports_lists">
-            <a href="{% url 'lesson_list'   %}" style="text-decoration: none; color: black;">
-                <div class="card-body text-center">
-                    <h4 style="font-weight: bold;">펜싱</h4>
-                </div>
-                <div class="p-4">
-                    <img src="{% static 'img/sport1.png' %}" class="card-img-top" alt="...">
-                </div>
-            </a>
-        </div>
-            <div class="card col-lg-4 col-md-6 col-sm-6 col-6 sports_lists">
-            <a href="{% url 'lesson_list' %}" style="text-decoration: none; color: black;">
-                <div class="card-body text-center">
-                    <h4 style="font-weight: bold;">펜싱</h4>
-                </div>
-                <div class="p-4">
-                    <img src="{% static 'img/sport1.png' %}" class="card-img-top" alt="...">
-                </div>
-            </a>
-        </div>
+                <a href="/lesson_list/?sport={{ sport.id }}" style="text-decoration: none; color: black;">
+                    <div class="card-body text-center">
+                        <h4 style="font-weight: bold;">{{ sport.name }}</h4>
+                    </div>
+                    <div class="p-4">
+{#                        <img src="{% static 'img/sport1.png' %}" class="card-img-top" alt="...">#}
+                        <img src="{{ sport.icon }}" class="card-img-top" alt="...">
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}
 
