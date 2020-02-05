@@ -87,9 +87,9 @@
     </div>
     <div class="collapse" id="sports_lists">
         <ul class="list-group">
-            <li class="list-group-item"><a href="">펜싱</a></li>
-            <li class="list-group-item"><a href="">다른거</a></li>
-            <li class="list-group-item"><a href="">또 다른 거</a></li>
+            {% for sport in sports %}
+                <li class="list-group-item"><a href="/lesson_list/?sport={{ sport.id }}">펜싱</a></li>
+            {% endfor %}
         </ul>
     </div>
     <div>
@@ -259,9 +259,6 @@
                     <div class="lesson_form_contents lesson_form_contents_detail">
                         최신순
                     </div>
-                    <div class="lesson_form_contents lesson_form_contents_detail">
-                        거리순
-                    </div>
                 </div>
                 <div class="lesson_form_title">
                     가격
@@ -299,7 +296,7 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ lesson.title }}</h5>
                             <p class="card-text">{{ lesson.description }}</p>
-                            <h5 class="card-title">{{ lesson.price }}원 <small>50,000원</small></h5>
+                            <h5 class="card-title">{{ lesson.dc_price }}원 <small>{{ lesson.org_price }}원</small></h5>
                             <p class="badge badge-success">New</p>
                             <p class="badge badge-danger">HOT</p>
                         </div>

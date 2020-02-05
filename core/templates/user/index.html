@@ -26,9 +26,9 @@
         <div class="d-flex justify-content-between text-center">
             <a href="{% url 'sport_list' %}" class="w-33 mx-1" style="cursor: pointer; text-decoration: none; color: black;">
                 <div class="w-100 text-center rounded p-1 main_menu1_contents">
-                <h6 style="font-weight: bold; margin-top: 13px;">종목별 레슨</h6>
-                <div class="w-100" style="margin-top: 21px;"><img src="{% static 'img/team.png' %}" alt="" class="img-fluid"></div>
-            </div>
+                    <h6 style="font-weight: bold; margin-top: 13px;">종목별 레슨</h6>
+                    <div class="w-100" style="margin-top: 21px;"><img src="{% static 'img/team.png' %}" alt="" class="img-fluid"></div>
+                </div>
             </a>
             <a href="/lesson_list/?type=ONE_DAY" class="w-33 mx-1" style="cursor: pointer; text-decoration: none; color: black;">
                 <div class="w-100 text-center rounded p-1 main_menu1_contents">
@@ -54,8 +54,9 @@
             <div><a href="/lesson_list/?order=추천순" style="text-decoration: none;">전체보기 >>></a></div>
         </div>
         <div class="row w-100 mx-0 px-2">
-            {% for lessons in hot_lessons %}
+            {% for lesson in hot_lessons %}
                 <div class="card col-lg-4 col-md-6 col-sm-6 col-6">
+                    <a href="{% url 'lesson_detail' lesson.id %}" style="text-decoration: none; color: black;">
                     <img src="{% static 'img/balls.jpg' %}" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">{{ lesson.title }}</h5>
@@ -63,6 +64,8 @@
                         <h5 class="card-title">{{ lesson.dc_price }}원 <small>{{ lesson.org_price }}원</small></h5>
                         <p class="badge badge-danger">HOT</p>
                     </div>
+
+                    </a>
                 </div>
             {% endfor %}
         </div>
@@ -76,18 +79,19 @@
             <div><a href="/lesson_list/?order=최신순" style="text-decoration: none;">전체보기 >>></a></div>
         </div>
         <div class="row w-100 mx-0 px-2">
-
-        {% for lesson in recent_lessons %}
-            <div class="card col-lg-4 col-md-6 col-sm-6 col-6">
-                <img src="{% static 'img/balls.jpg' %}" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">{{ lesson.title }}</h5>
-                    <p class="card-text">{{ lesson.introduction }}</p>
-                    <h5 class="card-title">{{ lesson.dc_price }}원 <small>{{ lesson.org_price }}원</small></h5>
-                    <p class="badge badge-success">New</p>
+            {% for lesson in recent_lessons %}
+                <div class="card col-lg-4 col-md-6 col-sm-6 col-6">
+                    <a href="{% url 'lesson_detail' lesson.id %}" style="text-decoration: none; color: black;">
+                        <img src="{% static 'img/balls.jpg' %}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ lesson.title }}</h5>
+                            <p class="card-text">{{ lesson.introduction }}</p>
+                            <h5 class="card-title">{{ lesson.dc_price }}원 <small>{{ lesson.org_price }}원</small></h5>
+                            <p class="badge badge-success">New</p>
+                        </div>
+                    </a>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
         </div>
     </section>
     <section id="proceeding_event">
