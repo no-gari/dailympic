@@ -3,7 +3,7 @@ from django.db.models import Q
 from django.shortcuts import render
 from django.views.generic import DetailView, ListView, TemplateView
 import datetime as dt
-from core.models import Lesson, Sport
+from core.models import Lesson, Sport, SmallDistrict, BigDistrict
 
 
 def login(request):
@@ -30,10 +30,12 @@ class LessonListView(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         tmp = {
-            # 'sport': self.request.GET.get('sport'),
+            'sports': Sport.objects.all(),
+            'districts': BigDistrict.objects.all(),
+            'sport': self.request.GET.get('sport'),
             'region': self.request.GET.get('region'),
             'lesson_type': self.request.GET.get('type'),
-            # week_frequency = self.request.GET.get('week_frequency')
+            'week_frequency' : self.request.GET.get('week_frequency'),
             'order': self.request.GET.get('order'),
             'is_search': self.request.GET.get('is_search'),
             'keyword': self.request.GET.get('keyword'),
