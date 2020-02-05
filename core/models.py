@@ -1,6 +1,6 @@
 from django import template
 from django.db import models
-from django.contrib.auth.models import Group, UserManager, User
+from django.contrib.auth.models import User
 from datetime import datetime
 
 
@@ -147,8 +147,8 @@ class Lesson(models.Model):
         related_name='lessons',
     )
     title = models.CharField(max_length=255, verbose_name='수업 이름')
-    price = models.IntegerField(verbose_name='가격')
-    discount_rate = models.FloatField(verbose_name='할인율', null=True, blank=True)
+    org_price = models.PositiveSmallIntegerField(verbose_name='정가', default=0)
+    dc_price = models.PositiveSmallIntegerField(verbose_name='할인가', null=True, blank=True, default=0)
     lesson_time = models.CharField(
         default='코치에게 문의해주세요!',
         max_length=255, verbose_name='수업 시간',
@@ -164,6 +164,7 @@ class Lesson(models.Model):
         on_delete=models.CASCADE,
         related_name='lessons',
     )
+    introduction = models.CharField(max_length=127, default='   ')
     description = models.TextField(null=True, blank=True)
     LESSON_TYPE_CHOICES = (
         ('ONE_DAY', '원데이 레슨'),
