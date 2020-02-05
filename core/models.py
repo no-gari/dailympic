@@ -22,7 +22,7 @@ class Profile(models.Model):
     )
     sex = models.CharField(max_length=7, choices=SEX_CHOICES),
     birthday = models.DateField()
-    phone = models.CharField(max_length=31)
+    phone = models.CharField(max_length=31, null=True, blank=True)
 
     def __str__(self):
         return self.user.username
