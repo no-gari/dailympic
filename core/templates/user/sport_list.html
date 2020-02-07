@@ -20,7 +20,9 @@
                     </div>
                     <div class="p-4">
 {#                        <img src="{% static 'img/sport1.png' %}" class="card-img-top" alt="...">#}
+                        {% if sport.icon %}
                         <img src="{{ sport.icon.url }}" class="card-img-top" alt="...">
+                        {% endif %}
                     </div>
                 </a>
             </div>
