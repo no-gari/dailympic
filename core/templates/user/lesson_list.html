@@ -66,7 +66,7 @@
     <div class="region_detail_hidden region_detail_hidden1">
         <form class="region_detail_hidden_inner" id="region_detail_hidden_inner">
             <div class="d-flex">
-                <div style="width: 30%;">
+                <div style="width: 50%;">
                     <table class="table table1">
                         {% for b_district in districts %}
                             <tr>
@@ -75,7 +75,7 @@
                         {% endfor %}
                     </table>
                 </div>
-                <div style="width: 70%;">
+                <div style="width: 50%;">
                     {% for b_districts in districts %}
                     <table class="table table2">
                         {% for small_district in b_districts.small_districts.all %}
