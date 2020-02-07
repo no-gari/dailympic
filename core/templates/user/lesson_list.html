@@ -219,16 +219,18 @@
         <div class="row w-100 mx-0 px-2">
             {% if lessons %}
                 {% for lesson in lessons %}
-                    <div class="card col-lg-4 col-md-6 col-sm-6 col-6">
-                        <img src="{% static 'img/balls.jpg' %}" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ lesson.title }}</h5>
-                            <p class="card-text">{{ lesson.description }}</p>
-                            <h5 class="card-title">{{ lesson.dc_price }}원 <small>{{ lesson.org_price }}원</small></h5>
-                            <p class="badge badge-success">New</p>
-                            <p class="badge badge-danger">HOT</p>
+                    <a href="{% url 'lesson_detail' lesson.id %}" class="card col-lg-4 col-md-6 col-sm-6 col-6" style="text-decoration: none; color: black;">
+                        <div>
+                            <img src="{{ lesson.lessonimage_set.first.image.url }}" class="card-img-top" alt="..">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ lesson.title }}</h5>
+                                <p class="card-text">{{ lesson.description }}</p>
+                                <h5 class="card-title">{{ lesson.dc_price }}원 <small>{{ lesson.org_price }}원</small></h5>
+                                <p class="badge badge-success">New</p>
+                                <p class="badge badge-danger">HOT</p>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 {% endfor %}
             {% else %}
                 <h1>조건을 만족하는 수업이 없습니다</h1>
