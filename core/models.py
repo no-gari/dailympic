@@ -13,16 +13,16 @@ class Profile(models.Model):
         on_delete=models.CASCADE,
     )
     image = models.ImageField(
-        default=None,null=True,blank=True,
+        default=None,null=True,blank=True,verbose_name='프로필 사진'
     )
-    name = models.CharField(max_length=31),
+    name = models.CharField(max_length=31, verbose_name='이름'),
     SEX_CHOICES = (
         ('M', '남'),
         ('W', '여')
     )
-    sex = models.CharField(max_length=7, choices=SEX_CHOICES),
-    birthday = models.DateField()
-    phone = models.CharField(max_length=31, null=True, blank=True)
+    sex = models.CharField(max_length=7, choices=SEX_CHOICES, verbose_name='성별'),
+    birthday = models.DateField(verbose_name='생년월일')
+    phone = models.CharField(max_length=31, null=True, blank=True, verbose_name='휴대전화')
 
     def __str__(self):
         return self.user.username
@@ -61,6 +61,7 @@ class SmallDistrict (models.Model):
         on_delete=models.CASCADE,
         related_name='small_districts'
     )
+
     def __str__(self):
         return self.big_district.name + ' ' + self.name
 

@@ -1,10 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from django.shortcuts import render
-from django.views.generic import DetailView, ListView, TemplateView, CreateView
+from django.shortcuts import render, redirect
+from django.views.generic import DetailView, ListView, TemplateView
 import datetime as dt
-from core.models import Lesson, Sport, SmallDistrict, BigDistrict
-from django_registration.backends.one_step.views import RegistrationView
+
+from core.forms import *
+from core.models import Lesson, Sport, BigDistrict
 
 
 def login(request):
@@ -116,5 +117,25 @@ class LikesTemplateView(TemplateView):
     template_name = 'user/likes.html'
 
 
-class UserCreateView(CreateView):
-    pass
+def signup (request):
+    if request.method == 'POST':
+        user_form = UserForm(request.POST)
+        profile_form = ProfileForm(request.POST)
+        if user_form.is_valid() and profile_form.is_valid():
+            user = user_form.save()
+            profile = profile_form.save(commit=False)
+            profile.user = user
+            profile.save()
+            return redirect('index')
+    ctx = {
+        'user_form': UserForm(),
+        'profile_form': ProfileForm(),
+    }
+    return render(request, 'user/test_signup.html', ctx)
+
+
+@login_required
+def likes_list(request):
+    render('user/likes.html',{
+        'likes' : request.user.likes,
+    })
