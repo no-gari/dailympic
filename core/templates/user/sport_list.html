@@ -34,7 +34,7 @@
 {% block base_extra_script %}
     <script>
         $('.sports_lists_button').on('click', function () {
-            var sport = $(this).find('input').val()
+            var sport = $(this).find('input').val();
             $.queue($('#hidden_sports_lists').val(sport)).queue($('#hidden_form').submit());
         })
     </script>
