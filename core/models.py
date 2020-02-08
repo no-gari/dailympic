@@ -85,11 +85,13 @@ class Academy(models.Model):
     email = models.EmailField(
         blank=True, null=True, verbose_name='업체 이메일',
     )
-    operation_time = models.CharField(
+    operation_time = models.TextField(
         default='업체에 문의해주세요!', max_length=255,
         verbose_name='업체 운영 시간',
+        help_text='엔터로 구분해주세요. (ex)월,목 - 17:00 ~ 20:00 (enter키) 금 - 18:00 ~ 20:00'
     )
-    sns = models.URLField(null=True, blank=True, default=None)
+    instagram = models.URLField(null=True, blank=True, default=None)
+    facebook = models.URLField(null=True, blank=True, default=None)
     website = models.URLField(null=True, blank=True, default=None)
     small_district = models.ForeignKey(
         SmallDistrict,
@@ -123,6 +125,12 @@ class Coach(models.Model):
         Academy, on_delete=models.CASCADE,
         verbose_name='소속 업체', related_name='coaches',
     )
+    career = models.TextField(
+        verbose_name= '코치 커리어',
+        help_text= '경력을 엔터로 구분하세요.',
+        null=True,
+        blank=True
+    )
     introduction = models.TextField(
         blank=True, null=True, verbose_name='코치 소개',
     )
@@ -131,6 +139,9 @@ class Coach(models.Model):
         default='업체에 문의해주세요!',
     )
     email = models.EmailField(verbose_name='코치 이메일', default=None, blank=True, null=True,)
+    instagram = models.URLField(null=True, blank=True, default=None)
+    facebook = models.URLField(null=True, blank=True, default=None)
+    image = models.ImageField(verbose_name='코치 사진', null=True, blank=True, upload_to='coach/')
 
     class Meta:
         verbose_name = '코치'
@@ -150,13 +161,10 @@ class Lesson(models.Model):
     title = models.CharField(max_length=255, verbose_name='수업 이름')
     org_price = models.PositiveSmallIntegerField(verbose_name='정가', default=0)
     dc_price = models.PositiveSmallIntegerField(verbose_name='할인가', null=True, blank=True, default=0)
-    lesson_time = models.CharField(
+    lesson_time = models.TextField(
         default='코치에게 문의해주세요!',
         max_length=255, verbose_name='수업 시간',
-    )
-    lesson_days = models.CharField(
-        default='코치에게 문의해주세요!',
-        max_length=255, verbose_name='수업 요일',
+        help_text='엔터로 구분해주세요. (ex)월,목 - 17:00 ~ 20:00 (enter키) 금 - 18:00 ~ 20:00'
     )
     week_frequency = models.IntegerField(verbose_name='주간 횟수')
     coach = models.ForeignKey(
