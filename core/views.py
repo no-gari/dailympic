@@ -1,7 +1,8 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import render, redirect
-from django.views.generic import DetailView, ListView, TemplateView
+from django.views.generic import DetailView, ListView, TemplateView, CreateView
 import datetime as dt
 
 from core.forms import *
@@ -18,8 +19,8 @@ def index(request):
         created_at__gte=dt.datetime.today() - dt.timedelta(days=14)
     ).order_by('-created_at')[:4]
     ctx = {
-        'hot_lessons' : hot_lessons,
-        'recent_lessons' : recent_lessons,
+        'hot_lessons': hot_lessons,
+        'recent_lessons': recent_lessons,
     }
     return render(request, './user/index.html', ctx)
 
@@ -37,7 +38,7 @@ class LessonListView(ListView):
             'sport': self.request.GET.get('sport'),
             'region': self.request.GET.get('region'),
             'lesson_type': self.request.GET.get('type'),
-            'week_frequency' : self.request.GET.get('week_frequency'),
+            'week_frequency': self.request.GET.get('week_frequency'),
             'order': self.request.GET.get('order'),
             'is_search': self.request.GET.get('is_search'),
             'keyword': self.request.GET.get('keyword'),
@@ -57,7 +58,8 @@ class LessonListView(ListView):
         lessons = Lesson.objects.none()
         if is_search == 'true':
             is_search = True
-        else: is_search = False
+        else:
+            is_search = False
 
         if is_search:
             lessons = Lesson.objects.filter(
@@ -128,7 +130,7 @@ class LikesTemplateView(TemplateView):
     template_name = 'user/likes.html'
 
 
-def signup (request):
+def user_create(request):
     if request.method == 'POST':
         user_form = UserForm(request.POST)
         profile_form = ProfileForm(request.POST)
@@ -137,6 +139,10 @@ def signup (request):
             profile = profile_form.save(commit=False)
             profile.user = user
             profile.save()
+            return redirect('login')
+        else:
+            print(user_form.errors)
+            print(profile_form.errors)
             return redirect('index')
     ctx = {
         'user_form': UserForm(),
@@ -145,8 +151,14 @@ def signup (request):
     return render(request, 'user/test_signup.html', ctx)
 
 
+class ProfileCreateView(CreateView):
+    model = Profile
+    fields = '__all__'
+    success_url = '/'
+
+
 @login_required
 def likes_list(request):
-    render('user/likes.html',{
-        'likes' : request.user.likes,
+    render('user/likes.html', {
+        'likes': request.user.likes,
     })

@@ -5,6 +5,11 @@
     {% csrf_token %}
     {{ user_form.as_p }}
     {{ profile_form.as_p }}
-  <button class="btn" type='submit'>가입하기</button>
+{#    <p>아이디 : {{ user_form.username }}</p>#}
+{#    <p>비밀번호 : {{ user_form.password1 }}</p>#}
+{#    <p>비밀번호 확인 : {{ user_form.password2 }}</p>#}
+{#    <p>이메일 : {{ user_form.email }}</p>#}
+
+  <button class="btn" type='submit'>회원가입 하기</button>
 </form>
 {% endblock %}

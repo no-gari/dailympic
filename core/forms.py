@@ -4,56 +4,63 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import Profile
 from django.contrib.auth.models import User
 
-
-class UserForm(forms.ModelForm):
-    username = forms.CharField(label='아이디')
-    password = forms.CharField(label='비밀번호')
-    password2 = forms.CharField(label='비밀번호 확인')
-    email = forms.EmailField(label='이메일')
-
-    class Meta:
-        model = User
-        fields = ('username', 'password', 'email',)
-
-
-# class UserForm(UserCreationForm):
-#     error_messages = {
-#         'password_mismatch': '잘못된 비밀번호입니다.',
-#     }
-#     first_name = forms.CharField()
-#     last_name = forms.CharField()
-#     email = forms.EmailField()
+# class UserForm(forms.ModelForm):
+#     username = forms.CharField(label='아이디')
+#     password = forms.CharField(label='비밀번호')
+#     password2 = forms.CharField(label='비밀번호 확인')
+#     email = forms.EmailField(label='이메일')
 #
-#     def clean_email(self):
-#         email = self.cleaned_data.get('email')
-#         if email is None:
-#             raise forms.ValidationError('email input error')
-#         return email
-#
-#     def clean_first_name(self):
-#         name = self.cleaned_data.get('first_name')
-#         if name is None:
-#             raise forms.ValidationError('input  firstname')
-#         return name
-#
-#     def clean_last_name(self):
-#         name = self.cleaned_data.get('last_name')
-#         if name is None:
-#             raise forms.ValidationError('input last name')
-#         return name
+#     class Meta:
+#         model = User
+#         fields = ('username', 'password', 'email')
 #
 #     def save(self, commit=True):
-#         user = super().save(commit=False)
-#         user.first_name = self.cleaned_data['first_name']
-#         user.last_name = self.cleaned_data['last_name']
-#         user.email = self.cleaned_data['email']
+#         """
+#         Save this form's self.instance object if commit=True. Otherwise, add
+#         a save_m2m() method to the form which can be called after the instance
+#         is saved manually at a later time. Return the model instance.
+#         """
+#         if self.errors or self.password != self.password2:
+#             raise ValueError(
+#                 "The %s could not be %s because the data didn't validate." % (
+#                     self.instance._meta.object_name,
+#                     'created' if self.instance._state.adding else 'changed',
+#                 )
+#             )
 #         if commit:
-#             user.save()
-#         return user
+#             # If committing, save the instance and the m2m data immediately.
+#             self.instance.save()
+#             self._save_m2m()
+#         else:
+#             # If not committing, add a method to the form to allow deferred
+#             # saving of m2m data.
+#             self.save_m2m = self._save_m2m
+#         return self.instance
+#
+#     save.alters_data = True
+
+
+class UserForm(UserCreationForm):
+    error_messages = {
+        'password_mismatch': '비밀번호가 일치하지 않습니다.',
+    }
+    email = forms.EmailField()
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if email is None:
+            raise forms.ValidationError('email input error')
+        return email
+
+    def save(self, commit=True):
+        user = super(UserForm, self).save(commit=False)
+        user.email = self.cleaned_data['email']
+        if commit:
+            user.save()
+        return user
 
 
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         exclude = ('user',)
-
