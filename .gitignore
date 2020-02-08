@@ -9,3 +9,4 @@ envs_dev.json
 server.crt
 server.key
 local-ssl-server.py
+!/core/static/
