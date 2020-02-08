@@ -1,0 +1,15 @@
+{% extends 'user/base.html' %}
+{% load staticfiles %}
+{% block base_extra_head %}
+{% endblock %}
+{% block maincontent %}
+    {% if request.user and request.user.proifle %}
+        <form method='POST'>
+            {% csrf_token %}
+            {{ form.as_p }}
+        <button class="btn" type='submit'>추가정보 입력 완료</button>
+    {% else %}
+        <p>잘못된 접근입니다.</p>
+        <a href="{% url 'index' %}">메인으로 돌아가기</a>
+    {% endif %}
+{% endblock %}

@@ -141,9 +141,11 @@ def user_create(request):
             profile.save()
             return redirect('login')
         else:
-            print(user_form.errors)
-            print(profile_form.errors)
-            return redirect('index')
+            ctx = {
+                'user_form_errors': user_form.errors,
+                'profile_form_errors': profile_form.errors,
+            }
+            return render(request, 'user/user_create_fail.html', ctx)
     ctx = {
         'user_form': UserForm(),
         'profile_form': ProfileForm(),
@@ -153,8 +155,20 @@ def user_create(request):
 
 class ProfileCreateView(CreateView):
     model = Profile
-    fields = '__all__'
     success_url = '/'
+    form_class = ProfileForm
+    template_name = 'user/profile_form.html'
+
+    def post(self, request, *args, **kwargs):
+        profile_form = ProfileForm(request.POST)
+        if profile_form.is_valid():
+            profile = profile_form.save(commit=False)
+            profile.user = request.user
+            profile.save()
+            return redirect('index')
+        return render(request, 'user/user_create_fail.html', {
+            'profile_form_errors': profile_form.errors,
+        })
 
 
 @login_required

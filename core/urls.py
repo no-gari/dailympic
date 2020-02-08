@@ -22,5 +22,6 @@ urlpatterns = [
     path('likes/', views.LikesTemplateView.as_view(), name='likes'),
 
     path('user/create', views.user_create, name='user_create'),
+    # path('user/create/fail', views.user_create_fail, name='user_create_fail'),
     path('profile/create', views.ProfileCreateView.as_view(), name='profile_create'),
 ]
