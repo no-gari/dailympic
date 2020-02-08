@@ -57,7 +57,7 @@
             {% for lesson in hot_lessons %}
                 <div class="card col-lg-4 col-md-6 col-sm-6 col-6">
                     <a href="{% url 'lesson_detail' lesson.id %}" style="text-decoration: none; color: black;">
-                    <img src="{% static 'img/balls.jpg' %}" class="card-img-top" alt="...">
+                    <img src="{{ lesson.lessonimage_set.first.image.url }}" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">{{ lesson.title }}</h5>
                         <p class="card-text">{{ lesson.introduction }}</p>
@@ -81,7 +81,7 @@
         <div class="row w-100 mx-0 px-2">
             {% for lesson in recent_lessons %}
                 <div class="card col-lg-4 col-md-6 col-sm-6 col-6">
-                    <a href="{% url 'lesson_detail' lesson.id %}" style="text-decoration: none; color: black;">
+                    <a href="{{ lesson.lessonimage_set.first.image.url }}" style="text-decoration: none; color: black;">
                         <img src="{% static 'img/balls.jpg' %}" class="card-img-top" alt="...">
                         <div class="card-body">
                             <h5 class="card-title">{{ lesson.title }}</h5>

@@ -14,19 +14,28 @@
     <div class="row w-100 mx-0 px-5 pt-0 pb-2">
         {% for sport in sports %}
             <div class="card col-lg-4 col-md-6 col-sm-6 col-6 sports_lists">
-                <a href="/lesson_list/?sport={{ sport.id }}" style="text-decoration: none; color: black;">
+                <div style="text-decoration: none; color: black;" class="sports_lists_button">
+                    <input type="hidden" value="{{ sport.id }}">
                     <div class="card-body text-center">
                         <h4 style="font-weight: bold;">{{ sport.name }}</h4>
                     </div>
                     <div class="p-4">
 {#                        <img src="{% static 'img/sport1.png' %}" class="card-img-top" alt="...">#}
-                        <img src="{{ sport.icon }}" class="card-img-top" alt="...">
+                        {% if sport.icon %}
+                        <img src="{{ sport.icon.url }}" class="card-img-top" alt="...">
+                        {% endif %}
                     </div>
-                </a>
+                </div>
             </div>
         {% endfor %}
     </div>
 {% endblock %}
 
 {% block base_extra_script %}
+    <script>
+        $('.sports_lists_button').on('click', function () {
+            var sport = $(this).find('input').val()
+            $.queue($('#hidden_sports_lists').val(sport)).queue($('#hidden_form').submit());
+        })
+    </script>
 {% endblock %}
