@@ -9,7 +9,8 @@
 {#    <p>비밀번호 : {{ user_form.password1 }}</p>#}
 {#    <p>비밀번호 확인 : {{ user_form.password2 }}</p>#}
 {#    <p>이메일 : {{ user_form.email }}</p>#}
-
+    {{ user_form.errors }}
+    {{ profile_form.errors }}
   <button class="btn" type='submit'>회원가입 하기</button>
 </form>
 {% endblock %}

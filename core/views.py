@@ -140,12 +140,6 @@ def user_create(request):
             profile.user = user
             profile.save()
             return redirect('login')
-        else:
-            ctx = {
-                'user_form_errors': user_form.errors,
-                'profile_form_errors': profile_form.errors,
-            }
-            return render(request, 'user/user_create_fail.html', ctx)
     ctx = {
         'user_form': UserForm(),
         'profile_form': ProfileForm(),
