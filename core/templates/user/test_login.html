@@ -1,12 +1,42 @@
+{% extends 'user/base.html' %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+{% load bootstrap4 %}
+{% block base_extra_head %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
+{% block maincontent %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                <div class="card card-signin my-5">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Login</h5>
+                        <form class="form-signin">
+                            {% for field in user_form.visible_fields %}
+                                <div class="form-label-group">
+                                    {% if user_form %}
+                                        {% render_field field placeholder=field.label class='form-control' id=field.name %}
+                                        <label for="{{ field.name }}">{{ field.label }}</label>
+                                        {% if field.errors %}
+                                            {% for error in field.errors %}
+                                                <h6 style="color: red; font-weight: bold;">{{ error }}</h6>
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                            <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">로그인</button>
+                            <hr class="my-4">
+                            <div class="btn btn-lg btn-block text-uppercase" style="background-color: #03CF5D;"><a style="text-decoration: none; color: white; " href="{% provider_login_url 'naver' %}"><img src="{% static 'img/naver.png' %}" alt="" style="height: 20px; margin-right: 5px;">네이버 계정으로 로그인</a></div>
+                            <div class="btn btn-lg btn-google btn-block text-uppercase"><a style="text-decoration: none; color: white;" href="{% provider_login_url 'google' %}"><i class="fa fa-google mr-2"></i>구글 계정으로 로그인</a></div>
+                            <div class="btn btn-lg btn-facebook btn-block text-uppercase"><a style="text-decoration: none; color: white;" href="{% provider_login_url 'facebook' %}"><i class="fa fa-facebook-f mr-2"></i>페이스북 계정으로 로그인</a></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-{% load socialaccount %}
-{% providers_media_js %}
-<a href="/register">회원가입</a><br>
-{% if user.is_authenticated %}
-<a href="/accounts/logout">로그아웃</a><br>
-{{ user.username }} 님이 로그인 중
-{% else %}
-    <a href="{% provider_login_url 'google' %}">구글 로그인</a>
-    <a href="{% provider_login_url 'naver' %}">네이버 로그인</a>
-    <a href="{% provider_login_url 'facebook' %}">페이스북 로그인</a
-{% endif %}
+{% endblock %}
