@@ -1,10 +1,12 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import DetailView, ListView, TemplateView, CreateView
 import datetime as dt
-from core.models import Lesson, Sport, SmallDistrict, BigDistrict
-from django_registration.backends.one_step.views import RegistrationView
+
+from core.forms import *
+from core.models import Lesson, Sport, BigDistrict
 
 
 def login(request):
@@ -17,8 +19,8 @@ def index(request):
         created_at__gte=dt.datetime.today() - dt.timedelta(days=14)
     ).order_by('-created_at')[:4]
     ctx = {
-        'hot_lessons' : hot_lessons,
-        'recent_lessons' : recent_lessons,
+        'hot_lessons': hot_lessons,
+        'recent_lessons': recent_lessons,
     }
     return render(request, './user/index.html', ctx)
 
@@ -36,7 +38,7 @@ class LessonListView(ListView):
             'sport': self.request.GET.get('sport'),
             'region': self.request.GET.get('region'),
             'lesson_type': self.request.GET.get('type'),
-            'week_frequency' : self.request.GET.get('week_frequency'),
+            'week_frequency': self.request.GET.get('week_frequency'),
             'order': self.request.GET.get('order'),
             'is_search': self.request.GET.get('is_search'),
             'keyword': self.request.GET.get('keyword'),
@@ -54,6 +56,10 @@ class LessonListView(ListView):
         keyword = self.request.GET.get('keyword')
 
         lessons = Lesson.objects.none()
+        if is_search == 'true':
+            is_search = True
+        else:
+            is_search = False
 
         if is_search:
             lessons = Lesson.objects.filter(
@@ -61,28 +67,36 @@ class LessonListView(ListView):
                 Q(coach__name__icontains=keyword) |
                 Q(academy__sport__name__icontains=keyword) |
                 Q(academy__name__icontains=keyword))
-        else :
-            if sport is None and region is None and \
-                    lesson_type is None and week_frequency is None:
-                lessons = Lesson.objects.all()
+        else:
+            lessons = Lesson.objects.all()
+            # lessons= Lesson.objects.none()
 
-            if sport is not None:
-                lessons = Lesson.objects.filter(sport=sport)
+            if sport is not None and sport is not '':
+                lessons = lessons.filter(academy__sport=int(sport))
 
-            if region is not None:
+            if region is not None and region is not '':
+                region = region.split(',')
+                tmp_lessons = Lesson.objects.none()
                 for r in map(int, region):
-                    tmp = Lesson.objects.filter(academy__small_district=r)
-                    lessons = lessons.union(tmp)
+                    tmp = lessons.filter(academy__small_district=r)
+                    tmp_lessons = tmp_lessons.union(tmp)
+                lessons = tmp_lessons
 
-            if lesson_type is not None:
+            if lesson_type is not None and lesson_type is not '':
+                lesson_type = lesson_type.split(',')
+                tmp_lessons = Lesson.objects.none()
                 for t in lesson_type:
-                    tmp = Lesson.objects.filter(lesson_type=t)
-                    lessons = lessons.union(tmp)
+                    tmp = lessons.filter(lesson_type=t)
+                    tmp_lessons = tmp_lessons.union(tmp)
+                lessons = tmp_lessons
 
-            if week_frequency is not None:
+            if week_frequency is not None and week_frequency is not '':
+                week_frequency = week_frequency.split(',')
+                tmp_lessons = Lesson.objects.none()
                 for wf in map(int, week_frequency):
-                    tmp = Lesson.objects.filter(week_frequency=wf)
-                    lessons.union(tmp)
+                    tmp = lessons.filter(week_frequency=wf)
+                    tmp_lessons = tmp_lessons.union(tmp)
+                lessons = tmp_lessons
 
             if lessons:
                 if order == "최신순":
@@ -92,9 +106,9 @@ class LessonListView(ListView):
                 elif order == "평점 높은 순":
                     lessons = lessons.order_by('-rating')
                 elif order == "가격 낮은 순":
-                    lessons = lessons.order_by('price')
+                    lessons = lessons.order_by('org_price')
                 elif order == "가격 높은 순":
-                    lessons = lessons.order_by('-price')
+                    lessons = lessons.order_by('-org_price')
                 else:
                     lessons = lessons.order_by('-likes_count')
         return lessons
@@ -116,5 +130,49 @@ class LikesTemplateView(TemplateView):
     template_name = 'user/likes.html'
 
 
-class UserCreateView(CreateView):
-    pass
+def user_create(request):
+    if request.method == 'POST':
+        user_form = UserForm(request.POST)
+        profile_form = ProfileForm(request.POST)
+        if user_form.is_valid() and profile_form.is_valid():
+            user = user_form.save()
+            profile = profile_form.save(commit=False)
+            profile.user = user
+            profile.save()
+            return redirect('login')
+        else:
+            ctx = {
+                'user_form_errors': user_form.errors,
+                'profile_form_errors': profile_form.errors,
+            }
+            return render(request, 'user/user_create_fail.html', ctx)
+    ctx = {
+        'user_form': UserForm(),
+        'profile_form': ProfileForm(),
+    }
+    return render(request, 'user/test_signup.html', ctx)
+
+
+class ProfileCreateView(CreateView):
+    model = Profile
+    success_url = '/'
+    form_class = ProfileForm
+    template_name = 'user/profile_form.html'
+
+    def post(self, request, *args, **kwargs):
+        profile_form = ProfileForm(request.POST)
+        if profile_form.is_valid():
+            profile = profile_form.save(commit=False)
+            profile.user = request.user
+            profile.save()
+            return redirect('index')
+        return render(request, 'user/user_create_fail.html', {
+            'profile_form_errors': profile_form.errors,
+        })
+
+
+@login_required
+def likes_list(request):
+    render('user/likes.html', {
+        'likes': request.user.likes,
+    })

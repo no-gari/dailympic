@@ -14,10 +14,14 @@ urlpatterns = [
     path('register/', RegistrationView.as_view(success_url='/'), name='django_registration_register'),
     # path('register/', RegistrationView.as_view(form_class=views.MyCustomUserForm, success_url='/'), name='django_registration_register'),
 
-    path('lesson_list/', views.LessonListView.as_view(), name='lesson_list'),
+    path('lesson/list/', views.LessonListView.as_view(), name='lesson_list'),
 
-    path('sport_list/', views.SportListView.as_view(), name='sport_list'),
-    path('lesson_detail/<int:pk>/', views.LessonDetailView.as_view(), name='lesson_detail'),
+    path('sport/list/', views.SportListView.as_view(), name='sport_list'),
+    path('lesson/detail/<int:pk>/', views.LessonDetailView.as_view(), name='lesson_detail'),
     # path('sport_detail/<int:pk>/', views.SportsDetailView.as_view(), name='sport_detail'),
     path('likes/', views.LikesTemplateView.as_view(), name='likes'),
+
+    path('user/create', views.user_create, name='user_create'),
+    # path('user/create/fail', views.user_create_fail, name='user_create_fail'),
+    path('profile/create', views.ProfileCreateView.as_view(), name='profile_create'),
 ]

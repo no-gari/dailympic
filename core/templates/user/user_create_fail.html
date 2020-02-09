@@ -1,0 +1,9 @@
+{% extends 'user/base.html' %}
+{% load staticfiles %}
+{% block base_extra_head %}
+{% endblock %}
+{% block maincontent %}
+    {{ user_form_errors }}
+    {{ profile_form_errors }}
+    <a href="{% url 'user_create' %}">다시 회원가입하기</a>
+{% endblock %}
