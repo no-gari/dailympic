@@ -31,19 +31,6 @@
                                     {% endif %}
                                 </div>
                             {% endfor %}
-{#                            {% for field in profile_form.visible_fields %}#}
-{#                                <div>#}
-{#                                    {% if profile_form %}#}
-{#                                        {% render_field field placeholder=field.label class='form-control' id=field.name %}#}
-{#                                        <label for="{{ field.name }}">{{ field.label }}</label>#}
-{#                                        {% if field.errors %}#}
-{#                                            {% for error in field.errors %}#}
-{#                                                <h6 style="color: red; font-weight: bold;">{{ error }}</h6>#}
-{#                                            {% endfor %}#}
-{#                                        {% endif %}#}
-{#                                    {% endif %}#}
-{#                                </div>#}
-                            {#                            {% endfor %}#}
                             <div class="form-label-group">
                                 <input type="text" id="PhoneNum" class="form-control" placeholder="핸드폰 번호" required>
                                 <label for="PhoneNum">핸드폰 번호</label>
