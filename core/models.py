@@ -14,7 +14,8 @@ class Profile(models.Model):
         related_name='profile'
     )
     image = models.ImageField(
-        default=None,null=True,blank=True,verbose_name='프로필 사진'
+        default=None,null=True,blank=True,verbose_name='프로필 사진',
+        upload_to='profile/%Y/%m/%d',
     )
     name = models.CharField(max_length=31, verbose_name='이름'),
     SEX_CHOICES = (
@@ -33,7 +34,10 @@ class Sport(models.Model):
     name = models.CharField(
         max_length=255, verbose_name='종목명',
     )
-    icon = models.ImageField(default=None, null=True, blank=True,)
+    icon = models.ImageField(
+        default=None, null=True, blank=True,
+        upload_to='sports/'
+    )
 
     class Meta:
         verbose_name = '종목'
@@ -76,6 +80,7 @@ class Academy(models.Model):
     name = models.CharField(max_length=255, verbose_name='업체명')
     profile_image = models.ImageField(
         default=None, null=True, blank=True,
+        upload_to='academy/%Y/%m/%d'
     )
     introduction = models.TextField(
         blank=True, null=True, verbose_name='업체 소개',
@@ -142,7 +147,9 @@ class Coach(models.Model):
     email = models.EmailField(verbose_name='코치 이메일', default=None, blank=True, null=True,)
     instagram = models.URLField(null=True, blank=True, default=None)
     facebook = models.URLField(null=True, blank=True, default=None)
-    image = models.ImageField(verbose_name='코치 사진', null=True, blank=True, upload_to='coach/')
+    image = models.ImageField(
+        verbose_name='코치 사진',
+        null=True, blank=True, upload_to='coach/%Y/%m/%d')
 
     class Meta:
         verbose_name = '코치'
@@ -216,7 +223,7 @@ class LessonImage(models.Model):
         Lesson,
         on_delete=models.CASCADE,
     )
-    image = models.ImageField()
+    image = models.ImageField(upload_to='lesson/%Y/%m/%d')
 
 
 class Review(models.Model):

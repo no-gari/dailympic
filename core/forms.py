@@ -9,7 +9,7 @@ class UserForm(UserCreationForm):
     error_messages = {
         'password_mismatch': '비밀번호가 일치하지 않습니다.',
     }
-    email = forms.EmailField()
+    username = forms.CharField(label='아이디')
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
