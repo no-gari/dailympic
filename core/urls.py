@@ -18,10 +18,9 @@ urlpatterns = [
 
     path('sport/list/', views.SportListView.as_view(), name='sport_list'),
     path('lesson/detail/<int:pk>/', views.LessonDetailView.as_view(), name='lesson_detail'),
-    # path('sport_detail/<int:pk>/', views.SportsDetailView.as_view(), name='sport_detail'),
     path('likes/', views.LikesTemplateView.as_view(), name='likes'),
 
-    path('user/create', views.user_create, name='user_create'),
-    # path('user/create/fail', views.user_create_fail, name='user_create_fail'),
-    path('profile/create', views.ProfileCreateView.as_view(), name='profile_create'),
+    path('user/create/', views.user_create, name='user_create'),
+    path('profile/create/', views.ProfileCreateView.as_view(), name='profile_create'),
+    path('lesson/like/', views.create_or_delete_like, name='lesson_like'),
 ]

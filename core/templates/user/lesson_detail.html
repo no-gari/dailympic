@@ -254,11 +254,12 @@
                 $(this).removeClass('fa-heart-o');
                 $(this).addClass('fa-heart');
                 $.ajax({
-                    method: "GET",
-                    url: "{% url 'lesson_detail' lesson.id %}",
-                    context: {
+                    method: "POST",
+                    url: "{% url 'lesson_like' %}",
+                    data: {
                         'lesson' : '{{ lesson.id }}',
-                        'preference' : 'like'
+                        'preference' : 'like',
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
                     }
                 }).done(function () {
                     alert('관심목록에 추가 되었습니다.');
@@ -267,11 +268,12 @@
                 $(this).addClass('fa-heart-o');
                 $(this).removeClass('fa-heart');
                 $.ajax({
-                    method: "GET",
-                    url: "{% url 'lesson_detail' lesson.id %}",
-                    context: {
+                    method: "POST",
+                    url: "{% url 'lesson_like' %}",
+                    data: {
                         'lesson' : '{{ lesson.id }}',
-                        'preference' : 'dislike'
+                        'preference' : 'dislike',
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
                     }
                 }).done(function () {
                     alert('관심목록에서 삭제 되었습니다.');
