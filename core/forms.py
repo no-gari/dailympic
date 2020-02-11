@@ -10,6 +10,13 @@ class UserForm(UserCreationForm):
         'password_mismatch': '비밀번호가 일치하지 않습니다.',
     }
     username = forms.CharField(label='아이디')
+    email = forms.EmailField(label='이메일')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['email'] = forms.EmailField(
+            label='이메일', required=True)
 
     def clean_email(self):
         email = self.cleaned_data.get('email')

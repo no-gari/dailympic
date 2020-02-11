@@ -254,7 +254,7 @@
                 $(this).removeClass('fa-heart-o');
                 $(this).addClass('fa-heart');
                 $.ajax({
-                    method: "GET",
+                    method: "POST",
                     url: "{% url 'lesson_detail' lesson.id %}",
                     context: {
                         'lesson' : '{{ lesson.id }}',

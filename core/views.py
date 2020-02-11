@@ -1,12 +1,16 @@
-from django.contrib import messages
+import json
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from django.shortcuts import render, redirect
-from django.views.generic import DetailView, ListView, TemplateView, CreateView
+from django.http import HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.http import require_POST
+from django.views.generic import (
+    DetailView, ListView, TemplateView, CreateView, DeleteView
+)
 import datetime as dt
 
 from core.forms import *
-from core.models import Lesson, Sport, BigDistrict
+from core.models import Lesson, Sport, BigDistrict, Like
 
 
 def login(request):
@@ -165,8 +169,29 @@ class ProfileCreateView(CreateView):
         })
 
 
+class LikeListView(ListView):
+    model = Like
+    template_name = 'user/likes.html'
+
+    def get_queryset(self):
+        qs = Like.objects.filter(liked_by=self.request.user)
+        return qs
+
+
 @login_required
-def likes_list(request):
-    render('user/likes.html', {
-        'likes': request.user.likes,
-    })
+@require_POST
+def create_or_delete_like(request):
+    lesson = get_object_or_404(Lesson, pk=request.POST.get('lesson'))
+    lesson_like, is_created = lesson.likes.get_or_create(
+        liked_by=request.user)
+
+    if is_created:
+        msg = "수업 찜하기 완료"
+    else :
+        lesson_like.delete()
+        msg = "수업 찜하기 취소"
+
+    ctx ={
+        'msg': msg,
+    }
+    return HttpResponse(json.dumps(ctx), content_type="application/json")
