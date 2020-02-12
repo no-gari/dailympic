@@ -224,14 +224,12 @@
                                 <h5 class="card-title">{{ lesson.title }}</h5>
                                 <p class="card-text">{{ lesson.description }}</p>
                                 <h5 class="card-title">{{ lesson.dc_price }}원 <small>{{ lesson.org_price }}원</small></h5>
-                                <p class="badge badge-success">New</p>
-                                <p class="badge badge-danger">HOT</p>
                             </div>
                         </div>
                     </a>
                 {% endfor %}
             {% else %}
-                <h1>조건을 만족하는 수업이 없습니다</h1>
+                <h5 class="mx-3">조건을 만족하는 수업이 없습니다</h5>
             {% endif %}
         </div>
     </section>
