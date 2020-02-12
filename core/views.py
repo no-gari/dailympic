@@ -140,10 +140,6 @@ class SportListView(ListView):
     template_name = 'user/sport_list.html'
 
 
-class LikesTemplateView(TemplateView):
-    template_name = 'user/likes.html'
-
-
 def user_create(request):
     user_form = UserForm(request.POST or None)
     profile_form = ProfileForm(request.POST or None)
@@ -179,13 +175,17 @@ class ProfileCreateView(CreateView):
         })
 
 
-class LikeListView(ListView):
-    model = Like
-    template_name = 'user/likes.html'
+class LikedLessonListView(ListView):
+    model = Lesson
+    template_name = 'user/liked_lesson_list.html'
+    context_object_name = 'lessons'
 
     def get_queryset(self):
-        qs = Like.objects.filter(liked_by=self.request.user)
-        return qs
+        likes = Like.objects.filter(liked_by=self.request.user)
+        lesson_pk_list = []
+        for like in likes:
+            lesson_pk_list.append(like.lesson.pk)
+        return Lesson.objects.filter(pk__in=lesson_pk_list)
 
 
 @login_required

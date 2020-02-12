@@ -18,7 +18,7 @@ urlpatterns = [
 
     path('sport/list/', views.SportListView.as_view(), name='sport_list'),
     path('lesson/detail/<int:pk>/', views.LessonDetailView.as_view(), name='lesson_detail'),
-    path('likes/', views.LikesTemplateView.as_view(), name='likes'),
+    path('lesson/list/liked', views.LikedLessonListView.as_view(), name='liked_lesson_list'),
 
     path('user/create/', views.user_create, name='user_create'),
     path('profile/create/', views.ProfileCreateView.as_view(), name='profile_create'),

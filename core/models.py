@@ -210,7 +210,7 @@ class Lesson(models.Model):
         verbose_name_plural = '레슨'
 
     def __str__(self):
-        return '['+str(self.academy.name)+'] ' + str(self.title)
+        return '('+str(self.id)+')['+str(self.academy.name)+'] ' + str(self.title)
 
     @register.filter(name='update_like_counter')
     def update_like_count(self, delta):
