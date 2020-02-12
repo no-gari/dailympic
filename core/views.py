@@ -144,10 +144,11 @@ class LessonDetailView(DetailView):
             wrong_info = WrongInfo.objects.create(phone_num=phone_num, content=content)
             wrong_info.save()
         except:
-            lesson, user, rates, comments = kwargs['pk'], request.user, int(request.POST['rates']), request.POST['comment']
+            lesson, user, rates, comments = kwargs['pk'], request.user, int(request.POST.get('rates', 0)), request.POST['comment']
             new_review = Review.objects.create(lesson_id=lesson, written_by=user, rating=rates, comment=comments)
             new_review.save()
         return super().get(self, request)
+
 
 class SportListView(ListView):
     model = Sport
