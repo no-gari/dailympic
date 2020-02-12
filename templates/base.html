@@ -13,11 +13,15 @@
     <style>
         body {font-family: 'Nanum Gothic', sans-serif !important;}
         .nav li a {font-weight: bold;}
+        #main_content {min-height: 56vh;}
         @media screen and (max-width: 766px) {
             nav a.navbar-brand{
                 position: absolute;
                 left: 50%;
                 transform: translateX(-50%);
+            }
+            #main_content {
+                min-height: 35vh;
             }
         }
         .search-container {	position: absolute; left: 0; top: 0; width: 100%; height: 100vh; background-color: rgba( 255, 255, 255, 0.9 ); z-index: 1000;}
@@ -61,7 +65,7 @@
     </div>
 {% endblock %}
 {% block bootstrap4_content %}
-    <div id="main_content" style="min-height: 45vh;" class="px-3">
+    <div id="main_content" class="px-3">
         {% block content %}
         {% endblock %}
         <div class="fixed-bottom w-100 text-center pb-5">
