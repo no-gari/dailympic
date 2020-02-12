@@ -12,7 +12,7 @@ from django.views.generic import (
 import datetime as dt
 
 from core.forms import *
-from core.models import Lesson, Sport, BigDistrict, Like
+from core.models import Lesson, Sport, BigDistrict, Like, Review, WrongInfo
 
 
 def index(request):
@@ -127,14 +127,25 @@ class LessonDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        this_user = self.request.user
-        likes = Like.objects.filter(liked_by=this_user, lesson=self.object).count()
-        if likes > 0:
-            context['likes'] = True
-        else:
-            context['likes'] = False
+        if self.request.user.is_authenticated:
+            this_user = self.request.user
+            likes = Like.objects.filter(liked_by=this_user, lesson=self.object).count()
+            if likes > 0:
+                context['likes'] = True
+            else:
+                context['likes'] = False
         return context
 
+    def post(self, request, *args, **kwargs):
+        try:
+            phone_num, content = request.POST['phone_num'], request.POST['content']
+            wrong_info = WrongInfo.objects.create(phone_num=phone_num, content=content)
+            wrong_info.save()
+        except:
+            lesson, user, rates, comments = kwargs['pk'], request.user, int(request.POST['rates']), request.POST['comment']
+            new_review = Review.objects.create(lesson_id=lesson, written_by=user, rating=rates, comment=comments)
+            new_review.save()
+        return super().get(self, request)
 
 class SportListView(ListView):
     model = Sport
