@@ -1,10 +1,10 @@
-{% extends 'base.html' %}
+{% extends 'user/base.html' %}
 {% load staticfiles %}
-{% block base_header %}
+{% block base_extra_head %}
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
 {% endblock %}
 {% block maincontent %}
-    <div class="container" style="background-image: url({% static 'img/paw_prints.png' %}); background-size: contain; background-repeat: no-repeat;">
+    <div class="container">
         <div class="row">
             <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
                 <div class="card card-signin my-5">
@@ -24,9 +24,9 @@
                             <div class="custom-control custom-checkbox mb-3">
                                 <input type="checkbox" class="custom-control-input" id="customCheck1">
                                 <label class="custom-control-label" for="customCheck1">아이디 저장하기</label>
-                                <span class="float-right"><a href="{% url 'django_registration_register' %}">회원가입하기</a></span>
+                                <span class="float-right"><a href="#">회원가입하기</a></span>
                             </div>
-                            <button class="btn btn-lg btn-cogi btn-block text-uppercase" type="submit">로그인</button>
+                            <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">로그인</button>
                             <hr class="my-4">
                             <div class="btn btn-lg btn-block text-uppercase" style="background-color: #03CF5D;"><a style="text-decoration: none; color: white; " href="{% url 'social:begin' 'naver' %}"><img src="{% static 'img/naver.png' %}" alt="" style="height: 20px; margin-right: 5px;">네이버 계정으로 로그인</a></div>
                             <div class="btn btn-lg btn-google btn-block text-uppercase"><a style="text-decoration: none; color: white;" href="{% url 'social:begin' 'google-oauth2' %}"><i class="fa fa-google mr-2"></i>구글 계정으로 로그인</a></div>

@@ -11,9 +11,14 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import json
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+with open(os.path.join(BASE_DIR, 'envs_dev.json'), 'rb') as json_file:
+    social_login_data = json.load(json_file)
 
 
 # Quick-start development settings - unsuitable for production
@@ -25,7 +30,7 @@ SECRET_KEY = 'k5nm)em%(o5h85&l3zva341_k7eeinys(+gi33af(3x@7drzlk'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 # Application definition
 
@@ -48,13 +53,22 @@ INSTALLED_APPS = [
     'django_filters',
     'simple_history',
 
+    # social_django
+    # 'social_django',
+
     #allauth
+    'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.naver',
+    'allauth.socialaccount.providers.facebook',
 
-    #provider
-    'allauth.socialaccount.providers.google'
+    #registration
+    'django_registration',
+
+    'sslserver',
 ]
 
 MIDDLEWARE = [
@@ -73,7 +87,10 @@ ROOT_URLCONF = 'dailympic.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'core/templates'), os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'core/templates'),
+                 os.path.join(BASE_DIR, 'templates'),
+                 os.path.join(BASE_DIR, 'core/errorpages'),
+                 ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -81,6 +98,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -130,7 +150,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -138,8 +158,6 @@ USE_TZ = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles/")
 STATIC_URL = '/static/'
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -152,10 +170,28 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 SUMMERNOTE_CONFIG = {'attachment_model': 'board.Summernote',}
 
 #social login
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
-)
+# AUTHENTICATION_BACKENDS = [
+#     # 'social_core.backends.google.GoogleOAuth2', # Google
+#     # 'social_core.backends.facebook.FacebookOAuth2', # Facebook
+#     # 'social_core.backends.naver.NaverOAuth2', #Naver
+#
+#     'django.contrib.auth.backends.ModelBackend', # Django 기본 유저모델
+#     'allauth.account.auth_backends.AuthenticationBackend',
+# ]
 
 SITE_ID = 1
+# SOCIAL_AUTH_URL_NAMESPACE = 'social'
 LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
+# list the info of providers in settings.py
+# or make an instance of social application in admin page
+# SOCIALACCOUNT_PROVIDERS = {
+#     'google': {
+#         'APP':{
+#             'client_id': '123',
+#             'secret': '456',
+#             'key': ''
+#         }
+#     }
+# }

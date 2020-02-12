@@ -1,0 +1,364 @@
+{% extends 'user/base.html' %}
+{% load staticfiles %}
+{% block base_extra_head %}
+    <style>
+        .w-25 { font-weight: bold; height: 30px;border: white 1px solid;background-color: #E2F0D9;padding-left: 10px;padding-right: 10px;margin-right: 5px; display: inline-block;}
+        #filter_details {padding-left: 10px;padding-right: 10px;}
+        .region_detail_hidden {width: 100%;display: none;z-index: 50;position: absolute;top: 86px;display: none;background-color: #E2F0D9;}
+        .table2 {display: none;}
+        .region_detail_hidden_inner {position: relative;width: 100%;}
+        .region_detail_hidden_inner > .container {padding: 15px 15px;}
+        .lesson_form_title {margin-top: 12px;}
+        .lesson_form_body {padding-top: 5px;}
+        .lesson_form_contents {background-color: #F4F3D9;padding: 5px 5px;margin-right: 5px;}
+        #region_indicator {width: 100%;min-height: 15px;}
+        .badge-dailympic {background-color: #A9D18E;color: white;margin: 4px 7px;padding: 5px 5px 5px 5px;}
+        .active {background-color: #A9D18E;}
+        .lesson_form_title {font-weight: bold;}
+        .list-group-item a {text-decoration: none;color: black;}
+    </style>
+{% endblock %}
+{% block maincontent %}
+{#    <div class="d-flex ml-3 mt-1" data-toggle="collapse" data-target="#sports_lists" aria-expanded="false" aria-controls="sports_lists" id="sports_lists_button">#}
+{#        <h4 class="sports_name" style="font-weight: bold;">펜싱</h4>#}
+{#        <i style="font-size: 33px;" class="fa fa-angle-down"></i>#}
+{#    </div>#}
+{#    <div class="collapse" id="sports_lists">#}
+{#        <ul class="list-group">#}
+{#            {% for sport in sports %}#}
+{#                <li class="list-group-item"><a href="/lesson_list/?sport={{ sport.id }}">펜싱</a></li>#}
+{#            {% endfor %}#}
+{#        </ul>#}
+{#    </div>#}
+    <div>
+        <div id="filter_details" class="d-flex text-center">
+            <div class="w-25" id="sports_lists">종목</div>
+            <div class="w-25" id="region_detail">지역</div>
+            <div class="w-25" id="lesson_form">수업형태</div>
+            <div class="w-25" id="lesson_form_detail">정렬</div>
+        </div>
+    </div>
+{#    <div class="p-0 px-3 w-100">#}
+{#        <button class="btn btn-block btn-success btn-sm float-right my-1 filter_button pt-0 m-0" type="button" style="font-weight: bold;">검색</button>#}
+{#    </div>#}
+
+    <div class="region_detail_hidden sports_lists_hidden">
+        <form class="region_detail_hidden_inner">
+            <div class="container">
+                <div class="lesson_form_title">
+                    스포츠 목록
+                </div>
+                <div class="lesson_form_body d-flex">
+                    {% for sport in sports %}
+                        <div class="lesson_form_contents lesson_form_contents_detail">
+                            <input type="hidden" value="{{ sport.id }}">
+                            {{ sport.name }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div>
+                <button class="btn btn-block btn-success btn-sm float-right my-1 filter_button" type="button">검색하기</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="region_detail_hidden region_detail_hidden1">
+        <form class="region_detail_hidden_inner" id="region_detail_hidden_inner">
+            <div class="d-flex">
+                <div style="width: 50%;">
+                    <table class="table table1">
+                        {% for b_district in districts %}
+                            <tr>
+                                <td>{{ b_district.name }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                <div style="width: 50%;">
+                    {% for b_districts in districts %}
+                    <table class="table table2">
+                        {% for small_district in b_districts.small_districts.all %}
+                            <tr>
+                                <input type="hidden" value="{{ small_district.id }}">
+                                <td>{{ small_district.name }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                    {% endfor %}
+                </div>
+            </div>
+            <div>
+                <button class="btn btn-block btn-success btn-sm float-right my-1 filter_button" type="button">검색하기</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="region_detail_hidden lesson_form_hidden">
+        <form class="region_detail_hidden_inner" id="lesson_form_hidden_inner">
+            <div class="container">
+                <div class="lesson_form_title">
+                    체험형
+                </div>
+                <div class="lesson_form_body d-flex">
+                    <div class="lesson_form_contents">
+                        <input type="hidden" value="ONE_DAY">
+                        원데이 클래스
+                    </div>
+                </div>
+                <div class="lesson_form_title">
+                    레슨형
+                </div>
+                <div class="lesson_form_body row pl-3">
+                    <div class="lesson_form_contents">
+                        <input type="hidden" value="ONE_POINT">
+                        원포인트 레슨
+                    </div>
+                    <div class="lesson_form_contents">
+                        <input type="hidden" value="SHORT_TERM">
+                        단기간 레슨
+                    </div>
+                    <div class="lesson_form_contents">
+                        <input type="hidden" value="LONG_TERM">
+                        장기간 레슨
+                    </div>
+                    <div class="lesson_form_contents mt-2">
+                        <input type="hidden" value="SMALL_GROUP">
+                        소규모 그룹 레슨
+                    </div>
+                    <div class="lesson_form_contents mt-2">
+                        <input type="hidden" value="LARGE_GROUP">
+                        대규모 그룹 레슨
+                    </div>
+                    <div class="lesson_form_contents mt-2">
+                        <input type="hidden" value="ONE_TO_ONE">
+                        1:1 레슨
+                    </div>
+                </div>
+                <div class="lesson_form_title">
+                    횟수
+                </div>
+                <div class="lesson_form_body d-flex">
+                    <div class="lesson_form_contents">
+                        <input type="hidden" value="1">
+                        주1회
+                    </div>
+                    <div class="lesson_form_contents">
+                        <input type="hidden" value="2">
+                        주2회
+                    </div>
+                    <div class="lesson_form_contents">
+                        <input type="hidden" value="3">
+                        주3회
+                    </div>
+                    <div class="lesson_form_contents">
+                        <input type="hidden" value="4">
+                        주4회
+                    </div>
+                    <div class="lesson_form_contents">
+                        <input type="hidden" value="5">
+                        주5회
+                    </div>
+                    <div class="lesson_form_contents">
+                        <input type="hidden" value="6">
+                        그 이상
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button class="btn btn-block btn-success btn-sm float-right my-1 filter_button" type="button">검색하기</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="region_detail_hidden lesson_form_detail_hidden">
+        <form class="region_detail_hidden_inner">
+            <div class="container">
+                <div class="lesson_form_title">
+                    정렬
+                </div>
+                <div class="lesson_form_body d-flex">
+                    <div class="lesson_form_contents lesson_form_contents_detail">
+                        추천순
+                    </div>
+                    <div class="lesson_form_contents lesson_form_contents_detail">
+                        최신순
+                    </div>
+                </div>
+                <div class="lesson_form_title">
+                    가격
+                </div>
+                <div class="lesson_form_body d-flex">
+                    <div class="lesson_form_contents lesson_form_contents_detail">
+                        가격 낮은 순
+                    </div>
+                    <div class="lesson_form_contents lesson_form_contents_detail">
+                        가격 높은 순
+                    </div>
+                </div>
+                <div class="lesson_form_title">
+                    평점
+                </div>
+                <div class="lesson_form_body d-flex">
+                    <div class="lesson_form_contents lesson_form_contents_detail">
+                        평점 낮은 순
+                    </div>
+                    <div class="lesson_form_contents lesson_form_contents_detail">
+                        평점 높은 순
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button class="btn btn-block btn-success btn-sm float-right my-1 filter_button" type="button">검색하기</button>
+            </div>
+        </form>
+    </div>
+    <section class="w-100 my-3">
+        <div class="row w-100 mx-0 px-2">
+            {% if lessons %}
+                {% for lesson in lessons %}
+                    <a href="{% url 'lesson_detail' lesson.id %}" class="card col-lg-4 col-md-6 col-sm-6 col-6" style="text-decoration: none; color: black;">
+                        <div>
+                            <img src="{{ lesson.lessonimage_set.first.image.url }}" class="card-img-top" alt="..">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ lesson.title }}</h5>
+                                <p class="card-text">{{ lesson.description }}</p>
+                                <h5 class="card-title">{{ lesson.dc_price }}원 <small>{{ lesson.org_price }}원</small></h5>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            {% else %}
+                <h5 class="mx-3">조건을 만족하는 수업이 없습니다</h5>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}
+{% block base_extra_script %}
+    <script>
+        $(document).ready(function () {
+            $('.table2 tr').on('click', function () {
+                if ($(this).hasClass('active')) {
+                    $(this).removeClass('active');
+                    return false;
+                }
+                $(this).addClass('active');
+            });
+            $('.table1 tr').on('click', function () {
+                try {
+                    $(this).siblings('tr').removeClass('active')
+                    $(this).addClass('active');
+                } catch {
+                    $(this).addClass('active');
+                }
+                $('.table2').hide();
+                var idx = $(".table1 tr").index(this);
+                $('.table2').eq(idx).show();
+            });
+
+            $('#sports_lists').on('click', function () {
+                if ($(this).siblings().hasClass('active')) {
+                    $(this).siblings().removeClass('active');
+                    $('.region_detail_hidden').hide();
+                }
+                if ($(this).hasClass('active')) {
+                    $(this).removeClass('active');
+                    $('.sports_lists_hidden').fadeOut(200);
+                    return false;
+                }
+                $('.sports_lists_hidden').fadeIn(200);
+                $(this).addClass('active');
+            });
+
+            $('#region_detail').on('click', function () {
+                if ($(this).siblings().hasClass('active')) {
+                    $(this).siblings().removeClass('active');
+                    $('.region_detail_hidden').hide();
+                }
+                if ($(this).hasClass('active')) {
+                    $(this).removeClass('active');
+                    $('.region_detail_hidden1').fadeOut(200);
+                    return false;
+                }
+                $('.region_detail_hidden1').fadeIn(200);
+                $(this).addClass('active');
+            });
+
+            $('#lesson_form').on('click', function () {
+                if ($(this).siblings().hasClass('active')) {
+                    $(this).siblings().removeClass('active');
+                    $('.region_detail_hidden').hide();
+                }
+                if ($(this).hasClass('active')) {
+                    $(this).removeClass('active');
+                    $('.lesson_form_hidden').fadeOut(200);
+                    return false;
+                }
+                $('.lesson_form_hidden').fadeIn(200);
+                $(this).addClass('active');
+            });
+
+            $('#lesson_form_detail').on('click', function () {
+                if ($(this).siblings().hasClass('active')) {
+                    $(this).siblings().removeClass('active');
+                    $('.region_detail_hidden').hide();
+                }
+                if ($(this).hasClass('active')) {
+                    $(this).removeClass('active');
+                    $('.lesson_form_detail_hidden').fadeOut(200);
+                    return false;
+                }
+                $('.lesson_form_detail_hidden').fadeIn(200);
+                $(this).addClass('active');
+            });
+
+            $('.lesson_form_contents').on('click', function () {
+                if ($(this).hasClass('active')) {
+                    $(this).removeClass('active');
+                } else {
+                    if ($('.lesson_form_contents_detail').hasClass('active')) {
+                        $('.lesson_form_contents_detail').removeClass('active');
+                    }
+                    $(this).addClass('active');
+                }
+            });
+
+            setTimeout(function () {
+                $('.table1 tr').first().click();
+            }, 200);
+        });
+
+        $(".filter_button").click(function () {
+            var region = [];
+            var type = [];
+            var order = [];
+            var week_frequency = [];
+            var sport = [];
+            $('.sports_lists_hidden .active').each(function () {
+                    var sports = $(this).find('input').val();
+                    sport.push(sports);
+                }
+            );
+            $('#region_detail_hidden_inner .table2 .active').each(function () {
+                    var regions = $(this).find('input').val();
+                    region.push(regions);
+                }
+            );
+            $('#lesson_form_hidden_inner .lesson_form_body .active').each(function () {
+                    var types = $(this).find('input').val();
+                    if (types == '1' || types == '2' || types == '3' || types == '4' || types == '5' || types == '6') {
+                        week_frequency.push(types)
+                    } else {
+                        type.push(types);
+                    }
+                }
+            );
+            $('.lesson_form_detail_hidden .active').each(function () {
+                    var orders = $(this).html().trim();
+                    order.push(orders);
+                }
+            );
+            $.queue($('#hidden_is_search').val(false).queue($('#hidden_region').val(region)).queue($('#hidden_type').val(type)).queue($('#hidden_sports_lists').val(sport)).queue($('#hidden_order').val(order)).queue($('#hidden_week_frequency').val(week_frequency)).queue($('#hidden_form').submit()))
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'user/base.html' %}
+{% load staticfiles %}
+{% block base_extra_head %}
+
+{% endblock %}
+{% block maincontent %}
+    <h5 class="my-3 px-3" style="font-weight: bold; color: #699A3C;">관심 목록</h5>
+
+    <div class="row w-100 mx-0 px-2">
+        {% if lessons %}
+            {% for lesson in lessons %}
+                <a href="{% url 'lesson_detail' lesson.id %}" class="card col-lg-4 col-md-6 col-sm-6 col-6" style="text-decoration: none; color: black;">
+                    <div>
+                        <img src="{{ lesson.lessonimage_set.first.image.url }}" class="card-img-top" alt="..">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ lesson.title }}</h5>
+                            <p class="card-text">{{ lesson.description }}</p>
+                            <h5 class="card-title">{{ lesson.dc_price }}원 <small>{{ lesson.org_price }}원</small></h5>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        {% else %}
+            <h5 class="mx-3">관심 목록이 비었습니다.</h5>
+        {% endif %}
+    </div>
+
+{% endblock %}
+{% block base_extra_script %}
+
+{% endblock %}
