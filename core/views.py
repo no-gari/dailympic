@@ -1,7 +1,6 @@
 import json
-
-from allauth.account.views import LoginView
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -13,6 +12,10 @@ import datetime as dt
 
 from core.forms import *
 from core.models import Lesson, Sport, BigDistrict, Like, Review, WrongInfo
+
+
+class CustomizedLoginView(LoginView):
+    form_class = CustomizedAuthenticationForm
 
 
 def index(request):
@@ -141,11 +144,13 @@ class LessonDetailView(DetailView):
             phone_num, content = request.POST['phone_num'], request.POST['content']
             wrong_info = WrongInfo.objects.create(phone_num=phone_num, content=content)
             wrong_info.save()
-        except:
+        except :
             lesson, user, rates, comments = kwargs['pk'], request.user, int(request.POST['rates']), request.POST['comment']
             new_review = Review.objects.create(lesson_id=lesson, written_by=user, rating=rates, comment=comments)
             new_review.save()
+        # except MultiDict
         return super().get(self, request)
+
 
 class SportListView(ListView):
     model = Sport
