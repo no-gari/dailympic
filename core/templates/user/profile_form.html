@@ -1,15 +1,62 @@
 {% extends 'user/base.html' %}
 {% load staticfiles %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+{% load bootstrap4 %}
 {% block base_extra_head %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" />
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/3.0.0/js/bootstrap-datetimepicker.min.js"></script>
 {% endblock %}
 {% block maincontent %}
-    {% if request.user and request.user.proifle %}
-        <form method='POST'>
-            {% csrf_token %}
-            {{ form.as_p }}
-        <button class="btn" type='submit'>추가정보 입력 완료</button>
-    {% else %}
-        <p>잘못된 접근입니다.</p>
-        <a href="{% url 'index' %}">메인으로 돌아가기</a>
-    {% endif %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                <form class="card card-signin my-5" method="post">
+                    {% csrf_token %}
+                    <div class="card-body">
+                        <h5 class="card-title text-center">필수정보</h5>
+                        <div class="form-signin">
+                            <div class="form-label-group">
+                                <input type="text" id="PhoneNum" class="form-control" placeholder="핸드폰 번호" required>
+                                <label for="PhoneNum">핸드폰 번호</label>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 col-6 col-md-6">
+                                    <label for="Gender">성별</label>
+                                    <select id="Gender" class="form-control" name="sex">
+                                        <option value="M">남자</option>
+                                        <option value="W">여자</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-6 col-6 col-md-6">
+                                    <label for="Birthday">생년월일</label>
+                                    <div class="form-group date" id="Birthday">
+                                        <div class='input-group date input-group-addon input-group-append' id='datetimepicker1' data-target="#datetimepicker1" data-toggle="datetimepickerv">
+                                            <input name="birthday" type='date' class="form-control bootstrap-datetimepicker-widget" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <input type="file" id="profile" class="form-control" name="image" placeholder="프로필 사진">
+                                <label for="PhoneNum">프로필 사진(선택사항)</label>
+                            </div>
+                            <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">회원가입</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+      $(function () {
+        $("#birthday").datetimepicker();
+      });
+    </script>
+
 {% endblock %}
