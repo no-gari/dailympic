@@ -248,3 +248,8 @@ class Like (models.Model):
         Lesson,
         on_delete=models.CASCADE, related_name='likes',
     )
+
+
+class WrongInfo (models.Model):
+    phone_num = models.CharField(max_length=255)
+    content = models.TextField()

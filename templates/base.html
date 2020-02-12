@@ -38,7 +38,7 @@
             <div class="collapse navbar-collapse"
                  id="navcol-1">
                 <ul class="nav navbar-nav ml-auto">
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="#">레슨</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'lesson_list' %}">레슨</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link" href="/community/notice">공지사항</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link" href="/community/FAQ">자주 묻는 질문</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link" href="/community/customer">고객센터</a></li>
@@ -48,7 +48,8 @@
                         <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'login' %}">로그인</a></li>
                         <li class="nav-item" role="presentation"><a class="nav-link" href="#">회원가입</a></li>
                     {% else %}
-                        <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'likes' %}">관심목록</a></li>
+                        <li class="nav-item" role="presentation"><span class="nav-link">안녕하세요 {{ request.user.username }} 님</span></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'liked_lesson_list' %}">관심목록</a></li>
                         <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'logout' %}">로그아웃</a></li>
                     {% endif %}
                 </ul>
@@ -84,21 +85,27 @@
                         <ul>
                             <li><a href="#">이용약관</a></li>
                             <li><a href="#">개인정보 처리방침</a></li>
-                            <li><a href="#">개인 문의</a></li>
+                            <li><a href="javascript:void chatChannel()">개인 문의</a></li>
                         </ul>
                     </div>
+                    <div class="col-6 col-sm-6 col-md-3 item">
                     <div class="col-6 col-sm-6 col-md-3 item">
                         <h3>About</h3>
                         <ul>
                             <li><a href="#">Dailympic Teams</a></li>
-                            <li><a href="#">FAQ/자주하는 질문</a></li>
+                            <li><a href="/community/FAQ">FAQ/자주하는 질문</a></li>
                         </ul>
                     </div>
                     <div class="col-md-6 item text">
                         <h3>Dailympic</h3>
                         <p>데일림픽 어쩌구 저쩌구</p>
                     </div>
-                    <div class="col item social"><a href="#"><i class="icon ion-social-facebook"></i></a><a href="#"><i class="icon ion-ios-email-outline"></i></a><a href="#"><i class="icon ion-social-instagram-outline"></i></a></div>
+                    <div class="col item social">
+                        <a href="//www.facebook.com/dailympic"><i class="icon ion-social-facebook"></i></a>
+                        <a onclick="location.href='mailto:dailympic@gmail.com'"><i class="icon ion-ios-email-outline"></i></a>
+                        <a onclick="location.href='tel:0507-1328-4969'"><i class="fa fa-phone"></i></a>
+                        <a href="//www.instagram.com/dailympic"><i class="icon ion-social-instagram-outline"></i></a>
+                    </div>
                 </div>
                 <p class="copyright">Dailympic © 2020</p>
             </div>
@@ -148,7 +155,12 @@
                 container: '#kakao-talk-channel-chat-button',
                 channelPublicId: '_xkQLMxb'
             });
-    });
+            function chatChannel() {
+                Kakao.Channel.chat({
+                    channelPublicId: '_xkQLMxb'
+                });
+            }
+        });
     </script>
     {% block base_extra_script %}
     {% endblock %}
