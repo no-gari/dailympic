@@ -123,6 +123,16 @@ class LessonDetailView(DetailView):
     context_object_name = 'lesson'
     template_name = 'user/lesson_detail.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        this_user = self.request.user
+        likes = Like.objects.filter(liked_by=this_user, lesson=self.object).count()
+        if likes > 0:
+            context['likes'] = True
+        else:
+            context['likes'] = False
+        return context
+
 
 class SportListView(ListView):
     model = Sport

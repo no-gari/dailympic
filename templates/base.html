@@ -44,6 +44,7 @@
                         <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'login' %}">로그인</a></li>
                         <li class="nav-item" role="presentation"><a class="nav-link" href="#">회원가입</a></li>
                     {% else %}
+                        <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'likes' %}">관심목록</a></li>
                         <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'logout' %}">로그아웃</a></li>
                     {% endif %}
                 </ul>
@@ -55,7 +56,7 @@
         <div class="search-box text-center w-100 px-2 d-flex">
             <i style="font-size: 33px;" class="fa fa-angle-left mt-2 mr-2" id="main_search_button_close"></i>
             <input type="text" class="w-100 form-control" style="margin-top: 10px;" value="" id="search_bar_input" placeholder="지역, 종목 등을 검색하세요"/>
-            <button type="button" style="margin-top: 5px; font-size: 30px; border: none; background-color: rgba(255,255,255,0);"><i class="fa fa-search d-block d-md-none ml-1" style="cursor: pointer;" id="search_button"></i></button>
+            <button type="button" class="fa fa-search d-block d-md-none ml-1" id="search_button" style="margin-top: 5px; font-size: 30px; border: none; background-color: rgba(255,255,255,0);"></button>
         </div>
     </div>
 {% endblock %}
@@ -63,6 +64,10 @@
     <div id="main_content" style="min-height: 45vh;" class="px-3">
         {% block content %}
         {% endblock %}
+        <div class="fixed-bottom w-100 text-center pb-5">
+            <a href="kakaoplus://plusfriend/home/{데일림픽}" id="kakao-talk-channel-chat-button"></a>
+{#            <h4 id="inquiry" class="p-2" style="cursor: pointer; display: inline-block; background-color: #699A3C; color: white; font-weight: bold;">문의하기</h4>#}
+        </div>
     </div>
 {% endblock %}
 {% block bootstrap4_after_content %}
@@ -107,6 +112,7 @@
 {% endblock %}
 
 {% block bootstrap4_extra_script %}
+    <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
@@ -119,17 +125,26 @@
             $('#main_search_button_close').on('click', function(){
                 $('.search-container').fadeOut(500);
             });
-            $("#search_button").click(function () {
+            $("#search_button").on('click', function () {
                 var keywords = $('#search_bar_input').val().trim();
-                $.queue($('#hidden_is_search').val(true).queue($('#hidden_keyword').val(keywords)).queue($('#hidden_form').submit()))
+                $('#hidden_is_search').val(true);
+                $('#hidden_keyword').val(keywords);
+                $('#hidden_form').submit();
             });
-            $("#search_bar_input").keydown(function (key) {
+            $("#search_bar_input").on('keydown', function (key) {
                 if (key.keyCode == 13) {
                     var keywords = $('#search_bar_input').val().trim();
-                    $.queue($('#hidden_is_search').val(true).queue($('#hidden_keyword').val(keywords)).queue($('#hidden_form').submit()))
+                    $('#hidden_is_search').val(true);
+                    $('#hidden_keyword').val(keywords);
+                    $('#hidden_form').submit();
                 }
             });
-        });
+            Kakao.init('5248321500b186772dfa8d504b679f24');
+            Kakao.Channel.createChatButton({
+                container: '#kakao-talk-channel-chat-button',
+                channelPublicId: '_xkQLMxb'
+            });
+    });
     </script>
     {% block base_extra_script %}
     {% endblock %}

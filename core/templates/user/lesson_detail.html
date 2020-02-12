@@ -16,167 +16,184 @@
     </style>
 {% endblock %}
 {% block maincontent %}
-<div>
-    <div id="class_info" class="class_info" style="width: 100%;">
-        <a href="#overview">Overview</a>|
-        <a href="#coach">코치</a>|
-        <a href="#program-detail">상세 소개</a>|
-        <a href="#company">Contact</a>
-    </div>
-    <div class="swiper-container" id="swiper">
-        <div class="swiper-wrapper">
-            {% for images in lesson.lessonimage_set.all %}
-                <div class="swiper-slide"><a href=""><img src="{{ images.image.url }}" alt="" class="img-fluid"></a></div>
-            {% endfor %}
+    <div>
+        <div id="class_info" class="class_info" style="width: 100%;">
+            <a href="#overview">Overview</a>|
+            <a href="#coach">코치</a>|
+            <a href="#program-detail">상세 소개</a>|
+            <a href="#company">Contact</a>
         </div>
-        <!-- Add Arrows -->
-        <div class="swiper-button-next" style="color: #699A3C;"></div>
-        <div class="swiper-button-prev" style="color: #699A3C;"></div>
-        <!-- Add Pagination -->
-        <div class="swiper-pagination"></div>
-    </div>
-    <div id="share_button" class="d-flex" style="position: absolute; top: 100px; right: 10px; z-index: 10000;">
-        <button id = "ShareUrl" type="button" style="border: none; background-color: rgba(0,0,0,0);" onclick="copyUrl()">
-            <input type="text" value="" id="myInput">
-            <i class="fa fa-share mr-2" style="font-size: 25px;"></i>
-        </button>
-        <i class="fa fa-heart-o mr-1" style="font-size: 25px;" id="heart-icon"></i>
-    </div>
-    <div id="overview">
-        <h5 class="lesson_title">Overview</h5>
-        <div class="d-flex">
-            <div style="width: 30%;" class="p-3">
-                {% if lesson.academy.profile_image %}
-                    <img src="{{ lesson.academy.profile_image.url }}" alt="" class="img-fluid">
-                {% else %}
-                    <span style="mt-3">이미지 준비중입니다</span>
-                {% endif %}
+        <div class="swiper-container" id="swiper">
+            <div class="swiper-wrapper">
+                {% for images in lesson.lessonimage_set.all %}
+                    <div class="swiper-slide"><a href=""><img src="{{ images.image.url }}" alt="" class="img-fluid"></a></div>
+                {% endfor %}
             </div>
-            <div style="width: 70%;">
-                <div style="width: 100%; padding-left: 20px; padding-right: 20px; background-color: #E2F0D9;">
-                    <span>"</span><span>{{ lesson.introduction }}</span><span>"</span>
-                </div>
-                <div>
-                    <div class="title d-flex">
-                        <div style="width: 30%; font-weight: bold;">
-                            주종
-                        </div>
-                        <div style="width: 70%;">
-                            <span>{{ lesson.academy.sport.name }}</span>
-                        </div>
-                    </div>
-                    <div class="title d-flex">
-                        <div style="width: 30%; font-weight: bold;">
-                            프로그램
-                        </div>
-                        <div style="width: 70%;">
-                            <span>{{ lesson.get_lesson_type_display }}</span>
-                        </div>
-                    </div>
-                    <div class="title d-flex">
-                        <div style="width: 30%; font-weight: bold;">
-                            위치
-                        </div>
-                        <div style="width: 70%;">
-                            <span>{{ lesson.academy.address }}</span>
-                        </div>
-                    </div>
-                    <div class="title d-flex">
-                        <div style="width: 30%; font-weight: bold;">
-                            가격
-                        </div>
-                        <div style="width: 70%;">
-                            <span>{{ lesson.dc_price }}원 </span><small style="text-decoration: line-through;">{{ lesson.org_price }}원</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <!-- Add Arrows -->
+            <div class="swiper-button-next" style="color: #699A3C;"></div>
+            <div class="swiper-button-prev" style="color: #699A3C;"></div>
+            <!-- Add Pagination -->
+            <div class="swiper-pagination"></div>
         </div>
-    </div>
-    <hr>
-    <div id="coach">
-        <h5 class="lesson_title">Coach</h5>
-        <div class="d-flex">
-            <div style="width: 30%;" class="p-3">
-                {% if lesson.coach.image %}
-                    <img src="{{ lesson.coach.image.url }}" alt="" class="img-fluid">
-                {% else %}
-                    이미지 준비중입니다
-                {% endif %}
-            </div>
-            <div style="width: 70%;" class="px-2">
-                <div style="width: 100%;">
-                    <span style="font-weight: bold; color: deepskyblue; font-size: 20px;">박상영</span><span> 코치</span>
-                </div>
-                <div>
-                    <div style="font-weight: bold;">경력</div>
-                    {% if lesson.coach.career %}
-                        <div>{{ lesson.coach.career|safe }}</div>
+        <div id="share_button" class="d-flex" style="position: absolute; top: 100px; right: 10px; z-index: 10000;">
+            <button id = "ShareUrl" type="button" style="border: none; background-color: rgba(0,0,0,0);" onclick="copyUrl()">
+                <input type="text" value="" id="myInput">
+                <i class="fa fa-share mr-2" style="font-size: 25px;"></i>
+            </button>
+            <i class="fa {% if likes == False %}fa-heart-o{% else %}fa-heart{% endif %} mr-1" style="font-size: 25px;" id="heart-icon"></i>
+        </div>
+        <div id="overview">
+            <h5 class="lesson_title">Overview</h5>
+            <div class="d-flex">
+                <div style="width: 30%;" class="p-3">
+                    {% if lesson.academy.profile_image %}
+                        <img src="{{ lesson.academy.profile_image.url }}" alt="" class="img-fluid">
                     {% else %}
-                        <div>등록된 경력이 없습니다</div>
+                        <span class="mt-3">이미지 준비중입니다</span>
                     {% endif %}
                 </div>
+                <div style="width: 70%;">
+                    <div style="width: 100%; padding-left: 20px; padding-right: 20px; background-color: #E2F0D9;">
+                        <span>"</span><span>{{ lesson.introduction }}</span><span>"</span>
+                    </div>
+                    <div>
+                        <div class="title d-flex">
+                            <div style="width: 30%; font-weight: bold;">
+                                주종
+                            </div>
+                            <div style="width: 70%;">
+                                <span>{{ lesson.academy.sport.name }}</span>
+                            </div>
+                        </div>
+                        <div class="title d-flex">
+                            <div style="width: 30%; font-weight: bold;">
+                                프로그램
+                            </div>
+                            <div style="width: 70%;">
+                                <span>{{ lesson.get_lesson_type_display }}</span>
+                            </div>
+                        </div>
+                        <div class="title d-flex">
+                            <div style="width: 30%; font-weight: bold;">
+                                위치
+                            </div>
+                            <div style="width: 70%;">
+                                <span>{{ lesson.academy.address }}</span>
+                            </div>
+                        </div>
+                        <div class="title d-flex">
+                            <div style="width: 30%; font-weight: bold;">
+                                가격
+                            </div>
+                            <div style="width: 70%;">
+                                <span>{{ lesson.dc_price }}원 </span><small style="text-decoration: line-through;">{{ lesson.org_price }}원</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="px-3">
-            <div style="font-weight: bold;">자기소개</div>
-            <div>
-                {{ lesson.coach.introduction }}
+        <hr>
+        <div id="coach">
+            <h5 class="lesson_title">Coach</h5>
+            <div class="d-flex">
+                <div style="width: 30%;" class="p-3">
+                    {% if lesson.coach.image %}
+                        <img src="{{ lesson.coach.image.url }}" alt="" class="img-fluid">
+                    {% else %}
+                        이미지 준비중입니다
+                    {% endif %}
+                </div>
+                <div style="width: 70%;" class="px-2">
+                    <div style="width: 100%;">
+                        <span style="font-weight: bold; color: deepskyblue; font-size: 20px;">박상영</span><span> 코치</span>
+                    </div>
+                    <div>
+                        <div style="font-weight: bold;">경력</div>
+                        {% if lesson.coach.career %}
+                            <div>{{ lesson.coach.career|safe }}</div>
+                        {% else %}
+                            <div>등록된 경력이 없습니다</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="px-3">
+                <div style="font-weight: bold;">자기소개</div>
+                <div>
+                    {{ lesson.coach.introduction }}
+                </div>
             </div>
         </div>
+        <hr>
+        <div id="program-detail">
+            <h5 class="lesson_title">프로그램</h5>
+            <div class="d-flex px-3">
+                <div style="background-color: #E2F0D9;" class="p-1">{{ lesson.get_lesson_type_display }}</div>
+            </div>
+            <div class="px-3 mt-1">
+                {{ lesson.description|safe }}
+            </div>
+            <div class="px-3 mt-1">
+                <h6 style="font-weight: bold;">시간</h6>
+                <div>{{ lesson.lesson_time|safe }}</div>
+            </div>
+        </div>
+        <hr>
+        <div id="company">
+            <h5 class="lesson_title">업체 소개</h5>
+            <div class="d-flex px-3">
+                <div style="width: 30%; font-weight: bold;">업체 이름: </div><div style="width: 70%;">{{ lesson.academy.name }}</div>
+            </div>
+            <div class="d-flex px-3">
+                <div style="width: 30%; font-weight: bold;">업체 정보: </div><div style="width: 70%;">{{ lesson.academy.introduction|safe }}</div>
+            </div>
+            <div class="mt-2 px-3" style="font-weight: bold;">업체 운영시간</div>
+            <div class="px-3 mt-1">{{ lesson.academy.operation_time|safe }}</div>
+        </div>
+        <hr>
+        <div id="location">
+            <h5 class="lesson_title">위치</h5>
+            <div class="px-3">서울특별시 마포구 토정로 16길 19</div>
+            <div class="px-3">
+                <div id="map" style="width:100%; height:200px;"></div>
+            </div>
+        </div>
+        <hr>
+        <div id="sns" class="mb-4">
+            <h5 class="lesson_title">바로가기</h5>
+            <div class="px-3" style="font-weight: bold;">업체 주소</div>
+            {% if lesson.academy.phone %}
+                <div class="phone px-4"><span><i class="fa fa-phone"></i></span> <span onclick="location.href='tel:{{ lesson.academy.phone }}'">{{ lesson.academy.phone }}</span></div>
+            {% endif %}
+            {% if lesson.academy.instagram %}
+                <div class="instagram px-4"><span><i class="fa fa-instagram"></i>  </span><span><a href="{{ lesson.academy.instagram }}">{{ lesson.academy.instagram }}</a></span></div>
+            {% endif %}
+            {% if lesson.academy.facebook %}
+                <div class="facebook px-4"><span><i class="fa fa-facebook-square"></i>  </span><span><a href="{{ lesson.academy.facebook }}">{{ lesson.academy.facebook }}</a></span></div>
+            {% endif %}
+            {% if lesson.academy.website %}
+                <div class="naver-cafe px-4"><span><img src="{% static 'img/naver.png' %}" alt="" style="width: 14px;">  </span><span><a
+                        href="{{ lesson.academy.website }}">{{ lesson.academy.website }}</a></span></div>
+            {% endif %}
+            {% if lesson.academy.email %}
+                <div class="email px-4"><span><i class="fa fa-send"></i></span><span onclick="location.href='mailto:{{ lesson.academy.email }}'">{{ lesson.academy.email }}</span></div>
+            {% endif %}
+            <div class="px-3 mt-2" style="font-weight: bold;">코치 주소</div>
+            {% if lesson.coach.phone %}
+                <div class="phone px-4"><span><i class="fa fa-phone"></i></span> <span onclick="location.href='tel:{{ lesson.coach.phone }}'">{{ lesson.coach.phone }}</span></div>
+            {% endif %}
+            {% if lesson.coach.instagram %}
+                <div class="instagram px-4"><span><i class="fa fa-instagram"></i>  </span><span><a href="{{ lesson.coach.instagram }}">{{ lesson.coach.instagram }}</a></span></div>
+            {% endif %}
+            {% if lesson.coach.facebook %}
+                <div class="facebook px-4"><span><i class="fa fa-facebook-square"></i>  </span><span><a href="{{ lesson.coach.facebook }}">{{ lesson.coach.facebook }}</a></span></div>
+            {% endif %}
+            {% if lesson.coach.email %}
+                <div class="email px-4"><span><i class="fa fa-send"></i>  </span><span onclick="location.href='mailto:{{ lesson.coach.email }}'">{{ lesson.coach.email }}</span></div>
+            {% endif %}
+        </div>
     </div>
-    <hr>
-    <div id="program-detail">
-        <h5 class="lesson_title">프로그램</h5>
-        <div class="d-flex px-3">
-            <div style="background-color: #E2F0D9;" class="p-1">{{ lesson.get_lesson_type_display }}</div>
-        </div>
-        <div class="px-3 mt-1">
-            {{ lesson.description|safe }}
-        </div>
-        <div class="px-3 mt-1">
-            <h6 style="font-weight: bold;">시간</h6>
-            <div>{{ lesson.lesson_time|safe }}</div>
-        </div>
-    </div>
-    <hr>
-    <div id="company">
-        <h5 class="lesson_title">업체 소개</h5>
-        <div class="d-flex px-3">
-            <div style="width: 30%; font-weight: bold;">업체 이름: </div><div style="width: 70%;">{{ lesson.academy.name }}</div>
-        </div>
-        <div class="d-flex px-3">
-            <div style="width: 30%; font-weight: bold;">업체 정보: </div><div style="width: 70%;">{{ lesson.academy.introduction|safe }}</div>
-        </div>
-        <div class="mt-2 px-3" style="font-weight: bold;">업체 운영시간</div>
-        <div class="px-3 mt-1">{{ lesson.academy.operation_time|safe }}</div>
-    </div>
-    <hr>
-    <div id="location">
-        <h5 class="lesson_title">위치</h5>
-        <div class="px-3">서울특별시 마포구 토정로 16길 19</div>
-        <div class="px-3">
-            <div id="map" style="width:100%; height:200px;"></div>
-        </div>
-    </div>
-    <hr>
-    <div id="sns" class="mb-4">
-        <h5 class="lesson_title">바로가기</h5>
-        <div class="px-3" style="font-weight: bold;">업체 주소</div>
-        <div class="phone px-4"><span><i class="fa fa-phone"></i></span> <span onclick="location.href='tel:{{ lesson.academy.phone }}'">{{ lesson.academy.phone }}</span></div>
-        <div class="instagram px-4"><span><i class="fa fa-instagram"></i>  </span><span><a href="{{ lesson.academy.instagram }}">{{ lesson.academy.instagram }}</a></span></div>
-        <div class="facebook px-4"><span><i class="fa fa-facebook-square"></i>  </span><span><a href="{{ lesson.academy.facebook }}">{{ lesson.academy.facebook }}</a></span></div>
-        <div class="naver-cafe px-4"><span><img src="{% static 'img/naver.png' %}" alt="" style="width: 14px;">  </span><span><a
-                href="{{ lesson.academy.website }}">{{ lesson.academy.website }}</a></span></div>
-        <div class="email px-4"><span><i class="fa fa-send"></i>  </span><span onclick="location.href='mailto:{{ lesson.academy.email }}'">{{ lesson.academy.email }}</span></div>
-
-        <div class="px-3 mt-2" style="font-weight: bold;">코치 주소</div>
-        <div class="phone px-4"><span><i class="fa fa-phone"></i></span> <span onclick="location.href='tel:{{ lesson.coach.phone }}'">{{ lesson.coach.phone }}</span></div>
-        <div class="instagram px-4"><span><i class="fa fa-instagram"></i>  </span><span><a href="{{ lesson.coach.instagram }}">{{ lesson.coach.instagram }}</a></span></div>
-        <div class="facebook px-4"><span><i class="fa fa-facebook-square"></i>  </span><span><a href="{{ lesson.coach.facebook }}">{{ lesson.coach.facebook }}</a></span></div>
-        <div class="email px-4"><span><i class="fa fa-send"></i>  </span><span onclick="location.href='mailto:{{ lesson.coach.email }}'">{{ lesson.coach.email }}</span></div>
-    </div>
-</div>
 
 {% endblock %}
 
