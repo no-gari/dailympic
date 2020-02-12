@@ -27,5 +27,10 @@
 
 {% endblock %}
 {% block base_extra_script %}
-
+    <script>
+        {% if request.user.is_authenticated and not request.user.profile %}
+            alert('소셜 계정으로 가입하셔서 미기입된 정보가 있습니다.' +
+                '추가 정보를 입력하여 주시기 바랍니다.');location.href="{% url 'profile_create' %}";
+        {% endif %}
+    </script>
 {% endblock %}
