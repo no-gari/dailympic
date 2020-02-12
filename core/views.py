@@ -1,4 +1,6 @@
 import json
+
+from allauth.account.views import LoginView
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import HttpResponse
@@ -11,10 +13,6 @@ import datetime as dt
 
 from core.forms import *
 from core.models import Lesson, Sport, BigDistrict, Like
-
-
-def login(request):
-    return render(request, 'user/test_login.html')
 
 
 def index(request):
