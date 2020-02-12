@@ -13,6 +13,7 @@
         .margin-container { margin-top: 34px; }
         hr { margin-top: 10px; margin-bottom: 10px; }
         #myInput {position: absolute; top: 0;left:0;width:1px;height:1px;margin:0;padding:0;border:0;}
+        .modal-content {top: 40px;}
     </style>
 {% endblock %}
 {% block maincontent %}
@@ -152,6 +153,71 @@
             <div class="px-3 mt-1">{{ lesson.academy.operation_time|safe }}</div>
         </div>
         <hr>
+
+        <div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="reviewModal" aria-hidden="true">
+            <form class="modal-dialog" method="post" id="review_form">
+                {% csrf_token %}
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="reviewTitle">리뷰 작성하기</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="d-flex form-group">
+                            <div style="width: 30%;">
+                                평점
+                            </div>
+                            <div style="float: right;">
+                                <input class="form-control" type="number" min="0" max="5" name="rating" value="5">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1">내용</label>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="comment"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                        <button type="buton" class="btn btn-success" id="review_form_button">작성하기</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div id="review">
+            <h5 class="lesson_title">후기</h5>
+            {% if request.user.is_authenticated %}
+                <div class="px-3" style="width: 100%;">
+                    <button class="btn btn-success w-100" data-toggle="modal" data-target="#reviewModal">후기 작성하기</button>
+                </div>
+            {% endif %}
+            {% for review in lesson.review_set.all %}
+                <div class="d-flex">
+                    <div style="width: 30%;" class="p-3">
+                        {% if review.written_by.user.profile.image %}
+                            <img src="{{ review.written_by.user.profile.image.url }}" alt="" class="img-fluid">
+                        {% else %}
+                            이미지가 없습니다
+                        {% endif %}
+                    </div>
+                    <div style="width: 70%;" class="px-2">
+                        <div style="width: 100%;">
+                            <span style="font-weight: bold; color: deepskyblue; font-size: 20px;">박상영</span><span> 코치</span>
+                        </div>
+                        <div>
+                            <div style="font-weight: bold;">{{ review.written_by.user.username }}</div>
+                            <div style="font-weight: bold;">{{ review.rating }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-3">
+                    {{ review.comment }}
+                </div>
+                </div>
+            {% endfor %}
+        <hr>
         <div id="location">
             <h5 class="lesson_title">위치</h5>
             <div class="px-3">서울특별시 마포구 토정로 16길 19</div>
@@ -193,6 +259,43 @@
                 <div class="email px-4"><span><i class="fa fa-send"></i>  </span><span onclick="location.href='mailto:{{ lesson.coach.email }}'">{{ lesson.coach.email }}</span></div>
             {% endif %}
         </div>
+
+        <hr>
+        <div id="wrong_info" class="my-3">
+            <div class="px-3" style="width: 100%;" data-toggle="modal" data-target="#wong_info">
+                <button class="w-100 btn btn-light" style="border: 1px solid black;"><span><i class="fa fa-bell"></i></span> 잘못된 정보 신고하기</button>
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="wong_info" tabindex="-1" role="dialog" aria-labelledby="wong_info" aria-hidden="true">
+            <form class="modal-dialog" method="post" id="wrong_info_form">
+                {% csrf_token %}
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="reviewTitle">잘못된 정보 신고하기</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="phone_num">답변 연락받을 전화번호</label>
+                            <input class="form-control" type="text" name="phone_num" id="phone_num">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1">내용</label>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="content"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                        <button type="button" class="btn btn-success" id="wrong_info_button">신고하기</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
     </div>
 
 {% endblock %}
@@ -201,6 +304,13 @@
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b6ed4d84c9a34763dcf92d3b6e590838"></script>
     <script src="https://unpkg.com/swiper/js/swiper.min.js"></script>
     <script>
+        $('#review_form_button').click(function () {
+            $('#review_form').submit()
+        })
+        $('#wrong_info_button').click(function () {
+            $('#wrong_info_form').submit()
+        })
+
         var swiper = new Swiper('.swiper-container', {
             slidesPerView: 1,
             spaceBetween: 30,
