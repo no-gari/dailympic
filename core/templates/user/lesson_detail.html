@@ -14,6 +14,45 @@
         hr { margin-top: 10px; margin-bottom: 10px; }
         #myInput {position: absolute; top: 0;left:0;width:1px;height:1px;margin:0;padding:0;border:0;}
         .modal-content {top: 40px;}
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .rate {
+            float: left;
+            height: 46px;
+            padding: 0 10px;
+        }
+        .rate:not(:checked) > input {
+            position:absolute;
+            top:-9999px;
+        }
+        .rate:not(:checked) > label {
+            float:right;
+            width:1em;
+            overflow:hidden;
+            white-space:nowrap;
+            cursor:pointer;
+            font-size:30px;
+            color:#ccc;
+        }
+        .rate:not(:checked) > label:before {
+            content: '★ ';
+        }
+        .rate > input:checked ~ label {
+            color: #ffc700;
+        }
+        .rate:not(:checked) > label:hover,
+        .rate:not(:checked) > label:hover ~ label {
+            color: #deb217;
+        }
+        .rate > input:checked + label:hover,
+        .rate > input:checked + label:hover ~ label,
+        .rate > input:checked ~ label:hover,
+        .rate > input:checked ~ label:hover ~ label,
+        .rate > label:hover ~ input:checked ~ label {
+            color: #c59b08;
+        }
     </style>
 {% endblock %}
 {% block maincontent %}
@@ -169,8 +208,17 @@
                             <div style="width: 30%;">
                                 평점
                             </div>
-                            <div style="float: right;">
-                                <input class="form-control" type="number" min="0" max="5" name="rating" value="5">
+                            <div class="rate">
+                                <input type="radio" id="star5" name="rates" value="5" />
+                                <label for="star5" title="text">5 stars</label>
+                                <input type="radio" id="star4" name="rates" value="4" />
+                                <label for="star4" title="text">4 stars</label>
+                                <input type="radio" id="star3" name="rates" value="3" />
+                                <label for="star3" title="text">3 stars</label>
+                                <input type="radio" id="star2" name="rates" value="2" />
+                                <label for="star2" title="text">2 stars</label>
+                                <input type="radio" id="star1" name="rates" value="1" />
+                                <label for="star1" title="text">1 star</label>
                             </div>
                         </div>
                         <div class="form-group">
@@ -180,7 +228,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-                        <button type="buton" class="btn btn-success" id="review_form_button">작성하기</button>
+                        <button type="submit" class="btn btn-success" id="review_form_button">작성하기</button>
                     </div>
                 </div>
             </form>
@@ -194,29 +242,31 @@
                 </div>
             {% endif %}
             {% for review in lesson.review_set.all %}
+                <hr>
                 <div class="d-flex">
                     <div style="width: 30%;" class="p-3">
                         {% if review.written_by.user.profile.image %}
-                            <img src="{{ review.written_by.user.profile.image.url }}" alt="" class="img-fluid">
+                            <img src="{{ review.written_by.user.profile.image.url }}" alt="" class="img-fluid rounded">
                         {% else %}
                             이미지가 없습니다
                         {% endif %}
                     </div>
-                    <div style="width: 70%;" class="px-2">
-                        <div style="width: 100%;">
-                            <span style="font-weight: bold; color: deepskyblue; font-size: 20px;">박상영</span><span> 코치</span>
-                        </div>
+                    <div style="width: 70%;" class="p-3">
                         <div>
-                            <div style="font-weight: bold;">{{ review.written_by.user.username }}</div>
-                            <div style="font-weight: bold;">{{ review.rating }}</div>
+                            <div style="font-weight: bold;" class="px-2">{{ review.written_by.username }}</div>
+                            <div class="rate" style="font-weight: bold;">
+                                {% load templatehelpers %}
+                                {% for i in review.rating|times %}
+                                    <span><i class="fa fa-star" style="color: #deb217;"></i></span>
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="p-3">
-                    {{ review.comment }}
-                </div>
-                </div>
+                <div class="p-3">{{ review.comment }}</div>
+                <hr>
             {% endfor %}
+        </div>
         <hr>
         <div id="location">
             <h5 class="lesson_title">위치</h5>
@@ -290,12 +340,11 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-                        <button type="button" class="btn btn-success" id="wrong_info_button">신고하기</button>
+                        <button type="submit" class="btn btn-success" id="wrong_info_button">신고하기</button>
                     </div>
                 </div>
             </form>
         </div>
-
     </div>
 
 {% endblock %}
