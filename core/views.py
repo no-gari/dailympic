@@ -70,7 +70,11 @@ class LessonListView(ListView):
                 Q(title__icontains=keyword) |
                 Q(coach__name__icontains=keyword) |
                 Q(academy__sport__name__icontains=keyword) |
-                Q(academy__name__icontains=keyword))
+                Q(academy__name__icontains=keyword)|
+                Q(academy__small_district__name__icontains=keyword)|
+                Q(academy__small_district__big_district__name__icontains
+                  =keyword)
+            )
         else:
             lessons = Lesson.objects.all()
             # lessons= Lesson.objects.none()
