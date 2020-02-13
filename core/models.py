@@ -237,7 +237,11 @@ class Review(models.Model):
     )
     rating = models.IntegerField()
     comment = models.CharField(max_length=255)
+    datetime = models.DateTimeField(blank=True, null=True, auto_now_add=True)
 
+
+    class Meta:
+        ordering = ['-datetime']
 
 class Like (models.Model):
     liked_by = models.ForeignKey(
