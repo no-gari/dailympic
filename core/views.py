@@ -2,13 +2,15 @@ import json
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.db.models import Q
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 from django.views.generic import (
     DetailView, ListView, TemplateView, CreateView, DeleteView
 )
 import datetime as dt
+from django.core import serializers
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from core.forms import *
 from core.models import Lesson, Sport, BigDistrict, Like, Review, WrongInfo
@@ -137,6 +139,16 @@ class LessonDetailView(DetailView):
                 context['likes'] = True
             else:
                 context['likes'] = False
+        reviews = Review.objects.filter(lesson=self.object)
+        page = self.request.GET.get('page', 1)
+        p = Paginator(reviews, 3)
+        try:
+            review_list = p.page(page)
+        except PageNotAnInteger:
+            review_list = p.page(1)
+        except EmptyPage:
+            review_list = p.page(p.num_pages)
+        context['reviews'] = review_list
         return context
 
     def post(self, request, *args, **kwargs):
@@ -144,8 +156,8 @@ class LessonDetailView(DetailView):
             phone_num, content = request.POST['phone_num'], request.POST['content']
             wrong_info = WrongInfo.objects.create(phone_num=phone_num, content=content)
             wrong_info.save()
-        except :
-            lesson, user, rates, comments = kwargs['pk'], request.user, int(request.POST['rates']), request.POST['comment']
+        except:
+            lesson, user, rates, comments = kwargs['pk'], request.user, int(request.POST.get('rates', 0)), request.POST['comment']
             new_review = Review.objects.create(lesson_id=lesson, written_by=user, rating=rates, comment=comments)
             new_review.save()
         # except MultiDict
