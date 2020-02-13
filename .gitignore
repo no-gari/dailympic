@@ -10,3 +10,4 @@ server.crt
 server.key
 local-ssl-server.py
 !/core/static/
+dailympic/secrets.json
