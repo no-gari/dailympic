@@ -15,20 +15,21 @@ import json
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-with open(os.path.join(BASE_DIR, 'envs_dev.json'), 'rb') as json_file:
-    social_login_data = json.load(json_file)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+with open(os.path.join(BASE_DIR, 'dailympic/secrets.json'), 'rb') as json_file:
+    secrets = json.load(json_file)
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'k5nm)em%(o5h85&l3zva341_k7eeinys(+gi33af(3x@7drzlk'
+SECRET_KEY = secrets['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
@@ -87,9 +88,9 @@ ROOT_URLCONF = 'dailympic.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'core/templates'),
+        'DIRS': [os.path.join(BASE_DIR, 'core\\templates'),
                  os.path.join(BASE_DIR, 'templates'),
-                 os.path.join(BASE_DIR, 'core/errorpages'),
+                 os.path.join(BASE_DIR, 'core\\errorpages'),
                  ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -107,17 +108,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'dailympic.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
 
 
 # Password validation
@@ -166,7 +156,7 @@ BOOTSTRAP4 = {
 }
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, '../../media')
 SUMMERNOTE_CONFIG = {'attachment_model': 'board.Summernote',}
 
 #social login
