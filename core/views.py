@@ -167,9 +167,16 @@ class LessonDetailView(DetailView):
             wrong_info = WrongInfo.objects.create(phone_num=phone_num, content=content)
             wrong_info.save()
         except:
-            lesson, user, rates, comments = kwargs['pk'], request.user, int(request.POST.get('rates', 0)), request.POST['comment']
-            new_review = Review.objects.create(lesson_id=lesson, written_by=user, rating=rates, comment=comments)
-            new_review.save()
+            if self.request.POST['submit_type'] == str(1):
+                lesson, user, rates, comments = kwargs['pk'], request.user, int(request.POST.get('rates', 0)), request.POST['comment']
+                new_review = Review.objects.create(lesson_id=lesson, written_by=user, rating=rates, comment=comments)
+                new_review.save()
+            else:
+                review = Review.objects.get(id=int(self.request.POST['review_id']))
+                if review.written_by == self.request.user:
+                    review.rating = int(self.request.POST['rates'])
+                    review.comment = self.request.POST['comment']
+                    review.save()
         return super().get(self, request)
 
 

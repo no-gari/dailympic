@@ -196,6 +196,8 @@
         <div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="reviewModal" aria-hidden="true">
             <form class="modal-dialog" method="post" id="review_form">
                 {% csrf_token %}
+                <input type="hidden" value="1" name="submit_type">
+                <input type="hidden" value="" name="review_id">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="reviewTitle">리뷰 작성하기</h5>
@@ -263,12 +265,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="p-3">{{ review.comment }}</div>
+                <div class="p-3 review_content">{{ review.comment }}</div>
                 {% if request.user == review.written_by %}
                     <div class="w-100 d-flex flex-row-reverse">
                         <input type="hidden" value="{{ review.id }}" />
                         <button class="btn btn-sm btn-danger mx-1 review_delete" type="button">삭제하기</button>
-                        <button class="btn btn-sm btn-info review_update" type="button">수정하기</button>
+                        <button class="btn btn-sm btn-info review_update" type="button" value="{{ review.id }}">수정하기</button>
                     </div>
                 {% endif %}
                 <hr>
@@ -401,6 +403,13 @@
                 alert('삭제되었습니다')
                 location.reload();
             }
+        });
+        $('.review_update').on('click', function () {
+            var Jthis = $(this);
+            $('#reviewModal').find('textarea').val(Jthis.parent().siblings('.review_content').html());
+            $('input[name="submit_type"]').val(2);
+            $('input[name="review_id"]').val(Jthis.val());
+            $('#reviewModal').modal();
         });
         $('#review_form_button').click(function () {
             $('#review_form').submit()
