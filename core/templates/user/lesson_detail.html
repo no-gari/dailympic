@@ -264,6 +264,13 @@
                     </div>
                 </div>
                 <div class="p-3">{{ review.comment }}</div>
+                {% if request.user == review.written_by %}
+                    <div class="w-100 d-flex flex-row-reverse">
+                        <input type="hidden" value="{{ review.id }}" />
+                        <button class="btn btn-sm btn-danger mx-1 review_delete" type="button">삭제하기</button>
+                        <button class="btn btn-sm btn-info review_update" type="button">수정하기</button>
+                    </div>
+                {% endif %}
                 <hr>
             {% endfor %}
             <div class="px-3 text-center" style="width: 100%;">
@@ -288,7 +295,6 @@
                                 <li class="page-item disabled"><span class="page-link" >&raquo;</span></li>
                             {% endif %}
                         </ul>
-
                     </div>
                 {% endif %}
             </div>
@@ -379,20 +385,23 @@
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b6ed4d84c9a34763dcf92d3b6e590838"></script>
     <script src="https://unpkg.com/swiper/js/swiper.min.js"></script>
     <script>
-        var cnt = 0;
-        $('#more').on('click', function () {
-            cnt += 1;
-            $.ajax({
-                method: "GET",
-                data: {
-                    'cnt' : cnt,
-                }
-            }).done(
-                function () {
-                    alert('hi');
-                }
-            );
-        })
+        $('.review_delete').on('click', function () {
+            var confirm = window.confirm('해당 댓글을 삭제하시겠습니까?');
+            var Jthis = $(this);
+            if(confirm) {
+                var del_val = Jthis.parent().find('input').val()
+                $.ajax({
+                    method : "GET",
+                    data: {
+                        'type' : 'del',
+                        'review_id' : del_val,
+                        'user_id' : '{{ request.user.id }}'
+                    }
+                })
+                alert('삭제되었습니다')
+                location.reload();
+            }
+        });
         $('#review_form_button').click(function () {
             $('#review_form').submit()
         })

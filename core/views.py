@@ -1,8 +1,8 @@
 import json
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.views.decorators.http import require_POST
 from django.views.generic import (
     DetailView, ListView, TemplateView, CreateView, DeleteView
@@ -10,6 +10,7 @@ from django.views.generic import (
 import datetime as dt
 from django.core import serializers
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib import messages
 
 from core.forms import *
 from core.models import Lesson, Sport, BigDistrict, Like, Review, WrongInfo
@@ -128,6 +129,15 @@ class LessonDetailView(DetailView):
     model = Lesson
     context_object_name = 'lesson'
     template_name = 'user/lesson_detail.html'
+
+    def get(self, request, *args, **kwargs):
+        if request.is_ajax():
+            type, review_id, user_id = request.GET['type'], int(request.GET['review_id']), int(request.GET['user_id'])
+            review = Review.objects.get(id=review_id)
+            if type == 'del' and review.written_by_id == user_id:
+                review.delete()
+        else:
+            return super().get(self, request)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
