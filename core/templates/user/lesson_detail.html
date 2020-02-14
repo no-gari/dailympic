@@ -277,15 +277,15 @@
                             {% endif %}
                             {% for i in reviews.paginator.page_range %}
                                 {% if reviews.number == i %}
-                                    <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
+                                    <li class="page-item active"><span class="page-link" >{{ i }} <span class="sr-only">(current)</span></span></li>
                                 {% else %}
                                     <li class="page-item"><a class="page-link"  href="?page={{ i }}/#review">{{ i }}</a></li>
                                 {% endif %}
                             {% endfor %}
                             {% if reviews.has_next %}
-                                <li class="page-item"><a class="page-link" href="?page={{ reviews.next_page_number }}/#review">&raquo;</a></li>
+                                <li class="page-item"><a class="page-link"  href="?page={{ reviews.next_page_number }}/#review">&raquo;</a></li>
                             {% else %}
-                                <li class="page-item disabled"><span>&raquo;</span></li>
+                                <li class="page-item disabled"><span class="page-link" >&raquo;</span></li>
                             {% endif %}
                         </ul>
 
