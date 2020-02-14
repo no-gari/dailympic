@@ -139,7 +139,8 @@ class LessonDetailView(DetailView):
             else:
                 context['likes'] = False
         reviews = Review.objects.filter(lesson=self.object)
-        page = self.request.GET.get('page', 1)
+        page = str(self.request.GET.get('page', 1))
+        page = int(page.replace('/', ''))
         p = Paginator(reviews, 3)
         try:
             review_list = p.page(page)
