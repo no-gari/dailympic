@@ -1,11 +1,15 @@
+import datetime as dt
 import json
+
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.views.decorators.http import require_POST
 from django.views.generic import (
-    DetailView, ListView, TemplateView, CreateView, DeleteView
+    DetailView, ListView, CreateView
 )
 import datetime as dt
 from django.core import serializers
@@ -16,8 +20,13 @@ from core.forms import *
 from core.models import Lesson, Sport, BigDistrict, Like, Review, WrongInfo
 
 
-def login(request):
-    return render(request, 'user/test_login.html')
+class CustomizedLoginView(LoginView):
+    form_class = CustomizedAuthenticationForm
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('index')
+        return super().get(self, request, *args, **kwargs)
 
 
 def index(request):
@@ -209,6 +218,11 @@ class ProfileCreateView(CreateView):
     form_class = ProfileForm
     template_name = 'user/profile_form.html'
 
+    def get(self, request, *args, **kwargs):
+        if request.user.profile:
+            return redirect('index')
+        return render(request, 'user/profile_form.html')
+
     def post(self, request, *args, **kwargs):
         profile_form = ProfileForm(request.POST)
         if profile_form.is_valid():
@@ -216,9 +230,7 @@ class ProfileCreateView(CreateView):
             profile.user = request.user
             profile.save()
             return redirect('index')
-        return render(request, 'user/user_create_fail.html', {
-            'profile_form_errors': profile_form.errors,
-        })
+        return render(request, 'user/profile_form.html')
 
 
 class LikedLessonListView(ListView):
