@@ -29,7 +29,7 @@ with open(os.path.join(BASE_DIR, 'dailympic/secrets.json'), 'rb') as json_file:
 SECRET_KEY = secrets['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'localhost',
@@ -92,9 +92,9 @@ ROOT_URLCONF = 'dailympic.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'core\\templates'),
+        'DIRS': [os.path.join(BASE_DIR, 'core/templates'),
                  os.path.join(BASE_DIR, 'templates'),
-                 os.path.join(BASE_DIR, 'core\\errorpages'),
+                 os.path.join(BASE_DIR, 'core/errorpages'),
                  ],
         'APP_DIRS': True,
         'OPTIONS': {
