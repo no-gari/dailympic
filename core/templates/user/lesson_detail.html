@@ -8,8 +8,9 @@
         .swiper-container {width: 100%; height: 30vh;}
         .swiper-slide { text-align: center; font-size: 18px; background: #fff; display: -webkit-box; display: -ms-flexbox; display: -webkit-flex; display: flex; -webkit-box-pack: center; -ms-flex-pack: center; -webkit-justify-content: center; justify-content: center; -webkit-box-align: center; -ms-flex-align: center; -webkit-align-items: center; align-items: center;}
         .lesson_title { text-decoration: underline; font-weight: bold; margin-left: 10px; margin-top: 7px; }
-        .class_info { background-color: white; top: 50px; padding: 5px 10px; z-index: 10000; display: flex; justify-content: space-between; }
-        .sticky { position: fixed; top: 0; background-color: white; padding: 5px 10px; z-index: 10000;  display: flex; justify-content: space-between;}
+        .class_info { background-color: white; top: 50px; padding: 5px 10px; z-index: 10000; display: flex; overflow-x: auto; height: 30px; -webkit-overflow-scrolling: touch;}
+        .slide { flex-shrink: 0; height: 30px; }
+        .sticky { position: fixed; top: 0; background-color: white; padding: 5px 10px; z-index: 10000; display: flex; overflow-x: auto; height: 30px; -webkit-overflow-scrolling: touch;}
         .margin-container { margin-top: 34px; }
         hr { margin-top: 10px; margin-bottom: 10px; }
         #myInput {position: absolute; top: 0;left:0;width:1px;height:1px;margin:0;padding:0;border:0;}
@@ -57,11 +58,14 @@
 {% endblock %}
 {% block maincontent %}
     <div>
-        <div id="class_info" class="class_info" style="width: 100%;">
-            <a href="#overview">Overview</a>|
-            <a href="#coach">코치</a>|
-            <a href="#program-detail">상세 소개</a>|
-            <a href="#company">Contact</a>
+        <div id="class_info" class="class_info">
+            <a href="#overview" class="slide mr-3">Overview</a>|
+            <a href="#coach" class="slide mx-3">코치</a>|
+            <a href="#program-detail" class="slide mx-3">상세 소개</a>|
+            <a href="#company" class="slide mx-3">업체정보</a>|
+            <a href="#review" class="slide mx-3">후기</a>|
+            <a href="#location" class="slide mx-3">위치</a>|
+            <a href="#sns" class="slide ml-3">Contact</a>
         </div>
         <div class="swiper-container" id="swiper">
             <div class="swiper-wrapper">
