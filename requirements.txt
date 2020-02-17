@@ -6,7 +6,6 @@ confusable-homoglyphs==3.2.0
 defusedxml==0.6.0
 Django==2.2.4
 django-allauth==0.41.0
-django-alluserboard==0.2
 django-bootstrap-datepicker-plus==3.0.5
 django-bootstrap4==1.1.1
 django-cleanup==4.0.0
@@ -17,13 +16,11 @@ django-multiselectfield==0.1.8
 django-registration==3.0.1
 django-simple-history==2.8.0
 django-sslserver==0.22
-django-suit==2.0a1
 django-summernote==0.8.11.6
 django-tagulous==0.14.1
 django-widget-tweaks==1.4.5
 idna==2.8
 mysql==0.0.2
-mysqlclient==1.4.6
 oauthlib==3.1.0
 Pillow==5.4.1
 PyJWT==1.7.1
