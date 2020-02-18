@@ -17,6 +17,7 @@ import json
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+ROOT_DIR = os.path.dirname(BASE_DIR)
 
 with open(os.path.join(BASE_DIR, 'dailympic/secrets.json'), 'rb') as json_file:
     secrets = json.load(json_file)
@@ -155,9 +156,9 @@ USE_TZ = False
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles/")
 STATIC_URL = '/static/'
+STATIC_DIR = os.path.join(BASE_DIR, 'staticfiles/')
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "staticfiles/"),
-    '/var/www/static/',
+    STATIC_DIR,
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
