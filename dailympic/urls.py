@@ -1,6 +1,6 @@
 """dailympic URL Configuration
 
-The `urlpatterns` list routes URLs to views. For more information please see:
+The `urlpatterns` list routes URLs to views. For more information please see:i
     https://docs.djangoproject.com/en/2.2/topics/http/urls/
 Examples:
 Function views
@@ -28,3 +28,5 @@ urlpatterns = [
     path('summernote/', include('django_summernote.urls')),
     # path('',include('social_django.urls', namespace='social'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns = urlpatterns + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
