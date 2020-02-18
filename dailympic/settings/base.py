@@ -32,11 +32,14 @@ SECRET_KEY = secrets['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+'''
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     '.ap-northeast-2.compute.amazonaws.com',
 ]
+'''
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
