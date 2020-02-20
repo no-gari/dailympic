@@ -219,7 +219,7 @@ class ProfileCreateView(CreateView):
     template_name = 'user/profile_form.html'
 
     def get(self, request, *args, **kwargs):
-        if request.user.profile:
+        if Profile.objects.filter(user=request.user).exists():
             return redirect('index')
         return render(request, 'user/profile_form.html')
 
