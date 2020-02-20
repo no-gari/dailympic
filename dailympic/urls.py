@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^summernote/upload_attachment/$', upload_attachment, name='django_summernote-upload_attachment'),
     path('summernote/', include('django_summernote.urls')),
     # path('',include('social_django.urls', namespace='social'))
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT, insecure=True)
 
-urlpatterns = urlpatterns + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns = urlpatterns + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT, insecure=True)
+
