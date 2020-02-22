@@ -196,10 +196,10 @@ class Lesson(models.Model):
         verbose_name='소속 업체'
     )
     title = models.CharField(max_length=255, verbose_name='레슨 이름')
-    org_price = models.PositiveSmallIntegerField(
+    org_price = models.PositiveIntegerField(
         verbose_name='정가', default=0
     )
-    dc_price = models.PositiveSmallIntegerField(
+    dc_price = models.PositiveIntegerField(
         verbose_name='할인가', null=True, blank=True, default=0
     )
     lesson_time = models.TextField(
