@@ -12,4 +12,4 @@ local-ssl-server.py
 !/core/static/
 dailympic/secrets.json
 dailympic/settings/__init__.py
-.static_root/
+static_root/
