@@ -20,6 +20,10 @@ from board.views import upload_attachment
 from django.conf.urls.static import static
 from django.conf import settings
 
+from django.views.static import serve
+from django.urls import re_path
+import re
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
@@ -27,7 +31,6 @@ urlpatterns = [
     url(r'^summernote/upload_attachment/$', upload_attachment, name='django_summernote-upload_attachment'),
     path('summernote/', include('django_summernote.urls')),
     # path('',include('social_django.urls', namespace='social'))
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT, insecure=True)
-
-urlpatterns = urlpatterns + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT, insecure=True)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+#urlpatterns = urlpatterns + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
