@@ -11,7 +11,8 @@ class Profile(models.Model):
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
-        related_name='profile'
+        related_name='profile',
+        verbose_name="유저",
     )
     image = models.ImageField(
         default=None,null=True,blank=True,verbose_name='프로필 사진',
@@ -27,7 +28,11 @@ class Profile(models.Model):
     phone = models.CharField(max_length=31, null=True, blank=True, verbose_name='휴대전화')
 
     def __str__(self):
-        return self.user.username
+        return self.user.username+'의 프로필'
+
+    class Meta:
+        verbose_name = '프로필'
+        verbose_name_plural = '프로필'
 
 
 class Sport(models.Model):
@@ -36,12 +41,13 @@ class Sport(models.Model):
     )
     icon = models.ImageField(
         default=None, null=True, blank=True,
-        upload_to='sports/'
+        upload_to='sports/',
+        verbose_name='종목 아이콘',
     )
 
     class Meta:
         verbose_name = '종목'
-        verbose_name_plural = '스포츠'
+        verbose_name_plural = '종목'
 
     def __str__(self):
         return self.name
@@ -55,6 +61,10 @@ class BigDistrict (models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = '시군구'
+        verbose_name_plural = '시군구'
+
 
 class SmallDistrict (models.Model):
     # 신수동
@@ -64,11 +74,16 @@ class SmallDistrict (models.Model):
     big_district = models.ForeignKey(
         BigDistrict,
         on_delete=models.CASCADE,
-        related_name='small_districts'
+        related_name='small_districts',
+        verbose_name = "시군구",
     )
 
     def __str__(self):
         return self.big_district.name + ' ' + self.name
+
+    class Meta:
+        verbose_name = '동읍리'
+        verbose_name_plural = '동읍리'
 
 
 class Academy(models.Model):
@@ -80,7 +95,8 @@ class Academy(models.Model):
     name = models.CharField(max_length=255, verbose_name='업체명')
     profile_image = models.ImageField(
         default=None, null=True, blank=True,
-        upload_to='academy/%Y/%m/%d'
+        upload_to='academy/%Y/%m/%d',
+        verbose_name='업체 프로필 이미지',
     )
     introduction = models.TextField(
         blank=True, null=True, verbose_name='업체 소개',
@@ -96,15 +112,18 @@ class Academy(models.Model):
         verbose_name='업체 운영 시간',
         help_text='엔터로 구분해주세요. (ex)월,목 - 17:00 ~ 20:00 (enter키) 금 - 18:00 ~ 20:00'
     )
-    instagram = models.URLField(null=True, blank=True, default=None)
-    facebook = models.URLField(null=True, blank=True, default=None)
-    website = models.URLField(null=True, blank=True, default=None)
+    instagram = models.URLField(null=True, blank=True, default=None,
+                                verbose_name='인스타그램 링크')
+    facebook = models.URLField(null=True, blank=True, default=None,
+                               verbose_name='페이스북 링크')
+    website = models.URLField(null=True, blank=True, default=None,
+                              verbose_name='웹사이트/카페 링크')
     small_district = models.ForeignKey(
         SmallDistrict,
         on_delete=models.CASCADE,
         related_name='locations',
         default=1,
-        verbose_name='행정동'
+        verbose_name='업체 위치 행정동'
     )
     # 중앙로 23길 3층 서강클라이밍
     address = models.CharField(
@@ -112,8 +131,8 @@ class Academy(models.Model):
         verbose_name='업체 세부 주소',
     )
 
-    lati = models.FloatField(default=0)
-    long = models.FloatField(default=0)
+    lati = models.FloatField(default=0, verbose_name='위도')
+    long = models.FloatField(default=0, verbose_name='경도')
 
     class Meta:
         verbose_name = '업체'
@@ -133,23 +152,32 @@ class Coach(models.Model):
     )
     career = models.TextField(
         verbose_name= '코치 커리어',
-        help_text= '경력을 엔터로 구분하세요.',
+        help_text= '경력을 엔터로 구분해주세요',
         null=True,
         blank=True
     )
     introduction = models.TextField(
-        blank=True, null=True, verbose_name='코치 소개',
+        blank=True, null=True, verbose_name='코치 짧은 소개',
     )
     phone = models.CharField(
         max_length=255, verbose_name='코치 번호',
         default='업체에 문의해주세요!',
     )
-    email = models.EmailField(verbose_name='코치 이메일', default=None, blank=True, null=True,)
-    instagram = models.URLField(null=True, blank=True, default=None)
-    facebook = models.URLField(null=True, blank=True, default=None)
+    email = models.EmailField(
+        verbose_name='코치 이메일', default=None, blank=True, null=True,
+    )
+    instagram = models.URLField(
+        null=True, blank=True, default=None,
+        verbose_name='코치 인스타그램 링크'
+    )
+    facebook = models.URLField(
+        null=True, blank=True, default=None,
+        verbose_name='코치 페이스북 링크'
+    )
     image = models.ImageField(
         verbose_name='코치 사진',
-        null=True, blank=True, upload_to='coach/%Y/%m/%d')
+        null=True, blank=True, upload_to='coach/%Y/%m/%d'
+    )
 
     class Meta:
         verbose_name = '코치'
@@ -165,13 +193,18 @@ class Lesson(models.Model):
         null=True,
         on_delete=models.CASCADE,
         related_name='lessons',
+        verbose_name='소속 업체'
     )
-    title = models.CharField(max_length=255, verbose_name='수업 이름')
-    org_price = models.PositiveSmallIntegerField(verbose_name='정가', default=0)
-    dc_price = models.PositiveSmallIntegerField(verbose_name='할인가', null=True, blank=True, default=0)
+    title = models.CharField(max_length=255, verbose_name='레슨 이름')
+    org_price = models.PositiveSmallIntegerField(
+        verbose_name='정가', default=0
+    )
+    dc_price = models.PositiveSmallIntegerField(
+        verbose_name='할인가', null=True, blank=True, default=0
+    )
     lesson_time = models.TextField(
         default='코치에게 문의해주세요!',
-        max_length=255, verbose_name='수업 시간',
+        max_length=255, verbose_name='레슨 시간',
         help_text='엔터로 구분해주세요. (ex)월,목 - 17:00 ~ 20:00 (enter키) 금 - 18:00 ~ 20:00'
     )
     week_frequency = models.IntegerField(verbose_name='주간 횟수')
@@ -180,9 +213,17 @@ class Lesson(models.Model):
         null=True,
         on_delete=models.CASCADE,
         related_name='lessons',
+        verbose_name='코치'
     )
-    introduction = models.CharField(max_length=127, default='   ')
-    description = models.TextField(null=True, blank=True)
+    introduction = models.CharField(
+        max_length=127, default='  ',
+        verbose_name="레슨 짧은 소개",
+        help_text='레슨 리스트에서 보여지는 짧은 문구입니다'
+    )
+    description = models.TextField(
+        null=True, blank=True,
+        verbose_name='레슨 상세 설명'
+    )
     LESSON_TYPE_CHOICES = (
         ('ONE_DAY', '원데이 레슨'),
         ('ONE_POINT', '원포인트 레슨'),
@@ -196,14 +237,25 @@ class Lesson(models.Model):
         choices=LESSON_TYPE_CHOICES,
         default='ONE_DAY',
         max_length=127,
+        verbose_name='레슨 유형',
     )
-    rating = models.FloatField(default=0)
-    review_count = models.PositiveIntegerField(default=0)
+    rating = models.FloatField(
+        default=0,
+        verbose_name='레슨 평점'
+    )
+    review_count = models.PositiveIntegerField(
+        default=0,
+        verbose_name='후기 개수'
+    )
     created_at = models.DateTimeField(
         auto_now_add=True,
         null=True,
+        verbose_name='작성일자'
     )
-    likes_count = models.PositiveIntegerField(default=0)
+    likes_count = models.PositiveIntegerField(
+        default=0,
+        verbose_name='찜한 유저 수'
+    )
 
     class Meta:
         verbose_name = '레슨'
@@ -212,48 +264,72 @@ class Lesson(models.Model):
     def __str__(self):
         return '('+str(self.id)+')['+str(self.academy.name)+'] ' + str(self.title)
 
-    @register.filter(name='update_like_counter')
-    def update_like_count(self, delta):
-        self.likes_count += delta
-        self.save()
-
 
 class LessonImage(models.Model):
     lesson = models.ForeignKey(
         Lesson,
         on_delete=models.CASCADE,
+        verbose_name='레슨'
     )
-    image = models.ImageField(upload_to='lesson/%Y/%m/%d')
+    image = models.ImageField(
+        upload_to='lesson/%Y/%m/%d',
+        verbose_name='레슨 이미지'
+    )
+
+    class Meta:
+        verbose_name = '레슨 이미지'
+        verbose_name_plural = '레슨 이미지'
 
 
 class Review(models.Model):
     lesson = models.ForeignKey(
         Lesson,
         on_delete=models.CASCADE,
+        verbose_name='레슨'
     )
     written_by = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
+        verbose_name='작성자'
     )
-    rating = models.IntegerField()
-    comment = models.CharField(max_length=255)
-    created_at = models.DateTimeField(blank=True, null=True, auto_now_add=True)
-
+    rating = models.IntegerField(
+        verbose_name='레슨 평점'
+    )
+    comment = models.CharField(
+        max_length=255, verbose_name='후기내용',
+    )
+    created_at = models.DateTimeField(
+        blank=True, null=True, auto_now_add=True,
+        verbose_name='작성시간'
+    )
 
     class Meta:
         ordering = ['-created_at']
+        verbose_name = '후기'
+        verbose_name_plural = '후기'
+
 
 class Like (models.Model):
     liked_by = models.ForeignKey(
         User,
         on_delete=models.CASCADE, related_name='likes',
+        verbose_name='유저'
     )
     lesson = models.ForeignKey(
         Lesson,
         on_delete=models.CASCADE, related_name='likes',
+        verbose_name='레슨',
     )
+
+    class Meta:
+        verbose_name = '찜'
+        verbose_name_plural = '찜'
 
 
 class WrongInfo (models.Model):
     phone_num = models.CharField(max_length=255)
     content = models.TextField()
+
+    class Meta:
+        verbose_name = '오류 신고'
+        verbose_name_plural = '오류 신고'
