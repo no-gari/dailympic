@@ -8,8 +8,9 @@
         .swiper-container {width: 100%; height: 30vh;}
         .swiper-slide { text-align: center; font-size: 18px; background: #fff; display: -webkit-box; display: -ms-flexbox; display: -webkit-flex; display: flex; -webkit-box-pack: center; -ms-flex-pack: center; -webkit-justify-content: center; justify-content: center; -webkit-box-align: center; -ms-flex-align: center; -webkit-align-items: center; align-items: center;}
         .lesson_title { text-decoration: underline; font-weight: bold; margin-left: 10px; margin-top: 7px; }
-        .class_info { background-color: white; top: 50px; padding: 5px 10px; z-index: 10000; display: flex; justify-content: space-between; }
-        .sticky { position: fixed; top: 0; background-color: white; padding: 5px 10px; z-index: 10000;  display: flex; justify-content: space-between;}
+        .class_info { background-color: white; top: 50px; padding: 5px 10px; z-index: 10000; display: flex; overflow-x: auto; height: 30px; -webkit-overflow-scrolling: touch;}
+        .slide { flex-shrink: 0; height: 30px; }
+        .sticky { position: fixed; top: 0; background-color: white; padding: 5px 10px; z-index: 10000; display: flex; overflow-x: auto; height: 30px; -webkit-overflow-scrolling: touch;}
         .margin-container { margin-top: 34px; }
         hr { margin-top: 10px; margin-bottom: 10px; }
         #myInput {position: absolute; top: 0;left:0;width:1px;height:1px;margin:0;padding:0;border:0;}
@@ -57,11 +58,14 @@
 {% endblock %}
 {% block maincontent %}
     <div>
-        <div id="class_info" class="class_info" style="width: 100%;">
-            <a href="#overview">Overview</a>|
-            <a href="#coach">코치</a>|
-            <a href="#program-detail">상세 소개</a>|
-            <a href="#company">Contact</a>
+        <div id="class_info" class="class_info">
+            <a href="#overview" class="slide mr-3">Overview</a>|
+            <a href="#coach" class="slide mx-3">코치</a>|
+            <a href="#program-detail" class="slide mx-3">상세 소개</a>|
+            <a href="#company" class="slide mx-3">업체정보</a>|
+            <a href="#review" class="slide mx-3">후기</a>|
+            <a href="#location" class="slide mx-3">위치</a>|
+            <a href="#sns" class="slide ml-3">Contact</a>
         </div>
         <div class="swiper-container" id="swiper">
             <div class="swiper-wrapper">
@@ -240,39 +244,41 @@
             <h5 class="lesson_title">후기</h5>
             {% if request.user.is_authenticated %}
                 <div class="px-3" style="width: 100%;">
-                    <button class="btn btn-success w-100" data-toggle="modal" data-target="#reviewModal">후기 작성하기</button>
+                    <button class="btn btn-success w-100" id="review_write_button" data-toggle="modal" data-target="#reviewModal">후기 작성하기</button>
                 </div>
             {% endif %}
             {% for review in reviews %}
                 <hr>
-                <div class="d-flex">
-                    <div style="width: 30%;" class="p-3">
-                        {% if review.written_by.user.profile.image %}
-                            <img src="{{ review.written_by.user.profile.image.url }}" alt="" class="img-fluid rounded">
-                        {% else %}
-                            이미지가 없습니다
-                        {% endif %}
-                    </div>
-                    <div style="width: 70%;" class="p-3">
-                        <div>
-                            <div style="font-weight: bold;" class="px-2">{{ review.written_by.username }}</div>
-                            <div class="rate" style="font-weight: bold;">
-                                {% load templatehelpers %}
-                                {% for i in review.rating|times %}
-                                    <span><i class="fa fa-star" style="color: #deb217;"></i></span>
-                                {% endfor %}
+                <div class="review_div">
+                    <div class="d-flex">
+                        <div style="width: 30%;" class="p-3">
+                            {% if review.written_by.user.profile.image %}
+                                <img src="{{ review.written_by.user.profile.image.url }}" alt="" class="img-fluid rounded">
+                            {% else %}
+                                이미지가 없습니다
+                            {% endif %}
+                        </div>
+                        <div style="width: 70%;" class="p-3">
+                            <div>
+                                <div style="font-weight: bold;" class="px-2">{{ review.written_by.username }}</div>
+                                <div class="rate" style="font-weight: bold;">
+                                    {% load templatehelpers %}
+                                    {% for i in review.rating|times %}
+                                        <span><i class="fa fa-star" style="color: #deb217;"></i></span>
+                                    {% endfor %}
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <div class="p-3 review_content">{{ review.comment }}</div>
+                    {% if request.user == review.written_by %}
+                        <div class="w-100 d-flex flex-row-reverse">
+                            <input type="hidden" value="{{ review.id }}" />
+                            <button class="btn btn-sm btn-danger mx-1 review_delete" type="button">삭제하기</button>
+                            <button class="btn btn-sm btn-info review_update" type="button" value="{{ review.id }}">수정하기</button>
+                        </div>
+                    {% endif %}
                 </div>
-                <div class="p-3 review_content">{{ review.comment }}</div>
-                {% if request.user == review.written_by %}
-                    <div class="w-100 d-flex flex-row-reverse">
-                        <input type="hidden" value="{{ review.id }}" />
-                        <button class="btn btn-sm btn-danger mx-1 review_delete" type="button">삭제하기</button>
-                        <button class="btn btn-sm btn-info review_update" type="button" value="{{ review.id }}">수정하기</button>
-                    </div>
-                {% endif %}
                 <hr>
             {% endfor %}
             <div class="px-3 text-center" style="width: 100%;">
@@ -387,6 +393,9 @@
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b6ed4d84c9a34763dcf92d3b6e590838"></script>
     <script src="https://unpkg.com/swiper/js/swiper.min.js"></script>
     <script>
+        $('#review_write_button').on('click', function () {
+            $('#reviewModal').find('textarea').val('');
+        });
         $('.review_delete').on('click', function () {
             var confirm = window.confirm('해당 댓글을 삭제하시겠습니까?');
             var Jthis = $(this);
@@ -406,7 +415,7 @@
         });
         $('.review_update').on('click', function () {
             var Jthis = $(this);
-            $('#reviewModal').find('textarea').val(Jthis.parent().siblings('.review_content').html());
+            $('#reviewModal').find('textarea').val(Jthis.closest('.review_div').find('.review_content').html());
             $('input[name="submit_type"]').val(2);
             $('input[name="review_id"]').val(Jthis.val());
             $('#reviewModal').modal();
@@ -465,6 +474,11 @@
             level: 3 //지도의 레벨(확대, 축소 정도)
         };
         var map = new kakao.maps.Map(container, options);
+        var markerPosition  = new kakao.maps.LatLng({{ lesson.academy.lati }},{{ lesson.academy.long }});
+        var marker = new kakao.maps.Marker({
+            position: markerPosition
+        });
+        marker.setMap(map);
 
         $(document).on('click', 'a[href^="#"]', function (event) {
             event.preventDefault();
