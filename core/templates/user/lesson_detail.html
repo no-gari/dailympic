@@ -474,6 +474,11 @@
             level: 3 //지도의 레벨(확대, 축소 정도)
         };
         var map = new kakao.maps.Map(container, options);
+        var markerPosition  = new kakao.maps.LatLng({{ lesson.academy.lati }},{{ lesson.academy.long }});
+        var marker = new kakao.maps.Marker({
+            position: markerPosition
+        });
+        marker.setMap(map);
 
         $(document).on('click', 'a[href^="#"]', function (event) {
             event.preventDefault();
