@@ -14,3 +14,7 @@ admin.site.register(LessonImage)
 admin.site.register(Review)
 admin.site.register(Like)
 admin.site.register(WrongInfo)
+
+
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ['name', 'sex',]

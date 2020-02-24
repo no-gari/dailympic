@@ -18,14 +18,14 @@ class Profile(models.Model):
         default=None,null=True,blank=True,verbose_name='프로필 사진',
         upload_to='profile/%Y/%m/%d',
     )
-    name = models.CharField(max_length=31, verbose_name='이름'),
+    name = models.CharField(max_length=31, verbose_name='이름', default='너이름이뭐니?')
     SEX_CHOICES = (
         ('M', '남'),
         ('W', '여')
     )
-    sex = models.CharField(max_length=7, choices=SEX_CHOICES, verbose_name='성별'),
+    sex = models.CharField(max_length=7, choices=SEX_CHOICES, verbose_name='성별', default='W')
     birthday = models.DateField(verbose_name='생년월일')
-    phone = models.CharField(max_length=31, null=True, blank=True, verbose_name='휴대전화')
+    phone = models.CharField(max_length=31, verbose_name='휴대전화')
 
     def __str__(self):
         return self.user.username+'의 프로필'
@@ -250,6 +250,7 @@ class Lesson(models.Model):
     created_at = models.DateTimeField(
         auto_now_add=True,
         null=True,
+        blank=True,
         verbose_name='작성일자'
     )
     likes_count = models.PositiveIntegerField(
@@ -285,11 +286,13 @@ class Review(models.Model):
     lesson = models.ForeignKey(
         Lesson,
         on_delete=models.CASCADE,
+        related_name='reviews',
         verbose_name='레슨'
     )
     written_by = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
+        related_name='reviews',
         verbose_name='작성자'
     )
     rating = models.IntegerField(
@@ -299,14 +302,19 @@ class Review(models.Model):
         max_length=255, verbose_name='후기내용',
     )
     created_at = models.DateTimeField(
-        blank=True, null=True, auto_now_add=True,
-        verbose_name='작성시간'
+        auto_now_add=True,
+        null=True,
+        blank=True,
+        verbose_name='작성시간',
     )
 
     class Meta:
         ordering = ['-created_at']
         verbose_name = '후기'
         verbose_name_plural = '후기'
+
+    def __str__(self):
+        return self.comment + '('+self.lesson.title+')'
 
 
 class Like (models.Model):
