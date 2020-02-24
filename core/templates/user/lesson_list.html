@@ -358,7 +358,13 @@
                     order.push(orders);
                 }
             );
-            $.queue($('#hidden_is_search').val(false).queue($('#hidden_region').val(region)).queue($('#hidden_type').val(type)).queue($('#hidden_sports_lists').val(sport)).queue($('#hidden_order').val(order)).queue($('#hidden_week_frequency').val(week_frequency)).queue($('#hidden_form').submit()))
+            $('#hidden_is_search').val(false);
+            $('#hidden_region').val(region);
+            $('#hidden_type').val(type);
+            $('#hidden_sports_lists').val(sport)
+            $('#hidden_order').val(order);
+            $('#hidden_week_frequency').val(week_frequency);
+            $('#hidden_form').submit();
         });
         {% if request.user.is_authenticated and not request.user.profile %}
             alert('소셜 계정으로 가입하셔서 미기입된 정보가 있습니다.' +

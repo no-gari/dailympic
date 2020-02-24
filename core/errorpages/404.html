@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load staticfiles %}
 <html lang="en">
 <head>
     <!-- Simple HttpErrorPages | MIT License | https://github.com/AndiDittrich/HttpErrorPages -->
@@ -8,7 +9,7 @@
 </head>
 <body>
     <div class="cover">
-        <img src="/logo.png" style="margin-left:-30px;" />
+        <img src="{% static 'img/logo.png' %}" style="margin-left:-30px;" />
         <h1>Resource not found <small>Error 404</small></h1><p class="lead">요청하신 페이지를 찾을 수 없습니다. URL을 다시 확인해 주세요.</p></div>
     
 </body>
