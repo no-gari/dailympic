@@ -236,9 +236,10 @@ def like_create_delete(request):
 @login_required
 @require_POST
 def review_delete(request):
-    review = Review.objects.get(id=int(request.GET['review_id']))
-    if review.written_by_id == request.user.pk:
+    review = Review.objects.get(id=int(request.POST['review_id']))
+    if review.written_by_id == request.user.id:
         review.delete()
+    return HttpResponse()
 
 
 def create_update_review(request):
