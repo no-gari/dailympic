@@ -22,5 +22,7 @@ urlpatterns = [
 
     path('user/create/', views.user_create, name='user_create'),
     path('profile/create/', views.ProfileCreateView.as_view(), name='profile_create'),
-    path('lesson/like/', views.create_or_delete_like, name='lesson_like'),
+    path('lesson/like/', views.like_create_delete, name='like_create_delete'),
+    path('review/delete/', views.review_delete, name='review_delete'),
+
 ]

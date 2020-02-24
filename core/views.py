@@ -3,19 +3,14 @@ import json
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.views.decorators.http import require_POST
 from django.views.generic import (
-    DetailView, ListView, CreateView
-)
-import datetime as dt
-from django.core import serializers
+    DetailView, ListView, CreateView,
+    DeleteView)
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.contrib import messages
-
 from core.forms import *
 from core.models import Lesson, Sport, BigDistrict, Like, Review, WrongInfo
 
@@ -139,15 +134,6 @@ class LessonDetailView(DetailView):
     context_object_name = 'lesson'
     template_name = 'user/lesson_detail.html'
 
-    def get(self, request, *args, **kwargs):
-        if request.is_ajax():
-            type, review_id, user_id = request.GET['type'], int(request.GET['review_id']), int(request.GET['user_id'])
-            review = Review.objects.get(id=review_id)
-            if type == 'del' and review.written_by_id == user_id:
-                review.delete()
-        else:
-            return super().get(self, request)
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         if self.request.user.is_authenticated:
@@ -169,24 +155,6 @@ class LessonDetailView(DetailView):
             review_list = p.page(p.num_pages)
         context['reviews'] = review_list
         return context
-
-    def post(self, request, *args, **kwargs):
-        try:
-            phone_num, content = request.POST['phone_num'], request.POST['content']
-            wrong_info = WrongInfo.objects.create(phone_num=phone_num, content=content)
-            wrong_info.save()
-        except:
-            if self.request.POST['submit_type'] == str(1):
-                lesson, user, rates, comments = kwargs['pk'], request.user, int(request.POST.get('rates', 0)), request.POST['comment']
-                new_review = Review.objects.create(lesson_id=lesson, written_by=user, rating=rates, comment=comments)
-                new_review.save()
-            else:
-                review = Review.objects.get(id=int(self.request.POST['review_id']))
-                if review.written_by == self.request.user:
-                    review.rating = int(self.request.POST['rates'])
-                    review.comment = self.request.POST['comment']
-                    review.save()
-        return super().get(self, request)
 
 
 class SportListView(ListView):
@@ -248,7 +216,7 @@ class LikedLessonListView(ListView):
 
 @login_required
 @require_POST
-def create_or_delete_like(request):
+def like_create_delete(request):
     lesson = get_object_or_404(Lesson, pk=request.POST.get('lesson'))
     lesson_like, is_created = lesson.likes.get_or_create(
         liked_by=request.user)
@@ -263,3 +231,46 @@ def create_or_delete_like(request):
         'msg': msg,
     }
     return HttpResponse(json.dumps(ctx), content_type="application/json")
+
+
+@login_required
+@require_POST
+def review_delete(request):
+    review = Review.objects.get(id=int(request.GET['review_id']))
+    if review.written_by_id == request.user.pk:
+        review.delete()
+
+
+def create_update_review(request):
+    lesson = get_object_or_404(Lesson, pk=request.POST.get('lesson'))
+    review, is_created = lesson.reviews.get_or_create(
+        written_by=request.user)
+
+    if is_created:
+        pass
+    else:
+        pass
+
+
+
+
+def create_wrong_info(request):
+    try:
+        phone_num, content = request.POST['phone_num'], request.POST['content']
+        wrong_info = WrongInfo.objects.create(phone_num=phone_num, content=content)
+        wrong_info.save()
+    except:
+        if request.POST['submit_type'] == '1':
+            new_review = Review.objects.create(
+                lesson_id=request.POST.get['pk'],
+                written_by=request.user,
+                rating=int(request.POST.get('rates', 0)),
+                comment=request.POST['comment']
+            )
+            new_review.save()
+        else:
+            review = Review.objects.get(id=int(request.POST['review_id']))
+            if review.written_by == request.user:
+                review.rating = int(request.POST['rates'])
+                review.comment = request.POST['comment']
+                review.save()
