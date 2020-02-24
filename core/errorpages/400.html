@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+<!DOCTYPE html>]
+{% load staticfiles %}
 <html lang="en">
 <head>
     <!-- Simple HttpErrorPages | MIT License | https://github.com/AndiDittrich/HttpErrorPages -->
@@ -8,8 +9,8 @@
 </head>
 <body>
     <div class="cover">
-        <img src="/logo.png" style="margin-left:-30px;" />
+        <img src="{% static 'img/logo.png' %}" style="margin-left:-30px;" />
         <h1>Bad Request <small>Error 400</small></h1><p class="lead">잘못된 요청입니다. URL을 다시 확인해 주세요.</p></div>
-    
+
 </body>
 </html>

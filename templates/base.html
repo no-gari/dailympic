@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://unpkg.com/@bootstrapstudio/bootstrap-better-nav/dist/bootstrap-better-nav.min.css">
     <link rel="icon" href="{% static 'img/dailympic_logo_small.png' %}" type="image/x-icon" />
     <style>
+        {% block title %}{% block basetitle %}{% endblock %}{% endblock %}
         body {font-family: 'Nanum Gothic', sans-serif !important;}
         .nav li a {font-weight: bold;}
         #main_content {min-height: 56vh;}
@@ -46,9 +47,9 @@
                 <ul class="nav navbar-nav ml-auto">
                     {% if not request.user.is_authenticated %}
                         <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'login' %}">로그인</a></li>
-                        <li class="nav-item" role="presentation"><a class="nav-link" href="#">회원가입</a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'user/create' %}">회원가입</a></li>
                     {% else %}
-                        <li class="nav-item" role="presentation"><span class="nav-link">안녕하세요 {{ request.user.username }} 님</span></li>
+                        <li class="nav-item" role="presentation"><span class="nav-link">안녕하세요 {{ request.user.profile.name }} 님</span></li>
                         <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'liked_lesson_list' %}">관심목록</a></li>
                         <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'logout' %}">로그아웃</a></li>
                     {% endif %}
@@ -88,7 +89,6 @@
                             <li><a href="javascript:void chatChannel()">개인 문의</a></li>
                         </ul>
                     </div>
-                    <div class="col-6 col-sm-6 col-md-3 item">
                     <div class="col-6 col-sm-6 col-md-3 item">
                         <h3>About</h3>
                         <ul>
