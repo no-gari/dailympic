@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load staticfiles %}
     <!-- Simple HttpErrorPages | MIT License | https://github.com/AndiDittrich/HttpErrorPages -->
     <meta charset="utf-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge" /><meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>533 - Scheduled Maintenance</title>
@@ -8,7 +9,7 @@
 </head>
 <body>
     <div class="cover">
-        <img src="logo.png" style="margin-left:-30px;" />
+        <img src="{% static 'img/logo.png' %}" style="margin-left:-30px;" />
         <h1>Scheduled Maintenance <small>Error 533</small></h1><p class="lead">현재 서비스를 점검하고 있습니다.<br />시스템 운영팀에서는 빠른 조치를 위해 노력하고 있습니다.</p></div>
     
 </body>

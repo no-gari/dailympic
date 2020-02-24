@@ -46,9 +46,9 @@
                 <ul class="nav navbar-nav ml-auto">
                     {% if not request.user.is_authenticated %}
                         <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'login' %}">로그인</a></li>
-                        <li class="nav-item" role="presentation"><a class="nav-link" href="#">회원가입</a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'user_create' %}">회원가입</a></li>
                     {% else %}
-                        <li class="nav-item" role="presentation"><span class="nav-link">안녕하세요 {{ request.user.username }} 님</span></li>
+                        <li class="nav-item" role="presentation"><span class="nav-link">안녕하세요 {{ request.user.profile.name }} 님</span></li>
                         <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'liked_lesson_list' %}">관심목록</a></li>
                         <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'logout' %}">로그아웃</a></li>
                     {% endif %}

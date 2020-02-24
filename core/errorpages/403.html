@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load staticfiles %}
 <head>
     <!-- Simple HttpErrorPages | MIT License | https://github.com/AndiDittrich/HttpErrorPages -->
     <meta charset="utf-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge" /><meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,7 +9,7 @@
 </head>
 <body>
     <div class="cover">
-        <img src="/logo.png" style="margin-left:-30px;" />
+        <img src="{% static 'img/logo.png' %}" style="margin-left:-30px;" />
         <h1>Access Denied <small>Error 403</small></h1><p class="lead">리소스에 대한 접근 권한이 없습니다.</p></div>
     
 </body>
