@@ -203,8 +203,9 @@
         <div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="reviewModal" aria-hidden="true">
             <form class="modal-dialog" method="post" id="review_form">
                 {% csrf_token %}
-                <input type="hidden" value="1" name="submit_type">
+                <input type="hidden" value="create" name="submit_type">
                 <input type="hidden" value="" name="review_id">
+                <input type="hidden" value="{{ lesson.id }}" name="lesson">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="reviewTitle">후기 작성하기</h5>
@@ -407,7 +408,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-                        <button type="submit" class="btn btn-success" id="wrong_info_button">신고하기</button>
+                        <button type="button" class="btn btn-success" id="wrong_info_button">신고하기</button>
                     </div>
                 </div>
             </form>
@@ -424,7 +425,7 @@
             $('#reviewModal').find('textarea').val('');
         });
         $('.review_delete').on('click', function () {
-            var confirm = window.confirm('해당 댓글을 삭제하시겠습니까?');
+            var confirm = window.confirm('해당 리뷰를 삭제하시겠습니까?');
             var Jthis = $(this);
             if(confirm) {
                 var del_val = Jthis.parent().find('input').val();
@@ -438,23 +439,46 @@
                 }).done(function () {
                     alert('리뷰가 삭제되었습니다.');
                 });
-                location.reload();
+                location.href="{% url 'lesson_detail' lesson.pk %}";
             }
         });
         $('.review_update').on('click', function () {
             var Jthis = $(this);
             $('#reviewModal').find('textarea').val(Jthis.closest('.review_div')
                 .find('.review_content').html());
-            $('input[name="submit_type"]').val(2);
+            $('input[name="submit_type"]').val('update');
             $('input[name="review_id"]').val(Jthis.val());
             $('#reviewModal').modal();
         });
         $('#review_form_button').click(function () {
-            $('#review_form').submit()
-        })
+            params = $('#review_form').serialize();
+            $.ajax({
+                method : "POST",
+                url: "{% url 'review_create_update' %}",
+                data: params,
+            }).done(function(data) {
+                if(data.msg === 'completed') {
+                    alert('정상적으로 등록되었습니다.');
+                    location.reload();
+                } else {
+                    alert('내용을 다시 확인해주세요.');
+                }
+            })
+        });
         $('#wrong_info_button').click(function () {
-            $('#wrong_info_form').submit()
-        })
+            params = $('#wrong_info_form').serialize();
+            $.ajax({
+                method : "POST",
+                url: "{% url 'wronginfo_create' %}",
+                data: params
+            }).done(function (data) {
+                if (data.msg === "completed"){
+                    alert('정상적으로 등록되었습니다.');
+                } else {
+                    alert('내용을 다시 확인해주세요.');
+                }
+            });
+        });
 
         var swiper = new Swiper('.swiper-container', {
             slidesPerView: 1,
@@ -530,36 +554,33 @@
             if ($(this).hasClass('fa-heart-o')) {
                 $(this).removeClass('fa-heart-o');
                 $(this).addClass('fa-heart');
-                $.ajax({
-                    method: "POST",
-                    url: "{% url 'like_create_delete' %}",
-                    data: {
-                        'lesson' : '{{ lesson.id }}',
-                        'preference' : 'like',
-                        'csrfmiddlewareoken': '{{ csrf_token }}'
-                    }
-                }).done(function () {
-                    alert('관심목록에 추가 되었습니다.');
-                });
             } else {
                 $(this).addClass('fa-heart-o');
                 $(this).removeClass('fa-heart');
-                $.ajax({
-                    method: "POST",
-                    url: "{% url 'like_create_delete' %}",
-                    data: {
-                        'lesson' : '{{ lesson.id }}',
-                        'preference' : 'dislike',
-                        'csrfmiddlewaretoken': '{{ csrf_token }}'
-                    }
-                }).done(function () {
-                    alert('관심목록에서 삭제 되었습니다.');
-                });
             }
-        })
+            $.ajax({
+                method: "POST",
+                url: "{% url 'like_create_delete' %}",
+                data: {
+                    'lesson': '{{ lesson.id }}',
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                }
+            }).done(function (data) {
+                if (data.msg === "created like") {
+                    $(this).removeClass('fa-heart-o');
+                    $(this).addClass('fa-heart');
+                    alert('관심목록에 추가 되었습니다.');
+                } else {
+                    $(this).addClass('fa-heart-o');
+                    $(this).removeClass('fa-heart');
+                    alert('관심목록에서 삭제 되었습니다.');
+                }
+            });
+        });
         {% if request.user.is_authenticated and not request.user.profile %}
-            alert('소셜 계정으로 가입하셔서 미기입된 정보가 있습니다.' +
-                '추가 정보를 입력하여 주시기 바랍니다.');location.href="{% url 'profile_create' %}";
+            alert('미기입된 회원 정보가 있습니다.' +
+                '추가 정보를 입력하기 위한 페이지로 이동합니다.');
+            location.href="{% url 'profile_create' %}";
         {% endif %}
     </script>
 {% endblock %}
