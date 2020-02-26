@@ -25,7 +25,11 @@ class Profile(models.Model):
     )
     sex = models.CharField(max_length=7, choices=SEX_CHOICES, verbose_name='성별', default='W')
     birthday = models.DateField(verbose_name='생년월일')
-    phone = models.CharField(max_length=31, verbose_name='휴대전화')
+    phone = models.CharField(
+        max_length=31,
+        verbose_name='휴대전화',
+        default='등록된 전화번호가 없습니다.'
+    )
 
     def __str__(self):
         return self.user.username+'의 프로필'
@@ -239,13 +243,17 @@ class Lesson(models.Model):
         max_length=127,
         verbose_name='레슨 유형',
     )
-    rating = models.FloatField(
+    rating_total = models.BigIntegerField(
         default=0,
-        verbose_name='레슨 평점'
+        verbose_name='레슨 평점 총합'
     )
     review_count = models.PositiveIntegerField(
         default=0,
         verbose_name='후기 개수'
+    )
+    rating = models.FloatField(
+        default=0,
+        verbose_name='레슨 평점'
     )
     created_at = models.DateTimeField(
         auto_now_add=True,

@@ -156,6 +156,9 @@ class LessonDetailView(DetailView):
         context['reviews'] = review_list
         return context
 
+    def post(self, request, *args, **kwargs):
+        return super().get(self, request, *args, **kwargs)
+
 
 class SportListView(ListView):
     model = Sport
@@ -222,10 +225,14 @@ def like_create_delete(request):
         liked_by=request.user)
 
     if is_created:
-        msg = "수업 찜하기 완료"
+        lesson.likes_count += 1
+        lesson.save()
+        msg = "created like"
     else :
+        lesson.likes_count -= 1
+        lesson.save()
         lesson_like.delete()
-        msg = "수업 찜하기 취소"
+        msg = "deleted like"
 
     ctx ={
         'msg': msg,
@@ -236,42 +243,72 @@ def like_create_delete(request):
 @login_required
 @require_POST
 def review_delete(request):
+    print(int(request.POST['review_id']))
     review = Review.objects.get(id=int(request.POST['review_id']))
     if review.written_by_id == request.user.id:
+        lesson = review.lesson
+        lesson.review_count -= 1
+        lesson.rating_total -= review.rating
+        lesson.rating = lesson.rating_total / lesson.review_count
+        lesson.save()
         review.delete()
     return HttpResponse()
 
 
-def create_update_review(request):
-    lesson = get_object_or_404(Lesson, pk=request.POST.get('lesson'))
-    review, is_created = lesson.reviews.get_or_create(
-        written_by=request.user)
+@require_POST
+def review_create_update(request):
+    lesson = get_object_or_404(
+        Lesson,
+        pk=int(request.POST.get('lesson')))
+    submit_type = request.POST.get('submit_type')
+    rating = int(request.POST.get('rates', 0))
+    comment = request.POST.get('comment')
 
-    if is_created:
-        pass
-    else:
-        pass
+    #validation
+    if len(comment) == 0 or rating == 0:
+        return HttpResponse(json.dumps({
+            'msg': 'failed'
+        }), content_type="application/json")
+
+    if submit_type == "create":
+        review = Review.objects.create(
+            lesson=lesson,
+            written_by=request.user,
+            rating=rating,
+            comment=comment
+        )
+        review.save()
+
+    elif submit_type == "update":
+        review = Review.objects.get(
+            pk=int(request.POST.get('review_id'))
+        )
+        if review.written_by == request.user:
+            review.rating = rating
+            review.comment = comment
+            review.save()
+    return HttpResponse(json.dumps({
+        'msg':'completed'
+    }), content_type="application/json")
 
 
-
-
-def create_wrong_info(request):
+@require_POST
+def wronginfo_create(request):
+    msg = ''
     try:
-        phone_num, content = request.POST['phone_num'], request.POST['content']
-        wrong_info = WrongInfo.objects.create(phone_num=phone_num, content=content)
-        wrong_info.save()
-    except:
-        if request.POST['submit_type'] == '1':
-            new_review = Review.objects.create(
-                lesson_id=request.POST.get['pk'],
-                written_by=request.user,
-                rating=int(request.POST.get('rates', 0)),
-                comment=request.POST['comment']
+        phone_num = request.POST['phone_num']
+        content = request.POST['content']
+        if len(phone_num) > 0 and len(content) > 0 :
+            wronginfo = WrongInfo.objects.create(
+                phone_num=phone_num,
+                content=content
             )
-            new_review.save()
+            wronginfo.save()
+            msg = 'completed'
         else:
-            review = Review.objects.get(id=int(request.POST['review_id']))
-            if review.written_by == request.user:
-                review.rating = int(request.POST['rates'])
-                review.comment = request.POST['comment']
-                review.save()
+            msg = 'failed'
+    except:
+        msg = 'failed'
+    finally:
+        return HttpResponse(json.dumps({'msg':msg}),
+                            content_type="application/json")
