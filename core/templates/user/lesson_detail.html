@@ -332,8 +332,8 @@
                 <div class="facebook px-4"><span><i class="fa fa-facebook-square"></i>  </span><span><a href="{{ lesson.academy.facebook }}">{{ lesson.academy.facebook }}</a></span></div>
             {% endif %}
             {% if lesson.academy.website %}
-                <div class="naver-cafe px-4"><span><img src="{% static 'img/naver.png' %}" alt="" style="width: 14px;">  </span><span><a
-                        href="{{ lesson.academy.website }}">{{ lesson.academy.website }}</a></span></div>
+                <div class="naver-cafe px-4" style="width: 100%;"><span><img src="{% static 'img/naver.png' %}" alt="" style="width: 14px;">  </span><div><a
+                        href="{{ lesson.academy.website }}">바로가기</a></div></div>
             {% endif %}
             {% if lesson.academy.email %}
                 <div class="email px-4"><span><i class="fa fa-send"></i></span><span onclick="location.href='mailto:{{ lesson.academy.email }}'">{{ lesson.academy.email }}</span></div>
@@ -413,8 +413,8 @@
                     }
                 })
                 alert('삭제되었습니다')
-                location.reload();
             }
+            location.reload();
         });
         $('.review_update').on('click', function () {
             var Jthis = $(this);
