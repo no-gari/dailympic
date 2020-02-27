@@ -7,11 +7,10 @@ from django.contrib.auth.views import LoginView, LogoutView
 urlpatterns = [
     path('', views.index, name='index'),
 
-    path('accounts/', include('allauth.urls')),
+    # path('accounts/', include('allauth.urls')),
     path('login/', views.CustomizedLoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
-    # 메일인증없이 1 step
-    path('register/', RegistrationView.as_view(success_url='/'), name='django_registration_register'),
+    # path('register/', RegistrationView.as_view(success_url='/'), name='django_registration_register'),
     # path('register/', RegistrationView.as_view(form_class=views.MyCustomUserForm, success_url='/'), name='django_registration_register'),
 
     path('lesson/list/', views.LessonListView.as_view(), name='lesson_list'),
@@ -22,9 +21,13 @@ urlpatterns = [
 
     path('user/create/', views.user_create, name='user_create'),
     path('profile/create/', views.ProfileCreateView.as_view(), name='profile_create'),
+    path('profile/update/<int:pk>/', views.ProfileUpdateView.as_view(), name='profile_update'),
+
     path('like/create_delete/', views.like_create_delete, name='like_create_delete'),
+
     path('review/delete/', views.review_delete, name='review_delete'),
     path('review/create_update/', views.review_create_update, name='review_create_update'),
+
     path('wronginfo/create/', views.wronginfo_create, name='wronginfo_create'),
 
 ]

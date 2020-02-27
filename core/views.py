@@ -9,7 +9,7 @@ from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.views.decorators.http import require_POST
 from django.views.generic import (
     DetailView, ListView, CreateView,
-    DeleteView)
+    DeleteView, UpdateView)
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from core.forms import *
 from core.models import Lesson, Sport, BigDistrict, Like, Review, WrongInfo
@@ -180,7 +180,7 @@ def user_create(request):
         'user_form': user_form,
         'profile_form': profile_form,
     }
-    return render(request, 'user/test_signup.html', ctx)
+    return render(request, 'user/user_create.html', ctx)
 
 
 class ProfileCreateView(CreateView):
@@ -202,6 +202,17 @@ class ProfileCreateView(CreateView):
             profile.save()
             return redirect('index')
         return render(request, 'user/profile_form.html')
+
+
+class ProfileUpdateView(UpdateView):
+    model = Profile
+    success_url = '/'
+    form_class = ProfileForm
+    template_name = 'user/profile_form.html'
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(
+            Profile, pk=self.kwargs['pk'])
 
 
 class LikedLessonListView(ListView):
@@ -238,24 +249,6 @@ def like_create_delete(request):
         'msg': msg,
     }
     return HttpResponse(json.dumps(ctx), content_type="application/json")
-
-
-@login_required
-@require_POST
-def review_delete(request):
-    review = Review.objects.get(id=int(request.POST['review_id']))
-    if review.written_by_id == request.user.id:
-        lesson = review.lesson
-        lesson.review_count -= 1
-        lesson.rating_total -= review.rating
-        lesson.save()
-        if lesson.review_count == 0:
-            lesson.rating = 0
-        else:
-            lesson.rating = lesson.rating_total / lesson.review_count
-        lesson.save()
-        review.delete()
-    return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 
 @require_POST
@@ -307,6 +300,24 @@ def review_create_update(request):
     return HttpResponse(json.dumps({
         'msg':'completed'
     }), content_type="application/json")
+
+
+@login_required
+@require_POST
+def review_delete(request):
+    review = Review.objects.get(id=int(request.POST['review_id']))
+    if review.written_by_id == request.user.id:
+        lesson = review.lesson
+        lesson.review_count -= 1
+        lesson.rating_total -= review.rating
+        lesson.save()
+        if lesson.review_count == 0:
+            lesson.rating = 0
+        else:
+            lesson.rating = lesson.rating_total / lesson.review_count
+        lesson.save()
+        review.delete()
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 
 @require_POST

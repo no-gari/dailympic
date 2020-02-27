@@ -19,17 +19,19 @@
                         <h5 class="card-title text-center">필수정보</h5>
                         <div class="form-signin">
                             <div class="form-label-group">
-                                <input type="text" id="PhoneNum" class="form-control" placeholder="핸드폰 번호" name="phone" required>
+                                <input type="text" id="PhoneNum" class="form-control" placeholder="핸드폰 번호" name="phone" required
+                                    value="{{ profile.phone }}">
                                 <label for="PhoneNum">핸드폰 번호</label>
                             </div>
                             <div class="form-label-group">
-                                <input type="text" id="name" class="form-control" placeholder="닉네임" name="name" required>
+                                <input type="text" id="name" class="form-control" placeholder="닉네임" name="name" required
+                                    value="{{ profile.name }}">
                                 <label for="name">닉네임 설정</label>
                             </div>
                             <div class="row">
                                 <div class="col-sm-6 col-6 col-md-6">
                                     <label for="Gender">성별</label>
-                                    <select id="Gender" class="form-control" name="sex">
+                                    <select id="Gender" class="form-control" name="sex" value="{{ profile.sex }}">
                                         <option value="M">남자</option>
                                         <option value="W">여자</option>
                                     </select>
@@ -38,16 +40,18 @@
                                     <label for="Birthday">생년월일</label>
                                     <div class="form-group date" id="Birthday">
                                         <div class='input-group date input-group-addon input-group-append' id='datetimepicker1' data-target="#datetimepicker1" data-toggle="datetimepickerv">
-                                            <input name="birthday" type='date' class="form-control bootstrap-datetimepicker-widget" />
+                                            <input name="birthday" type='date' class="form-control bootstrap-datetimepicker-widget"
+                                                value="{{ profile.birthday }}"/>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div>
-                                <input type="file" id="profile" class="form-control" name="image" placeholder="프로필 사진">
+                                <input type="file" id="profile" class="form-control" name="image" placeholder="프로필 사진"
+                                    value="{{ profile.image }}">
                                 <label for="PhoneNum">프로필 사진(선택사항)</label>
                             </div>
-                            <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">회원가입</button>
+                            <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">등록하기</button>
                         </div>
                     </div>
                 </form>
