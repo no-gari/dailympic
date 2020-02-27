@@ -38,6 +38,7 @@
             <div class="collapse navbar-collapse"
                  id="navcol-1">
                 <ul class="nav navbar-nav ml-auto">
+                    <li class="nav-item d-block d-sm-none" role="presentation"><span class="nav-link">안녕하세요 {{ request.user.profile.name }} 님</span></li>
                     <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'lesson_list' %}">레슨</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link" href="/community/notice">공지사항</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link" href="/community/FAQ">자주 묻는 질문</a></li>
@@ -48,7 +49,7 @@
                         <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'login' %}">로그인</a></li>
                         <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'user_create' %}">회원가입</a></li>
                     {% else %}
-                        <li class="nav-item" role="presentation"><span class="nav-link">안녕하세요 {{ request.user.profile.name }} 님</span></li>
+                        <li class="nav-item d-none d-md-block" role="presentation"><span class="nav-link">안녕하세요 {{ request.user.profile.name }} 님</span></li>
                         <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'liked_lesson_list' %}">관심목록</a></li>
                         <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'logout' %}">로그아웃</a></li>
                     {% endif %}
