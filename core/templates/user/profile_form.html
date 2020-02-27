@@ -40,9 +40,10 @@
                                     <label for="Birthday">생년월일</label>
                                     <div class="form-group date" id="Birthday">
                                         <div class='input-group date input-group-addon input-group-append' id='datetimepicker1' data-target="#datetimepicker1" data-toggle="datetimepickerv">
-                                            <input name="birthday" type='date' class="form-control bootstrap-datetimepicker-widget"
-                                                value="{{ profile.birthday }}"/>
+                                            <input name="birthday" type='date' class="form-control datetimepicker-input"
+                                                placeholder="{{ profile.birthday|date:"Y-m-d" }}" value="{{ profile.birthday|date:"Y-m-d" }}" id="birthday"/>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -62,9 +63,11 @@
 
 {% block extra_js %}
     <script>
-      $(function () {
-        $("#birthday").datetimepicker();
-      });
+        $(function () {
+            $("#birthday").datetimepicker({
+                language: 'kr',
+            });
+        });
     </script>
 
 {% endblock %}
