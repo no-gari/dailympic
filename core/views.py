@@ -249,10 +249,13 @@ def review_delete(request):
         lesson = review.lesson
         lesson.review_count -= 1
         lesson.rating_total -= review.rating
-        lesson.rating = lesson.rating_total / lesson.review_count
-        lesson.save()
+        try:
+            rating = lesson.rating_total / lesson.review_count
+            lesson.rating = rating
+        except:
+            lesson.rating = 0
         review.delete()
-    return HttpResponse()
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 
 @require_POST
