@@ -106,7 +106,7 @@
                     <div>
                         <div class="title d-flex my-1">
                             <div style="width: 30%; font-weight: bold;">
-                                주종
+                                주종목
                             </div>
                             <div style="width: 70%;">
                                 <span class="px-2" style="cursor: pointer; display: inline-block; background-color: #699A3C; color: white; font-weight: bold;">{{ lesson.academy.sport.name }}</span>
@@ -203,12 +203,14 @@
         <div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="reviewModal" aria-hidden="true">
             <form class="modal-dialog" method="post" id="review_form">
                 {% csrf_token %}
-                <input type="hidden" value="1" name="submit_type">
+                <input type="hidden" value="create" name="submit_type">
                 <input type="hidden" value="" name="review_id">
+                <input type="hidden" value="{{ lesson.id }}" name="lesson">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="reviewTitle">리뷰 작성하기</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <h5 class="modal-title" id="reviewTitle">후기 작성하기</h5>
+                        <button type="button" class="close"
+                                data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -236,8 +238,12 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-                        <button type="submit" class="btn btn-success" id="review_form_button">작성하기</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            닫기
+                        </button>
+                        <button type="submit" class="btn btn-success" id="review_form_button">
+                            작성하기
+                        </button>
                     </div>
                 </div>
             </form>
@@ -247,7 +253,10 @@
             <h5 class="lesson_title">후기</h5>
             {% if request.user.is_authenticated %}
                 <div class="px-3" style="width: 100%;">
-                    <button class="btn btn-success w-100" id="review_write_button" data-toggle="modal" data-target="#reviewModal">후기 작성하기</button>
+                    <button class="btn btn-success w-100" id="review_write_button"
+                            data-toggle="modal" data-target="#reviewModal">
+                        후기 작성하기
+                    </button>
                 </div>
             {% endif %}
             {% for review in reviews %}
@@ -277,8 +286,13 @@
                     {% if request.user == review.written_by %}
                         <div class="w-100 d-flex flex-row-reverse">
                             <input type="hidden" value="{{ review.id }}" />
-                            <button class="btn btn-sm btn-danger mx-1 review_delete" type="button">삭제하기</button>
-                            <button class="btn btn-sm btn-info review_update" type="button" value="{{ review.id }}">수정하기</button>
+                            <button class="btn btn-sm btn-danger mx-1 review_delete" type="button">
+                                삭제하기
+                            </button>
+                            <button class="btn btn-sm btn-info review_update" type="button"
+                                    value="{{ review.id }}">
+                                수정하기
+                            </button>
                         </div>
                     {% endif %}
                 </div>
@@ -313,7 +327,7 @@
         <hr>
         <div id="location">
             <h5 class="lesson_title">위치</h5>
-            <div class="px-3">서울특별시 마포구 토정로 16길 19</div>
+            <div class="px-3">{{ lesson.academy.address }}</div>
             <div class="px-3">
                 <div id="map" style="width:100%; height:200px;"></div>
             </div>
@@ -332,15 +346,26 @@
                 <div class="facebook px-4"><span><i class="fa fa-facebook-square"></i>  </span><span><a href="{{ lesson.academy.facebook }}">{{ lesson.academy.facebook }}</a></span></div>
             {% endif %}
             {% if lesson.academy.website %}
-                <div class="naver-cafe px-4" style="width: 100%;"><span><img src="{% static 'img/naver.png' %}" alt="" style="width: 14px;">  </span><div><a
-                        href="{{ lesson.academy.website }}">바로가기</a></div></div>
+                <div class="naver-cafe px-4">
+                    <span>
+                        <img src="{% static 'img/naver.png' %}" alt="" style="width: 14px;">
+                    </span>
+                    <span>
+                        <a href="{{ lesson.academy.website }}">바로가기</a>
+                    </span>
+                </div>
             {% endif %}
             {% if lesson.academy.email %}
                 <div class="email px-4"><span><i class="fa fa-send"></i></span><span onclick="location.href='mailto:{{ lesson.academy.email }}'">{{ lesson.academy.email }}</span></div>
             {% endif %}
             <div class="px-3 mt-2" style="font-weight: bold;">코치 주소</div>
             {% if lesson.coach.phone %}
-                <div class="phone px-4"><span><i class="fa fa-phone"></i></span> <span onclick="location.href='tel:{{ lesson.coach.phone }}'">{{ lesson.coach.phone }}</span></div>
+                <div class="phone px-4">
+                    <span><i class="fa fa-phone"></i></span>
+                    <span onclick="location.href='tel:{{ lesson.coach.phone }}'">
+                        {{ lesson.coach.phone }}
+                    </span>
+                </div>
             {% endif %}
             {% if lesson.coach.instagram %}
                 <div class="instagram px-4"><span><i class="fa fa-instagram"></i>  </span><span><a href="{{ lesson.coach.instagram }}">{{ lesson.coach.instagram }}</a></span></div>
@@ -383,7 +408,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-                        <button type="submit" class="btn btn-success" id="wrong_info_button">신고하기</button>
+                        <button type="button" class="btn btn-success" id="wrong_info_button">신고하기</button>
                     </div>
                 </div>
             </form>
@@ -400,35 +425,60 @@
             $('#reviewModal').find('textarea').val('');
         });
         $('.review_delete').on('click', function () {
-            var confirm = window.confirm('해당 댓글을 삭제하시겠습니까?');
+            var confirm = window.confirm('해당 리뷰를 삭제하시겠습니까?');
             var Jthis = $(this);
             if(confirm) {
-                var del_val = Jthis.parent().find('input').val()
+                var del_val = Jthis.parent().find('input').val();
                 $.ajax({
-                    method : "GET",
+                    method : "POST",
+                    url: "{% url 'review_delete' %}",
                     data: {
-                        'type' : 'del',
                         'review_id' : del_val,
-                        'user_id' : '{{ request.user.id }}'
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
                     }
-                })
-                alert('삭제되었습니다')
+                }).done(function () {
+                    alert('리뷰가 삭제되었습니다.');
+                });
+                location.href="{% url 'lesson_detail' lesson.pk %}";
             }
-            location.reload();
         });
         $('.review_update').on('click', function () {
             var Jthis = $(this);
-            $('#reviewModal').find('textarea').val(Jthis.closest('.review_div').find('.review_content').html());
-            $('input[name="submit_type"]').val(2);
+            $('#reviewModal').find('textarea').val(Jthis.closest('.review_div')
+                .find('.review_content').html());
+            $('input[name="submit_type"]').val('update');
             $('input[name="review_id"]').val(Jthis.val());
             $('#reviewModal').modal();
         });
         $('#review_form_button').click(function () {
-            $('#review_form').submit()
-        })
+            params = $('#review_form').serialize();
+            $.ajax({
+                method : "POST",
+                url: "{% url 'review_create_update' %}",
+                data: params,
+            }).done(function(data) {
+                if(data.msg === 'completed') {
+                    alert('정상적으로 등록되었습니다.');
+                    location.reload();
+                } else {
+                    alert('내용을 다시 확인해주세요.');
+                }
+            })
+        });
         $('#wrong_info_button').click(function () {
-            $('#wrong_info_form').submit()
-        })
+            params = $('#wrong_info_form').serialize();
+            $.ajax({
+                method : "POST",
+                url: "{% url 'wronginfo_create' %}",
+                data: params
+            }).done(function (data) {
+                if (data.msg === "completed"){
+                    alert('정상적으로 등록되었습니다.');
+                } else {
+                    alert('내용을 다시 확인해주세요.');
+                }
+            });
+        });
 
         var swiper = new Swiper('.swiper-container', {
             slidesPerView: 1,
@@ -504,36 +554,33 @@
             if ($(this).hasClass('fa-heart-o')) {
                 $(this).removeClass('fa-heart-o');
                 $(this).addClass('fa-heart');
-                $.ajax({
-                    method: "POST",
-                    url: "{% url 'lesson_like' %}",
-                    data: {
-                        'lesson' : '{{ lesson.id }}',
-                        'preference' : 'like',
-                        'csrfmiddlewaretoken': '{{ csrf_token }}'
-                    }
-                }).done(function () {
-                    alert('관심목록에 추가 되었습니다.');
-                });
             } else {
                 $(this).addClass('fa-heart-o');
                 $(this).removeClass('fa-heart');
-                $.ajax({
-                    method: "POST",
-                    url: "{% url 'lesson_like' %}",
-                    data: {
-                        'lesson' : '{{ lesson.id }}',
-                        'preference' : 'dislike',
-                        'csrfmiddlewaretoken': '{{ csrf_token }}'
-                    }
-                }).done(function () {
-                    alert('관심목록에서 삭제 되었습니다.');
-                });
             }
-        })
+            $.ajax({
+                method: "POST",
+                url: "{% url 'like_create_delete' %}",
+                data: {
+                    'lesson': '{{ lesson.id }}',
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                }
+            }).done(function (data) {
+                if (data.msg === "created like") {
+                    $(this).removeClass('fa-heart-o');
+                    $(this).addClass('fa-heart');
+                    alert('관심목록에 추가 되었습니다.');
+                } else {
+                    $(this).addClass('fa-heart-o');
+                    $(this).removeClass('fa-heart');
+                    alert('관심목록에서 삭제 되었습니다.');
+                }
+            });
+        });
         {% if request.user.is_authenticated and not request.user.profile %}
-            alert('소셜 계정으로 가입하셔서 미기입된 정보가 있습니다.' +
-                '추가 정보를 입력하여 주시기 바랍니다.');location.href="{% url 'profile_create' %}";
+            alert('미기입된 회원 정보가 있습니다.' +
+                '추가 정보를 입력하기 위한 페이지로 이동합니다.');
+            location.href="{% url 'profile_create' %}";
         {% endif %}
     </script>
 {% endblock %}
