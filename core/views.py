@@ -278,6 +278,12 @@ def review_create_update(request):
             comment=comment
         )
         review.save()
+        review.lesson.review_count += 1
+        review.lesson.rating_total += rating
+        review.lesson.save()
+        review.lesson.rating = \
+            review.lesson.rating_total / review.lesson.review_count
+        review.lesson.save()
 
     elif submit_type == "update":
         review = Review.objects.get(
