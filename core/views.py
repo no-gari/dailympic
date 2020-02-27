@@ -243,17 +243,17 @@ def like_create_delete(request):
 @login_required
 @require_POST
 def review_delete(request):
-    print(int(request.POST['review_id']))
     review = Review.objects.get(id=int(request.POST['review_id']))
     if review.written_by_id == request.user.id:
         lesson = review.lesson
         lesson.review_count -= 1
         lesson.rating_total -= review.rating
-        try:
-            rating = lesson.rating_total / lesson.review_count
-            lesson.rating = rating
-        except:
+        lesson.save()
+        if lesson.review_count == 0:
             lesson.rating = 0
+        else:
+            lesson.rating = lesson.rating_total / lesson.review_count
+        lesson.save()
         review.delete()
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
@@ -293,9 +293,17 @@ def review_create_update(request):
             pk=int(request.POST.get('review_id'))
         )
         if review.written_by == request.user:
+            rating_delta = rating - review.rating
             review.rating = rating
             review.comment = comment
             review.save()
+
+            review.lesson.rating_total += rating_delta
+            review.lesson.save()
+            review.lesson.rating = \
+                review.lesson.rating_total / review.lesson.review_count
+            review.lesson.save()
+
     return HttpResponse(json.dumps({
         'msg':'completed'
     }), content_type="application/json")
