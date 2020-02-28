@@ -7,7 +7,7 @@
 - Django
 - JQuery + bootstrap
 - MySQL + AWS RDS
-- AWS EC2 + nginx + Apache
+- AWS EC2 + nginx + uwsgi
 
 [Dailympic](http://dailympic.com) ⓒ 2020
 
