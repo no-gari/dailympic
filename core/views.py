@@ -187,6 +187,7 @@ class ProfileCreateView(CreateView):
     model = Profile
     success_url = '/'
     form_class = ProfileForm
+    context_object_name = 'form'
     template_name = 'user/profile_form.html'
 
     def get(self, request, *args, **kwargs):
@@ -196,11 +197,16 @@ class ProfileCreateView(CreateView):
 
     def post(self, request, *args, **kwargs):
         profile_form = ProfileForm(request.POST)
+        # print(profile_form)
         if profile_form.is_valid():
             profile = profile_form.save(commit=False)
             profile.user = request.user
+            profile.image = request.FILES.get('image')
             profile.save()
+            print(profile)
             return redirect('index')
+        else:
+            print(profile_form.errors)
         return render(request, 'user/profile_form.html')
 
 
@@ -213,6 +219,21 @@ class ProfileUpdateView(UpdateView):
     def get_object(self, queryset=None):
         return get_object_or_404(
             Profile, pk=self.kwargs['pk'])
+
+    def post(self, request, *args, **kwargs):
+        profile = self.get_object()
+        profile_form = ProfileForm(request.POST)
+        if profile_form.is_valid():
+            new_profile = profile_form.instance
+            profile.phone = new_profile.phone
+            profile.name = new_profile.name
+            profile.sex = new_profile.sex
+            profile.birthday = new_profile.birthday
+            if request.FILES.get('image') :
+                profile.image = request.FILES.get('image')
+            profile.save()
+            return redirect('index')
+        return render(request, 'user/profile_form.html')
 
 
 class LikedLessonListView(ListView):
