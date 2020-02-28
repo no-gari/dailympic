@@ -229,7 +229,8 @@ class ProfileUpdateView(UpdateView):
             profile.name = new_profile.name
             profile.sex = new_profile.sex
             profile.birthday = new_profile.birthday
-            profile.image = request.FILES.get('image')
+            if request.FILES.get('image') :
+                profile.image = request.FILES.get('image')
             profile.save()
             return redirect('index')
         return render(request, 'user/profile_form.html')
