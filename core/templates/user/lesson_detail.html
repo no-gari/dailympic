@@ -265,8 +265,8 @@
                     {% csrf_token %}
                     <div class="d-flex">
                         <div style="width: 30%;" class="p-3">
-                            {% if review.written_by.user.profile.image %}
-                                <img src="{{ review.written_by.user.profile.image.url }}" alt="" class="img-fluid rounded">
+                            {% if review.written_by.profile.image %}
+                                <img src="{{ review.written_by.profile.image.url }}" alt="" class="img-fluid rounded">
                             {% else %}
                                 이미지가 없습니다
                             {% endif %}
