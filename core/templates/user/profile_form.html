@@ -32,12 +32,14 @@
                                 <div class="col-sm-6 col-6 col-md-6">
                                     <label for="Gender">성별</label>
                                     <select id="Gender" class="form-control" name="sex" value="{{ profile.sex }}">
-                                        <option value="M" selected>남자</option>
-                                        <option value="W">여자</option>
+                                        <option value="M"
+                                            {% if profile.sex == "M" %} selected {% endif %}>남자</option>
+                                        <option value="W"
+                                            {% if profile.sex == "W" %} selected {% endif %}>여자</option>
                                     </select>
                                 </div>
                                 <div class="col-sm-6 col-6 col-md-6">
-                                    <label for="Birthday">생년월일</label>
+                                    <label for="birthday">생년월일</label>
                                     <div class="form-group date" id="Birthday">
                                         <div class='input-group date input-group-addon input-group-append' id='datetimepicker1' data-target="#datetimepicker1" data-toggle="datetimepickerv">
                                             <input name="birthday" type='date' class="form-control datetimepicker-input"
@@ -48,9 +50,18 @@
                                 </div>
                             </div>
                             <div>
-                                <input type="file" id="profile" class="form-control" name="image" placeholder="프로필 사진"
-                                    {% if post.image %}value="{{ profile.image.url }}"{% endif %}>
-                                <label for="PhoneNum">프로필 사진(선택사항)</label>
+                                {% if profile.image %}
+                                <div>
+                                    <label for="original_image">기존 프로필 사진</label>
+                                </div>
+                                <div>
+                                    <img name="original_image" style="height:10%; width:10%;"
+                                     src="{{ profile.image.url }}" alt="기존 사진을 불러올 수 없습니다." />
+                                </div>
+                                {% endif %}
+                                <label for="image">프로필 사진</label>
+                                <input type="file" id="image" class="form-control" name="image" placeholder="프로필 사진">
+                                <br>
                             </div>
                             <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">등록하기</button>
                         </div>
