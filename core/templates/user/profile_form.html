@@ -13,7 +13,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-                <form class="card card-signin my-5" method="post">
+                <form class="card card-signin my-5" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="card-body">
                         <h5 class="card-title text-center">필수정보</h5>
@@ -32,7 +32,7 @@
                                 <div class="col-sm-6 col-6 col-md-6">
                                     <label for="Gender">성별</label>
                                     <select id="Gender" class="form-control" name="sex" value="{{ profile.sex }}">
-                                        <option value="M">남자</option>
+                                        <option value="M" selected>남자</option>
                                         <option value="W">여자</option>
                                     </select>
                                 </div>
@@ -40,15 +40,16 @@
                                     <label for="Birthday">생년월일</label>
                                     <div class="form-group date" id="Birthday">
                                         <div class='input-group date input-group-addon input-group-append' id='datetimepicker1' data-target="#datetimepicker1" data-toggle="datetimepickerv">
-                                            <input name="birthday" type='date' class="form-control bootstrap-datetimepicker-widget"
-                                                value="{{ profile.birthday }}"/>
+                                            <input name="birthday" type='date' class="form-control datetimepicker-input"
+                                                placeholder="{{ profile.birthday|date:"Y-m-d" }}" value="{{ profile.birthday|date:"Y-m-d" }}" id="birthday"/>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
                             <div>
                                 <input type="file" id="profile" class="form-control" name="image" placeholder="프로필 사진"
-                                    value="{{ profile.image }}">
+                                    {% if post.image %}value="{{ profile.image.url }}"{% endif %}>
                                 <label for="PhoneNum">프로필 사진(선택사항)</label>
                             </div>
                             <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">등록하기</button>
@@ -62,9 +63,11 @@
 
 {% block extra_js %}
     <script>
-      $(function () {
-        $("#birthday").datetimepicker();
-      });
+        $(function () {
+            $("#birthday").datetimepicker({
+                language: 'kr',
+            });
+        });
     </script>
 
 {% endblock %}
