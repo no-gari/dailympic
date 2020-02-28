@@ -187,6 +187,7 @@ class ProfileCreateView(CreateView):
     model = Profile
     success_url = '/'
     form_class = ProfileForm
+    context_object_name = 'form'
     template_name = 'user/profile_form.html'
 
     def get(self, request, *args, **kwargs):
@@ -196,11 +197,17 @@ class ProfileCreateView(CreateView):
 
     def post(self, request, *args, **kwargs):
         profile_form = ProfileForm(request.POST)
+        print(request.POST)
+        print(request.FILES)
+        # print(profile_form)
         if profile_form.is_valid():
             profile = profile_form.save(commit=False)
             profile.user = request.user
             profile.save()
+            print(profile)
             return redirect('index')
+        else:
+            print(profile_form.errors)
         return render(request, 'user/profile_form.html')
 
 
