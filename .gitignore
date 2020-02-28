@@ -15,3 +15,4 @@ dailympic/settings/__init__.py
 static_root/
 core/tmp_views.py
 core/templates/user/tmp_lesson_detail.html
+media/
