@@ -39,7 +39,9 @@
             <div class="collapse navbar-collapse"
                  id="navcol-1">
                 <ul class="nav navbar-nav ml-auto">
-                    <li class="nav-item d-block d-sm-none" role="presentation"><span class="nav-link">안녕하세요 {{ request.user.profile.name }} 님</span></li>
+                    {% if request.user.is_authenticated %}
+                        <li class="nav-item d-block d-sm-none" role="presentation"><span class="nav-link">안녕하세요 {{ request.user.profile.name }} 님</span></li>
+                    {% endif %}
                     {% if request.user.is_authenticated and request.user.profile %}
                         <li class="nav-item" role="presentation">
                             <a class="nav-link" href="{% url 'profile_update' request.user.profile.pk %}">
