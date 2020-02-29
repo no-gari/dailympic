@@ -18,13 +18,13 @@ DATABASES = {
     }
 }
 
-DEBUG = True
+DEBUG = False
 
 #S3 settings
-DEFAULT_FILE_STORAGE = 'dailympic.storages.MediaStorage'
-STATICFILES_STORAGE = 'dailympic.storages.StaticStorage'
+MEDIAFILES_STORAGE = 'dailympic.storages.MediaStorage'
+#STATICFILES_STORAGE = 'dailympic.storages.StaticStorage'
 MEDIAFILES_LOCATION = 'media'
-STATICFILES_LOCATION = 'static'
+#STATICFILES_LOCATION = 'static'
 
 AWS_ACCESS_KEY_ID = secrets['AWS_ACCESS_KEY_ID']
 AWS_SECRET_ACCESS_KEY = secrets['AWS_SECRET_ACCESS_KEY']
