@@ -3,17 +3,19 @@
 {% block base_extra_head %}
     <link rel="stylesheet" href="https://unpkg.com/swiper/css/swiper.min.css">
     <style>
-        .swiper-container {width: 100%; height: 80vh;}
-        @media screen and (max-width: 600px) {.swiper-container {width: 100%; height: 40vh;} .main_menu1_contents{background-color: #F1F3F4; height:180px;}}
+        .wrapper { float: left; clear: left; display: table; table-layout: fixed; }
+        img.img-responsive { display: table-cell; max-width: 100%; }
+        @media screen and (max-width: 600px) {
+            .main_menu1_contents{background-color: #F1F3F4; height:180px;}}
         .swiper-slide { text-align: center; font-size: 18px; background: #fff; display: -webkit-box; display: -ms-flexbox; display: -webkit-flex; display: flex; -webkit-box-pack: center; -ms-flex-pack: center; -webkit-justify-content: center; justify-content: center; -webkit-box-align: center; -ms-flex-align: center; -webkit-align-items: center; align-items: center;}
     </style>
 {% endblock %}
 {% block maincontent %}
     <div class="swiper-container">
         <div class="swiper-wrapper">
-            <div class="swiper-slide"><a href="">slide1</a></div>
-            <div class="swiper-slide"><a href="">Slide 2</a></div>
-            <div class="swiper-slide"><a href="">Slide 3</a></div>
+            <div class="swiper-slide"><a class="wrapper" href=""><img class="img-responsive" src="" alt=""></a></div>
+            <div class="swiper-slide"><a class="wrapper" href=""><img class="img-responsive" src="" alt=""></a></div>
+            <div class="swiper-slide"><a class="wrapper" href=""><img class="img-responsive" src="" alt=""></a></div>
         </div>
         <!-- Add Arrows -->
         <div class="swiper-button-next" style="color: #699A3C;"></div>
