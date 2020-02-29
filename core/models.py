@@ -106,21 +106,21 @@ class Academy(models.Model):
         blank=True, null=True, verbose_name='업체 소개',
     )
     phone = models.CharField(
-        max_length=31, verbose_name='업체 문의번호',
+        max_length=31, verbose_name='업체 문의번호', default='-1'
     )
     email = models.EmailField(
-        blank=True, null=True, verbose_name='업체 이메일',
+        blank=True, null=True, verbose_name='업체 이메일', default='-1'
     )
     operation_time = models.TextField(
         default='업체에 문의해주세요!', max_length=255,
         verbose_name='업체 운영 시간',
         help_text='엔터로 구분해주세요. (ex)월,목 - 17:00 ~ 20:00 (enter키) 금 - 18:00 ~ 20:00'
     )
-    instagram = models.URLField(null=True, blank=True, default=None,
+    instagram = models.URLField(null=True, blank=True, default='-1',
                                 verbose_name='인스타그램 링크')
-    facebook = models.URLField(null=True, blank=True, default=None,
+    facebook = models.URLField(null=True, blank=True, default='-1',
                                verbose_name='페이스북 링크')
-    website = models.URLField(null=True, blank=True, default=None,
+    website = models.URLField(null=True, blank=True, default='-1',
                               verbose_name='웹사이트/카페 링크')
     small_district = models.ForeignKey(
         SmallDistrict,
@@ -165,17 +165,17 @@ class Coach(models.Model):
     )
     phone = models.CharField(
         max_length=255, verbose_name='코치 번호',
-        default='업체에 문의해주세요!',
+        default='-1',
     )
     email = models.EmailField(
-        verbose_name='코치 이메일', default=None, blank=True, null=True,
+        verbose_name='코치 이메일', default='-1', blank=True, null=True,
     )
     instagram = models.URLField(
-        null=True, blank=True, default=None,
+        null=True, blank=True, default='-1',
         verbose_name='코치 인스타그램 링크'
     )
     facebook = models.URLField(
-        null=True, blank=True, default=None,
+        null=True, blank=True, default='-1',
         verbose_name='코치 페이스북 링크'
     )
     image = models.ImageField(
