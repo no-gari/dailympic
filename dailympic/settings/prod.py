@@ -20,7 +20,12 @@ DATABASES = {
 
 DEBUG = True
 
-'''STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'core/static'),
-]
-'''
+#S3 settings
+DEFAULT_FILE_STORAGE = 'dailympic.storages.MediaStorage'
+STATICFILES_STORAGE = 'dailympic.storages.StaticStorage'
+MEDIAFILES_LOCATION = 'media'
+STATICFILES_LOCATION = 'static'
+
+AWS_ACCESS_KEY_ID = secrets['AWS_ACCESS_KEY_ID']
+AWS_SECRET_ACCESS_KEY = secrets['AWS_SECRET_ACCESS_KEY']
+AWS_STORAGE_BUCKET_NAME = secrets['AWS_STORAGE_BUCKET_NAME']
