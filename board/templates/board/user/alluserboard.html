@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static "css/board.css" %}">
+    {{ form.media }}
+    <script>
+        var alluser = function () {
+            return {
+                'setMovePage': function (url) {
+                    location.href = url;
+                }
+            }
+        }();
+        jQuery(document).ready( function() {
+            // error 가 있을시 표시되는 필드 display가 바뀌지않는 버그에 대한 임시처리
+            jQuery('.invalid-feedback').show();
+        });
+    </script>
+    {% block alluserboard %}
+    {% endblock %}
+
+{% endblock %}
