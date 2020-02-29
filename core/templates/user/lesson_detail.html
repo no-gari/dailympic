@@ -338,16 +338,16 @@
         <div id="sns" class="mb-4">
             <h5 class="lesson_title">바로가기</h5>
             <div class="px-3" style="font-weight: bold;">업체 주소</div>
-            {% if lesson.academy.phone %}
+            {% if lesson.academy.phone and not lesson.academy.phone == '-1' %}
                 <div class="phone px-4"><span><i class="fa fa-phone"></i></span> <span onclick="location.href='tel:{{ lesson.academy.phone }}'">업체에 전화하기</span></div>
             {% endif %}
-            {% if lesson.academy.instagram %}
+            {% if lesson.academy.instagram and not lesson.academy.instagram == '-1' %}
                 <div class="instagram px-4"><span><i class="fa fa-instagram"></i>  </span><span><a href="{{ lesson.academy.instagram }}">업체 인스타그램 바로가기</a></span></div>
             {% endif %}
-            {% if lesson.academy.facebook %}
+            {% if lesson.academy.facebook and not lesson.academy.facebook == '-1' %}
                 <div class="facebook px-4"><span><i class="fa fa-facebook-square"></i>  </span><span><a href="{{ lesson.academy.facebook }}">업체 페이스북 바로가기</a></span></div>
             {% endif %}
-            {% if lesson.academy.website %}
+            {% if lesson.academy.website and not lesson.academy.website == '-1' %}
                 <div class="naver-cafe px-4">
                     <span>
                         <img src="{% static 'img/naver.png' %}" alt="" style="width: 14px;">
@@ -357,11 +357,11 @@
                     </span>
                 </div>
             {% endif %}
-            {% if lesson.academy.email %}
+            {% if lesson.academy.email and not lesson.academy.email == '-1' %}
                 <div class="email px-4"><span><i class="fa fa-send"></i></span><span onclick="location.href='mailto:{{ lesson.academy.email }}'">{{ lesson.academy.email }}</span></div>
             {% endif %}
             <div class="px-3 mt-2" style="font-weight: bold;">코치 주소</div>
-            {% if lesson.coach.phone %}
+            {% if lesson.coach.phone and not lesson.coach.phone == '-1' %}
                 <div class="phone px-4">
                     <span><i class="fa fa-phone"></i></span>
                     <span onclick="location.href='tel:{{ lesson.coach.phone }}'">
@@ -369,13 +369,13 @@
                     </span>
                 </div>
             {% endif %}
-            {% if lesson.coach.instagram %}
+            {% if lesson.coach.instagram and not lesson.coach.instagram == '-1' %}
                 <div class="instagram px-4"><span><i class="fa fa-instagram"></i>  </span><span><a href="{{ lesson.coach.instagram }}">코치 인스타그램 바로가기</a></span></div>
             {% endif %}
-            {% if lesson.coach.facebook %}
+            {% if lesson.coach.facebook and not lesson.coach.facebook == '-1' %}
                 <div class="facebook px-4"><span><i class="fa fa-facebook-square"></i>  </span><span><a href="{{ lesson.coach.facebook }}">코치 페이스북 바로가기</a></span></div>
             {% endif %}
-            {% if lesson.coach.email %}
+            {% if lesson.coach.email and not lesson.coach.email == '-1' %}
                 <div class="email px-4"><span><i class="fa fa-send"></i>  </span><span onclick="location.href='mailto:{{ lesson.coach.email }}'">{{ lesson.coach.email }}</span></div>
             {% endif %}
         </div>
