@@ -49,21 +49,20 @@ INSTALLED_APPS = [
     'bootstrap4',
     'core.apps.CoreConfig',
     'suit',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'tagulous',
     'board',
     'django_summernote',
     'widget_tweaks',
     'django_filters',
     'simple_history',
-
-    # social_django
-    # 'social_django',
 
     #allauth
     'django.contrib.sites',
@@ -78,6 +77,8 @@ INSTALLED_APPS = [
     'django_registration',
 
     'sslserver',
+
+    'storages',
 ]
 
 MIDDLEWARE = [
