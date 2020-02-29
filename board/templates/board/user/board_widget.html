@@ -1,0 +1,29 @@
+<div style="width:100%; {{ add_css1 }} overflow: hidden;">
+    {% for object in board_obj %}
+        <div style="width: 100%; height: 28px; overflow: hidden; cursor: pointer; {{ add_css2 }}" onclick="get_wigdet_link_{{ uuid }}( '{% url 'board:board_detail' object.id %}' );">
+            <div style="float: left; width: 65%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+                {% if title_bold == 'Y' %}
+                    <strong>- {{ object.title }}</strong>
+                {% else %}
+                    - {{ object.title }}
+                {% endif %}
+            </div>
+            <div style="float: right; width: 35%; {{ add_css3 }}">
+                {% if user_YN == 'Y' %}
+                    <div style="float: right; margin-left: 10px; width: 60px; text-align: center; overflow: hidden;">{{ object.user }}</div>
+                {% endif %}
+                <div style="float: right;">{{ object.created_at|date:format }}</div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+<div style="clear: both;"></div>
+<script>
+    function get_wigdet_link_{{ uuid }}( url ) {
+        {% if link_target == '_self' %}
+            location.href = url;
+        {% else %}
+            window.open(url);
+        {% endif %}
+    }
+</script>

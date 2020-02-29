@@ -1,0 +1,39 @@
+{% load alluser_templatehelpers %}
+{% if is_paginated %}
+    {% with params=request.GET.urlencode %}
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+
+            <li class="page-item {% if not page_obj.has_previous %}disabled{% endif %}">
+                <a class="page-link" href="{% if page_obj.has_previous %}{% relative_url page_obj.previous_page_number 'page' params %}{% endif %}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                </a>
+            </li>
+
+            {% if page_obj.number|add:'-9' > 1 %}
+                <li><a class="page-link" href="{% relative_url page_obj.number|add:'-10' 'page' params %}">&hellip;</a></li>
+            {% endif %}
+
+            {% for i in page_obj.page_range %}
+                {% if page_obj.number == i %}
+                    <li class="active page-item"><a class="page-link">{{ i }} <span class="sr-only">(current)</span></a></li>
+                {% else %}
+                    <li class="'page-item"><a class="page-link" href="{% relative_url i 'page' params %}">{{ i }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.paginator.num_pages > page_obj.number|add:'9' %}
+                <li><a class="page-link" href="{% relative_url page_obj.number|add:'10' 'page' params %}">&hellip;</a></li>
+            {% endif %}
+
+            <li class="page-item {% if not page_obj.has_next %}disabled{% endif %}">
+                <a class="page-link" href="{% if page_obj.has_next %}{% relative_url page_obj.next_page_number 'page' params %}{% endif %}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    {% endwith %}
+{% endif %}

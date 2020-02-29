@@ -1,0 +1,44 @@
+{% extends 'board/user/alluserboard.html' %}
+
+{% load tz %}
+
+{% block alluserboard %}
+    {% timezone "Asia/Seoul" %}
+        <div class="col-md-12 mt-5 notice_list">
+            <section class="board-view">
+                <div class="tit-area">
+                    <h3 class="tit">
+                        {{ object.title }}
+                    </h3>
+                </div>
+
+                {% if object.is_secret is False or b_grant.grant_super is True %}
+                    {% if object.files_set.all.count > 0 %}
+                        <div class="info">
+                            <p class="tit">첨부파일</p>
+                            <p class="add-file">
+                                {% for file in object.files_set.all %}
+                                    <a href="{% url 'board:file_download' file.id %}" title="파일 다운로드">
+                                        {{ file.org_file_name }}
+                                    </a>
+                                    <br>
+                                {% endfor %}
+                            </p>
+                        </div>
+                    {% endif %}
+                {% endif %}
+
+                <div class="cont">
+                    {% if object.is_secret and b_grant.grant_super is False and request.user != object.user %}
+                        {{ '비공개입니다.'|linebreaks }}
+                    {% else %}
+                        {{ object.content|safe }}
+                    {% endif %}
+                </div>
+            </section>
+
+        </div>
+    {% endtimezone %}
+
+
+{% endblock %}
