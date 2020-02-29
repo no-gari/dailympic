@@ -1,0 +1,47 @@
+{% extends 'board/user/alluserboard.html' %}
+
+{% load widget_tweaks %}
+{% load tz %}
+{% load staticfiles %}
+
+{% block alluserboard %}
+    <div>
+        <h4 style="background-color: #699A3C; font-weight: bold; color: white; padding: 5px 10px; margin-top: 20px; display: inline-block;">{{ object_list.first.board.board_title }}</h4>
+    </div>
+
+    <div class="mt-4 position-relative">
+        {% timezone "Asia/Seoul" %}
+            <div>
+                <table class="table table-hover">
+                    <tbody>
+                        {% for document in notice_list %}
+                            <tr>
+                                <td><a href="{% url 'board:board_detail' document.id %}?return_url={{ request.META.PATH_INFO }}?{{ request.META.QUERY_STRING }}"><span style="color: red">중요</span>{{ document.title }}</a></td>
+                            </tr>
+                        {% endfor %}
+                        {% for document in object_list %}
+                            {% if not document.is_secret or document.user == request.user %}
+                                <tr>
+                                    <td><a href="{% url 'board:board_detail' document.id %}?return_url={{ request.META.PATH_INFO }}?{{ request.META.QUERY_STRING }}">{{ document.title }}</a></td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endtimezone %}
+
+        {% include 'board/user/paginator.html' %}
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('#date_reset').click(function () {
+                $('#id_title').val('');
+                $('#id_user').val('');
+                setTimeout(function() {
+                    $('#search_form').submit();
+                },10)
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,147 @@
+{% extends 'board/user/alluserboard.html' %}
+
+{% load widget_tweaks %}
+{% load alluser_templatehelpers %}
+
+{% block alluserboard_title %}
+    {{ board_obj.board_title }}
+{% endblock %}
+
+{% block alluserboard %}
+    <div class="col-md-12 mx-auto mt-5">
+        <form method='post' action='' enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for hidden_field in form.hidden_fields %}
+                {{ hidden_field }}
+            {% endfor %}
+
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger" role="alert">
+                    <ul>
+                        {% for error in form.non_field_errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            {% for field in form.visible_fields %}
+                <div class="form-group">
+                    <div class="col-sm-12 custom-control custom-radio">
+                        {% if form.is_bound %}
+                            {% if field.errors %}
+                                {% if field|get_inputtype:'checkbox' %}
+                                    {% render_field field class="custom-control-input" %}
+                                    <label class="custom-control-label ml-4" for="{{ field.auto_id }}" style="cursor: pointer">{{ field.label }}</label>
+                                {% elif field.auto_id == 'id_content' %}
+                                    {{ field }}
+                                {% else %}
+                                    {% render_field field class="form-control is-invalid" placeholder=field.label %}
+                                {% endif %}
+                                {% for error in field.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                {% if field|get_inputtype:'checkbox' %}
+                                    {% render_field field class="custom-control-input" %}
+                                    <label class="custom-control-label ml-4" for="{{ field.auto_id }}" style="cursor: pointer">{{ field.label }}</label>
+                                {% elif field.auto_id == 'id_content' %}
+                                    {{ field }}
+                                {% else %}
+                                    {% render_field field class="form-control is-valid" placeholder=field.label %}
+                                {% endif %}
+                            {% endif %}
+                        {% else %}
+                            {% if field|get_inputtype:'checkbox' %}
+                                {% render_field field class="custom-control-input" %}
+                                <label class="custom-control-label ml-4" for="{{ field.auto_id }}" style="cursor: pointer">{{ field.label }}</label>
+                            {% elif field.auto_id == 'id_content' %}
+                                {{ field }}
+                            {% else %}
+                                {% render_field field class="form-control" placeholder=field.label %}
+                            {% endif %}
+                        {% endif %}
+                        {% if field.help_text %}
+                            <small class="form-text text-muted">{{ field.help_text }}</small>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+
+            {% if files_obj.count > 0 %}
+                <div class="form-group mt-4">
+                    <label class="col-sm-3 control-label">
+                        기존 첨부 파일
+                    </label>
+                    <div class="col-sm-12">
+                        {% for file in files_obj %}
+                            <span class="colM mr-3">
+                                <a href="{% url 'board:file_download' file.id %}" title="파일 다운로드">
+                                    {{ file.org_file_name }}
+                                </a>
+                                <button type="button" class="close" aria-label="Close" style="float: none;" data-file_id="{{ file.id }}">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </span>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="form-group mt-4">
+                <label class="col-sm-3 control-label">
+                    첨부 파일 추가
+                </label>
+                <div class="col-sm-12">
+                    <input name="input2" type="file" class="file" multiple data-show-upload="true" data-show-caption="true">
+                </div>
+            </div>
+
+            <div class="text-center mt-5">
+                <button type="button" class="btn btn-warning mr-4" onclick="history.back();">뒤로</button>
+                <button type="submit" class="btn btn-primary">저장</button>
+            </div>
+        </form>
+
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.kv-upload-progress').hide();
+            $('.fileinput-cancel').hide();
+            $('.fileinput-upload').hide();
+
+            $('.close').click(function () {
+                if( !confirm('파일을 삭제할까요?') ) {
+                    return false;
+                }
+
+                var $this = $(this);
+                var file_id = $this.data('file_id');
+
+                $.ajax({
+                    url: '{% url 'board:set_file_delete' %}',
+                    type: 'POST',
+                    async: true,
+                    data: {
+                        file_id: file_id,
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                    },
+                    cache: false
+                }).done(function (data) {
+                    alert(data.message);
+                    if( data.status === 'true' ) {
+                        $this.closest('.colM').remove();
+                    }
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    //console.log('fail');
+                    alert(jqXHR.status + ' : 시스템에 문제가 있습니다!')
+                }).always(function () {
+                    //console.log('always');
+                });
+
+            });
+        });
+    </script>
+{% endblock %}
