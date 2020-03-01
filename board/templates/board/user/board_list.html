@@ -16,7 +16,7 @@
                     <tbody>
                         {% for document in notice_list %}
                             <tr>
-                                <td><a href="{% url 'board:board_detail' document.id %}?return_url={{ request.META.PATH_INFO }}?{{ request.META.QUERY_STRING }}"><span style="color: red">중요</span>{{ document.title }}</a></td>
+                                <td><a style="font-weight: bold;" href="{% url 'board:board_detail' document.id %}?return_url={{ request.META.PATH_INFO }}?{{ request.META.QUERY_STRING }}">{{ document.title }}</a></td>
                             </tr>
                         {% endfor %}
                         {% for document in object_list %}
