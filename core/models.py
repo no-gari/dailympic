@@ -191,6 +191,20 @@ class Coach(models.Model):
         return '['+str(self.academy.name)+'] '+str(self.name)
 
 
+class LessonType(models.Model):
+    name = models.CharField(
+        max_length=127,
+        verbose_name='레슨 유형',
+    )
+
+    class Meta:
+        verbose_name = '레슨 유형'
+        verbose_name_plural = '레슨 유형'
+
+    def __str__(self):
+        return '(' + str(self.pk) + ')' + str(self.name)
+
+
 class Lesson(models.Model):
     academy = models.ForeignKey(
         Academy,
@@ -204,7 +218,7 @@ class Lesson(models.Model):
         verbose_name='정가', default=0
     )
     dc_price = models.PositiveIntegerField(
-        verbose_name='할인가', null=True, blank=True, default=0
+        verbose_name='할인가', null=True, blank=True
     )
     lesson_time = models.TextField(
         default='코치에게 문의해주세요!',
@@ -228,20 +242,20 @@ class Lesson(models.Model):
         null=True, blank=True,
         verbose_name='레슨 상세 설명'
     )
-    LESSON_TYPE_CHOICES = (
-        ('ONE_DAY', '원데이 레슨'),
-        ('ONE_POINT', '원포인트 레슨'),
-        ('SHORT_TERM', '단기간 레슨'),
-        ('LONG_TERM', '장기간 레슨'),
-        ('ONE_TO_ONE', '1:1 레슨'),
-        ('SMALL_GROUP', '소규모 그룹 레슨'),
-        ('LARGE_GROUP', '대규모 그룹 레슨'),
-    )
-    lesson_type = models.CharField(
-        choices=LESSON_TYPE_CHOICES,
-        default='ONE_DAY',
-        max_length=127,
+    # LESSON_TYPE_CHOICES = (
+    #     ('ONE_DAY', '원데이 레슨'),
+    #     ('ONE_POINT', '원포인트 레슨'),
+    #     ('SHORT_TERM', '단기간 레슨'),
+    #     ('LONG_TERM', '장기간 레슨'),
+    #     ('ONE_TO_ONE', '1:1 레슨'),
+    #     ('SMALL_GROUP', '소규모 그룹 레슨'),
+    #     ('LARGE_GROUP', '대규모 그룹 레슨'),
+    # )
+    lesson_type = models.ManyToManyField(
+        LessonType,
+        null=True, blank=True,
         verbose_name='레슨 유형',
+        related_name='lessons',
     )
     rating_total = models.BigIntegerField(
         default=0,
