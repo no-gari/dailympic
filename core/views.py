@@ -12,7 +12,7 @@ from django.views.generic import (
     DeleteView, UpdateView)
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from core.forms import *
-from core.models import Lesson, Sport, BigDistrict, Like, Review, WrongInfo
+from core.models import Lesson, Sport, BigDistrict, Like, Review, WrongInfo, LessonType
 
 
 class CustomizedLoginView(LoginView):
@@ -53,6 +53,8 @@ class LessonListView(ListView):
             'order': self.request.GET.get('order'),
             'is_search': self.request.GET.get('is_search'),
             'keyword': self.request.GET.get('keyword'),
+            'trial_lesson_types': LessonType.objects.filter(classified_as='체험형'),
+            'regular_lesson_types': LessonType.objects.filter(classified_as='레슨형')
         }
         context.update(tmp)
         return context
@@ -100,8 +102,8 @@ class LessonListView(ListView):
             if lesson_type is not None and lesson_type is not '':
                 lesson_type = lesson_type.split(',')
                 tmp_lessons = Lesson.objects.none()
-                for t in lesson_type:
-                    tmp = lessons.filter(lesson_type=t)
+                for t in map(int, lesson_type):
+                    tmp = lessons.filter(lesson_type__pk=t)
                     tmp_lessons = tmp_lessons.union(tmp)
                 lessons = tmp_lessons
 

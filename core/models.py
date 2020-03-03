@@ -197,14 +197,15 @@ class LessonType(models.Model):
         verbose_name='레슨 유형',
     )
     CLASSIFED_CHOICE_SET = (
-        ('체험형', '체험형'),
-        ('레슨형', '레슨형')
+        ('TRIAL', '체험형'),
+        ('REGULAR', '레슨형')
 
     )
     classified_as = models.CharField(
         max_length=127,
         verbose_name='대분류',
-        default='레슨형'
+        default='레슨형',
+        choices=CLASSIFED_CHOICE_SET,
     )
 
     class Meta:
@@ -263,7 +264,6 @@ class Lesson(models.Model):
     # )
     lesson_type = models.ManyToManyField(
         LessonType,
-        null=True, blank=True,
         verbose_name='레슨 유형',
         related_name='lessons',
     )

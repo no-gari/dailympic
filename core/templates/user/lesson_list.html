@@ -10,7 +10,7 @@
         .region_detail_hidden_inner > .container {padding: 15px 15px;}
         .lesson_form_title {margin-top: 12px;}
         .lesson_form_body {padding-top: 5px;}
-        .lesson_form_contents {background-color: #F4F3D9;padding: 5px 5px;margin-right: 5px;}
+        .lesson_form_contents {background-color: #F4F3D9;padding: 5px 5px;margin: 5px;}
         #region_indicator {width: 100%;min-height: 15px;}
         .badge-dailympic {background-color: #A9D18E;color: white;margin: 4px 7px;padding: 5px 5px 5px 5px;}
         .active {background-color: #A9D18E;}
@@ -101,31 +101,23 @@
                     체험형
                 </div>
                 <div class="lesson_form_body d-flex">
+                {% for t in trial_lesson_types %}
                     <div class="lesson_form_contents">
-                        <input type="hidden" value="ONE_DAY">
-                        원데이 클래스
+                        <input type="hidden" value="{{ t.pk }}">
+                        {{ t.name }}
                     </div>
+                {% endfor %}
                 </div>
                 <div class="lesson_form_title">
                     레슨형
                 </div>
                 <div class="lesson_form_body row pl-3">
+                    {% for t in regular_lesson_types %}
                     <div class="lesson_form_contents">
-                        <input type="hidden" value="ONE_POINT">
-                        원포인트 레슨
+                        <input type="hidden" value="{{ t.pk }}">
+                        {{ t.name }}
                     </div>
-                    <div class="lesson_form_contents">
-                        <input type="hidden" value="SHORT_TERM">
-                        단기간 레슨
-                    </div>
-                    <div class="lesson_form_contents">
-                        <input type="hidden" value="LONG_TERM">
-                        장기간 레슨
-                    </div>
-                    <div class="lesson_form_contents mt-2">
-                        <input type="hidden" value="ONE_TO_ONE">
-                        1:1 레슨
-                    </div>
+                    {% endfor %}
                 </div>
                 <div class="lesson_form_title">
                     횟수
@@ -153,7 +145,7 @@
                     </div>
                     <div class="lesson_form_contents">
                         <input type="hidden" value="6">
-                        그 이상
+                        5회 이상
                     </div>
                 </div>
             </div>
@@ -311,7 +303,7 @@
                     $(this).removeClass('active');
                 } else {
                     if ($('.lesson_form_contents_detail').hasClass('active')) {
-                        $('.lesson_form_contents_detail').removeClass('active');
+                            $('.lesson_form_contents_detail').removeClass('active');
                     }
                     $(this).addClass('active');
                 }
