@@ -196,6 +196,16 @@ class LessonType(models.Model):
         max_length=127,
         verbose_name='레슨 유형',
     )
+    CLASSIFED_CHOICE_SET = (
+        ('체험형', '체험형'),
+        ('레슨형', '레슨형')
+
+    )
+    classified_as = models.CharField(
+        max_length=127,
+        verbose_name='대분류',
+        default='레슨형'
+    )
 
     class Meta:
         verbose_name = '레슨 유형'
