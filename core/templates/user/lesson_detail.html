@@ -142,7 +142,7 @@
                                 가격
                             </div>
                             <div style="width: 70%;">
-                                {% if lesson.dc_price == 0 %}
+                                {% if not lesson.dc_price or lesson.dc_price == 0%}
                                     <span>{{ lesson.org_price }}원 </span>
                                 {% else %}
                                     <span>{{ lesson.dc_price }}원 </span><small style="text-decoration: line-through;">{{ lesson.org_price }}원</small>
