@@ -48,9 +48,9 @@
                 <div class="lesson_form_title">
                     스포츠 목록
                 </div>
-                <div class="lesson_form_body d-flex">
+                <div class="lesson_form_body">
                     {% for sport in sports %}
-                        <div class="lesson_form_contents lesson_form_contents_detail">
+                        <div class="lesson_form_contents lesson_form_contents_detail" style="float: left;">
                             <input type="hidden" value="{{ sport.id }}">
                             {{ sport.name }}
                         </div>
@@ -65,7 +65,7 @@
 
     <div class="region_detail_hidden region_detail_hidden1">
         <form class="region_detail_hidden_inner" id="region_detail_hidden_inner">
-            <div class="d-flex">
+            <div class="d-flex" style="max-height: 70vh; overflow: auto;">
                 <div style="width: 50%;">
                     <table class="table table1">
                         {% for b_district in districts %}
@@ -121,14 +121,6 @@
                     <div class="lesson_form_contents">
                         <input type="hidden" value="LONG_TERM">
                         장기간 레슨
-                    </div>
-                    <div class="lesson_form_contents mt-2">
-                        <input type="hidden" value="SMALL_GROUP">
-                        소규모 그룹 레슨
-                    </div>
-                    <div class="lesson_form_contents mt-2">
-                        <input type="hidden" value="LARGE_GROUP">
-                        대규모 그룹 레슨
                     </div>
                     <div class="lesson_form_contents mt-2">
                         <input type="hidden" value="ONE_TO_ONE">
@@ -222,7 +214,9 @@
                             <img src="{{ lesson.lessonimage_set.first.image.url }}" class="card-img-top" alt="..">
                             <div class="card-body">
                                 <h5 class="card-title">{{ lesson.title }}</h5>
-                                <p class="card-text">{{ lesson.description }}</p>
+                                <p class="card-text" style="
+                                white-space: normal; line-height: 1.2; height: 3.6em; text-align: left; word-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+                                display: inline-block; width: 100%; overflow: hidden; text-overflow: ellipsis;">{{ lesson.description }}</p>
                                 <h5 class="card-title">{{ lesson.dc_price }}원 <small>{{ lesson.org_price }}원</small></h5>
                             </div>
                         </div>

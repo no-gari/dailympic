@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="{% static 'css/Footer-Dark.css' %}">
     <link rel="stylesheet" href="https://unpkg.com/@bootstrapstudio/bootstrap-better-nav/dist/bootstrap-better-nav.min.css">
     <link rel="icon" href="{% static 'img/dailympic_logo_small.png' %}" type="image/x-icon" />
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <style>
         body {font-family: 'Nanum Gothic', sans-serif !important;}
         .nav li a {font-weight: bold;}
@@ -82,7 +81,7 @@
     </div>
 {% endblock %}
 {% block bootstrap4_content %}
-    <div id="main_content" style="min-height: 45vh;">
+    <div id="main_content" style="min-height: 45vh; max-width: 1200px; margin: 0 auto;">
         {% block maincontent %}
         {% endblock %}
     </div>
