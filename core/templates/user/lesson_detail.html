@@ -98,7 +98,7 @@
         <div class="p-3" style="font-weight: bold;">
             <h5 style="">{{ lesson.title }}</h5>
         </div>
-        <div id="overview">
+        <div id="overview" class="pb-4">
             <h5 class="lesson_title">Overview</h5>
             <div class="d-flex">
                 <div style="width: 30%;" class="p-3">
@@ -154,7 +154,7 @@
             </div>
         </div>
         <hr>
-        <div id="coach">
+        <div id="coach" class="py-4">
             <h5 class="lesson_title">Coach</h5>
             <div class="d-flex">
                 <div style="width: 30%;" class="p-3">
@@ -186,7 +186,7 @@
             </div>
         </div>
         <hr>
-        <div id="program-detail">
+        <div id="program-detail" class="py-4">
             <h5 class="lesson_title">프로그램</h5>
             <div class="d-flex px-3">
                 <div style="background-color: #E2F0D9;" class="p-1">{{ lesson.get_lesson_type_display }}</div>
@@ -200,7 +200,7 @@
             </div>
         </div>
         <hr>
-        <div id="company">
+        <div id="company" class="py-4">
             <h5 class="lesson_title">업체 소개</h5>
             <div class="d-flex px-3">
                 <div style="width: 30%; font-weight: bold;">업체 이름: </div><div style="width: 70%;">{{ lesson.academy.name }}</div>
@@ -262,7 +262,7 @@
             </form>
         </div>
 
-        <div id="review">
+        <div id="review" class="py-4">
             <h5 class="lesson_title">후기</h5>
             {% if request.user.is_authenticated %}
                 <div class="px-3" style="width: 100%;">
@@ -339,7 +339,7 @@
             </div>
         </div>
         <hr>
-        <div id="location">
+        <div id="location" class="py-4">
             <h5 class="lesson_title">위치</h5>
             <div class="px-3">{{ lesson.academy.address }}</div>
             <div class="px-3">
@@ -347,7 +347,7 @@
             </div>
         </div>
         <hr>
-        <div id="sns" class="mb-4">
+        <div id="sns" class="mb-4" class="py-4">
             <h5 class="lesson_title">바로가기</h5>
             <div class="px-3" style="font-weight: bold;">업체 주소</div>
             {% if lesson.academy.phone and not lesson.academy.phone == '-1' %}
