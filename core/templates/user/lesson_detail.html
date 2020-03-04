@@ -126,7 +126,9 @@
                                 프로그램
                             </div>
                             <div style="width: 70%;">
-                                <span class="px-2" style="cursor: pointer; display: inline-block; background-color: #699A3C; color: white; font-weight: bold;">{{ lesson.get_lesson_type_display }}</span>
+                                {% for types in lesson.lesson_type.all %}
+                                <span class="px-2" style="cursor: pointer; display: inline-block; background-color: #699A3C; color: white; font-weight: bold;">{{ types.name }}</span>
+                                {% endfor %}
                             </div>
                         </div>
                         <div class="title d-flex my-1">

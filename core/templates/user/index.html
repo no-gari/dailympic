@@ -8,6 +8,8 @@
         @media screen and (max-width: 600px) {
             .main_menu1_contents{background-color: #F1F3F4; height:180px;}}
         .swiper-slide { text-align: center; font-size: 18px; background: #fff; display: -webkit-box; display: -ms-flexbox; display: -webkit-flex; display: flex; -webkit-box-pack: center; -ms-flex-pack: center; -webkit-justify-content: center; justify-content: center; -webkit-box-align: center; -ms-flex-align: center; -webkit-align-items: center; align-items: center;}
+        .card-text {white-space: normal; line-height: 1.2; height: 3.6em; text-align: left; word-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+                                display: inline-block; width: 100%; overflow: hidden; text-overflow: ellipsis;}
     </style>
 {% endblock %}
 {% block maincontent %}
@@ -32,7 +34,7 @@
                     <div class="w-100" style="margin-top: 21px;"><img src="{% static 'img/team.png' %}" alt="" class="img-fluid"></div>
                 </div>
             </a>
-            <a href="/lesson/list/?type=ONE_DAY" class="w-33 mx-1" style="cursor: pointer; text-decoration: none; color: black;">
+            <a href="/lesson/list/?type=1" class="w-33 mx-1" style="cursor: pointer; text-decoration: none; color: black;">
                 <div class="w-100 text-center rounded p-1 main_menu1_contents">
                     <h6 style="font-weight: bold;">원데이</h6>
                     <h6 style="font-weight: bold;">클래스</h6>
