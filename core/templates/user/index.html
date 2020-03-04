@@ -65,10 +65,13 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ lesson.title }}</h5>
                         <p class="card-text">{{ lesson.introduction }}</p>
-                        <h5 class="card-title">{{ lesson.dc_price }}원 <small>{{ lesson.org_price }}원</small></h5>
+                        {% if  not lesson.dc_price or lesson.dc_price == 0 %}
+                            <h5 class="card-title">{{ lesson.org_price }}원</h5>
+                        {% else %}
+                            <h5 class="card-title">{{ lesson.dc_price }}원 <small>{{ lesson.org_price }}원</small></h5>
+                        {% endif %}
                         <p class="badge badge-danger">HOT</p>
                     </div>
-
                     </a>
                 </div>
             {% endfor %}
@@ -90,7 +93,11 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ lesson.title }}</h5>
                             <p class="card-text">{{ lesson.introduction }}</p>
-                            <h5 class="card-title">{{ lesson.dc_price }}원 <small>{{ lesson.org_price }}원</small></h5>
+                            {% if  not lesson.dc_price or lesson.dc_price == 0 %}
+                                <h5 class="card-title">{{ lesson.org_price }}원</h5>
+                            {% else %}
+                                <h5 class="card-title">{{ lesson.dc_price }}원 <small>{{ lesson.org_price }}원</small></h5>
+                            {% endif %}
                             <p class="badge badge-success">New</p>
                         </div>
                     </a>
