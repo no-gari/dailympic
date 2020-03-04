@@ -209,7 +209,11 @@
                                 <p class="card-text" style="
                                 white-space: normal; line-height: 1.2; height: 3.6em; text-align: left; word-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
                                 display: inline-block; width: 100%; overflow: hidden; text-overflow: ellipsis;">{{ lesson.description }}</p>
-                                <h5 class="card-title">{{ lesson.dc_price }}원 <small>{{ lesson.org_price }}원</small></h5>
+                                {% if  not lesson.dc_price or lesson.dc_price == 0 %}
+                                    <h5 class="card-title">{{ lesson.org_price }}원</h5>
+                                {% else %}
+                                    <h5 class="card-title">{{ lesson.dc_price }}원 <small>{{ lesson.org_price }}원</small></h5>
+                                {% endif %}
                             </div>
                         </div>
                     </a>
