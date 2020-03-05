@@ -15,9 +15,7 @@
 {% block maincontent %}
     <div class="swiper-container">
         <div class="swiper-wrapper">
-            <div class="swiper-slide"><a class="wrapper" href=""><img class="img-responsive" src="" alt=""></a></div>
-            <div class="swiper-slide"><a class="wrapper" href=""><img class="img-responsive" src="" alt=""></a></div>
-            <div class="swiper-slide"><a class="wrapper" href=""><img class="img-responsive" src="" alt=""></a></div>
+            <div class="swiper-slide"><a class="wrapper" href=""><img class="img-responsive" src="{% static 'img/메인배너1.jpg' %}" alt=""></a></div>
         </div>
         <!-- Add Arrows -->
         <div class="swiper-button-next" style="color: #699A3C;"></div>
@@ -30,21 +28,23 @@
         <div class="d-flex justify-content-between text-center">
             <a href="{% url 'sport_list' %}" class="w-33 mx-1" style="cursor: pointer; text-decoration: none; color: black;">
                 <div class="w-100 text-center rounded p-1 main_menu1_contents">
-                    <h6 style="font-weight: bold; margin-top: 13px;">종목별 보기</h6>
-                    <div class="w-100" style="margin-top: 21px;"><img src="{% static 'img/team.png' %}" alt="" class="img-fluid"></div>
+                    <div class="w-100"><img src="{% static 'img/종목보기빨강.png' %}" alt="" class="img-fluid"></div>
+                    <h6 style="font-weight: bold;">종목</h6>
+                    <h6 style="font-weight: bold;">보기</h6>
                 </div>
             </a>
             <a href="/lesson/list/?type=1" class="w-33 mx-1" style="cursor: pointer; text-decoration: none; color: black;">
                 <div class="w-100 text-center rounded p-1 main_menu1_contents">
+                    <div class="w-100"><img src="{% static 'img/원데이빨강.png' %}" alt="" class="img-fluid"></div>
                     <h6 style="font-weight: bold;">원데이</h6>
                     <h6 style="font-weight: bold;">클래스</h6>
-                    <div class="w-100"><img src="{% static 'img/team.png' %}" alt="" class="img-fluid"></div>
                 </div>
             </a>
             <a href="{% url 'lesson_list' %}" class="w-33 mx-1" style="cursor: pointer; text-decoration: none; color: black;">
                 <div class="w-100 text-center rounded p-1 main_menu1_contents">
-                    <h6 style="font-weight: bold; margin-top: 13px;">전체 보기</h6>
-                    <div class="w-100" style="margin-top: 21px;"><img src="{% static 'img/team.png' %}" alt="" class="img-fluid"></div>
+                    <div class="w-100"><img src="{% static 'img/레슨보기빨강.png' %}" alt="" class="img-fluid"></div>
+                    <h6 style="font-weight: bold;">레슨</h6>
+                    <h6 style="font-weight: bold;">보기</h6>
                 </div>
             </a>
         </div>
@@ -105,11 +105,11 @@
             {% endfor %}
         </div>
     </section>
-    <section id="proceeding_event">
-        <div style="width: 100%; height: 50px; background-color: #1f7e9a;">
-            진행중인 이벤트 어쩌구 저쩌구
-        </div>
-    </section>
+{#    <section id="proceeding_event">#}
+{#        <div style="width: 100%; height: 50px; background-color: #1f7e9a;">#}
+{#            진행중인 이벤트 어쩌구 저쩌구#}
+{#        </div>#}
+{#    </section>#}
 {% endblock %}
 
 {% block base_extra_script %}
