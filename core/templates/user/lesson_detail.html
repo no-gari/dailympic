@@ -193,7 +193,11 @@
         <div id="program-detail" class="py-4">
             <h5 class="lesson_title">프로그램</h5>
             <div class="d-flex px-3">
-                <div style="background-color: #E2F0D9;" class="p-1">{{ lesson.get_lesson_type_display }}</div>
+            {% for types in lesson.lesson_type.all %}
+                <span style="background-color: #E2F0D9; margin:2px;" class="p-1">
+                    {{ types.name }}
+                </span>
+            {% endfor %}
             </div>
             <div class="px-3 mt-1">
                 {{ lesson.description|linebreaksbr }}
