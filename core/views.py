@@ -12,7 +12,7 @@ from django.views.generic import (
     DeleteView, UpdateView)
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from core.forms import *
-from core.models import Lesson, Sport, BigDistrict, Like, Review, WrongInfo, LessonType
+from core.models import Lesson, Sport, BigDistrict, Like, Review, WrongInfo, LessonType, LessonWeekFrequency
 
 
 class CustomizedLoginView(LoginView):
@@ -46,6 +46,9 @@ class LessonListView(ListView):
         tmp = {
             'sports': Sport.objects.all(),
             'districts': BigDistrict.objects.all(),
+            'trial_lesson_types': LessonType.objects.filter(classified_as='TRIAL'),
+            'regular_lesson_types': LessonType.objects.filter(classified_as='REGULAR'),
+            'week_frequencies': LessonWeekFrequency.objects.all(),
             'sport': self.request.GET.get('sport'),
             'region': self.request.GET.get('region'),
             'lesson_type': self.request.GET.get('type'),
@@ -53,8 +56,6 @@ class LessonListView(ListView):
             'order': self.request.GET.get('order'),
             'is_search': self.request.GET.get('is_search'),
             'keyword': self.request.GET.get('keyword'),
-            'trial_lesson_types': LessonType.objects.filter(classified_as='TRIAL'),
-            'regular_lesson_types': LessonType.objects.filter(classified_as='REGULAR')
         }
         context.update(tmp)
         return context
@@ -111,7 +112,7 @@ class LessonListView(ListView):
                 week_frequency = week_frequency.split(',')
                 tmp_lessons = Lesson.objects.none()
                 for wf in map(int, week_frequency):
-                    tmp = lessons.filter(week_frequency=wf)
+                    tmp = lessons.filter(week_frequency__freq=wf)
                     tmp_lessons = tmp_lessons.union(tmp)
                 lessons = tmp_lessons
 
