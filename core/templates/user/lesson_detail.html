@@ -66,6 +66,7 @@
     </style>
 {% endblock %}
 {% block maincontent %}
+    <div class="fixed-bottom w-100 px-2"><button class="btn w-100" role="button" style="background-color: #E2F0D9;"><a href="#sns" style="font-weight: bold;">문의하기</a></button></div>
     <div>
         <div id="class_info" class="class_info">
             <a href="#overview" class="slide mr-3">Overview</a>|
@@ -109,7 +110,8 @@
                     {% endif %}
                 </div>
                 <div style="width: 70%;">
-                    <div style="width: 100%; padding-left: 20px; padding-right: 20px; background-color: #E2F0D9;">
+                    <div style="width: 100%; padding-left: 20px; padding-right: 20px; background-color: #E2F0D9; white-space: normal; line-height: 1.2; height: 2.4em; text-align: left; word-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+                                display: inline-block; width: 100%; overflow: hidden; text-overflow: ellipsis;">
                         <span>"</span><span>{{ lesson.introduction }}</span><span>"</span>
                     </div>
                     <div>
@@ -196,7 +198,7 @@
             <div class="px-3 mt-1">
                 {{ lesson.description|linebreaksbr }}
             </div>
-            <div class="px-3 mt-1">
+            <div class="px-3 mt-1 pt-2">
                 <h6 style="font-weight: bold;">시간</h6>
                 <div>{{ lesson.lesson_time|linebreaksbr }}</div>
             </div>
