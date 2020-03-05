@@ -53,8 +53,8 @@ class LessonListView(ListView):
             'order': self.request.GET.get('order'),
             'is_search': self.request.GET.get('is_search'),
             'keyword': self.request.GET.get('keyword'),
-            'trial_lesson_types': LessonType.objects.filter(classified_as='체험형'),
-            'regular_lesson_types': LessonType.objects.filter(classified_as='레슨형')
+            'trial_lesson_types': LessonType.objects.filter(classified_as='TRIAL'),
+            'regular_lesson_types': LessonType.objects.filter(classified_as='REGULAR')
         }
         context.update(tmp)
         return context

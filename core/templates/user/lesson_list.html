@@ -4,7 +4,7 @@
     <style>
         .w-25 { font-weight: bold; height: 30px;border: white 1px solid;background-color: #E2F0D9;padding-left: 10px;padding-right: 10px;margin-right: 5px; display: inline-block;}
         #filter_details {padding-left: 10px;padding-right: 10px;}
-        .region_detail_hidden {width: 100%;display: none;z-index: 50;position: absolute;top: 86px;display: none;background-color: #E2F0D9;}
+        .region_detail_hidden {width: 100%;display: none;z-index: 50;position: absolute;top: 86px;display: none;background-color: #E2F0D9; max-width: 1200px;}
         .table2 {display: none;}
         .region_detail_hidden_inner {position: relative;width: 100%;}
         .region_detail_hidden_inner > .container {padding: 15px 15px;}
@@ -122,28 +122,28 @@
                 <div class="lesson_form_title">
                     횟수
                 </div>
-                <div class="lesson_form_body d-flex">
-                    <div class="lesson_form_contents">
+                <div class="lesson_form_body">
+                    <div class="lesson_form_contents" style="float: left;">
                         <input type="hidden" value="1">
                         주1회
                     </div>
-                    <div class="lesson_form_contents">
+                    <div class="lesson_form_contents" style="float: left;">
                         <input type="hidden" value="2">
                         주2회
                     </div>
-                    <div class="lesson_form_contents">
+                    <div class="lesson_form_contents" style="float: left;">
                         <input type="hidden" value="3">
                         주3회
                     </div>
-                    <div class="lesson_form_contents">
+                    <div class="lesson_form_contents" style="float: left;">
                         <input type="hidden" value="4">
                         주4회
                     </div>
-                    <div class="lesson_form_contents">
+                    <div class="lesson_form_contents" style="float: left;">
                         <input type="hidden" value="5">
                         주5회
                     </div>
-                    <div class="lesson_form_contents">
+                    <div class="lesson_form_contents" style="float: left;">
                         <input type="hidden" value="6">
                         5회 이상
                     </div>
@@ -209,7 +209,11 @@
                                 <p class="card-text" style="
                                 white-space: normal; line-height: 1.2; height: 3.6em; text-align: left; word-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
                                 display: inline-block; width: 100%; overflow: hidden; text-overflow: ellipsis;">{{ lesson.description }}</p>
-                                <h5 class="card-title">{{ lesson.dc_price }}원 <small>{{ lesson.org_price }}원</small></h5>
+                                {% if  not lesson.dc_price or lesson.dc_price == 0 %}
+                                    <h5 class="card-title">{{ lesson.org_price }}원</h5>
+                                {% else %}
+                                    <h5 class="card-title">{{ lesson.dc_price }}원 <small>{{ lesson.org_price }}원</small></h5>
+                                {% endif %}
                             </div>
                         </div>
                     </a>
