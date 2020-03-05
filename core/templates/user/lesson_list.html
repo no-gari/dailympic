@@ -32,9 +32,9 @@
 {#    </div>#}
     <div>
         <div id="filter_details" class="d-flex text-center">
-            <div class="w-25" id="sports_lists">종목</div>
+            <div class="w-25" id="sports_lists">스포츠</div>
             <div class="w-25" id="region_detail">지역</div>
-            <div class="w-25" id="lesson_form">수업형태</div>
+            <div class="w-25" id="lesson_form">유형</div>
             <div class="w-25" id="lesson_form_detail">정렬</div>
         </div>
     </div>
@@ -123,30 +123,13 @@
                     횟수
                 </div>
                 <div class="lesson_form_body">
+                    {% for wf in week_frequencies %}
                     <div class="lesson_form_contents" style="float: left;">
-                        <input type="hidden" value="1">
-                        주1회
+                        <input type="hidden" value="{{ wf.freq }}">
+                        {{ wf.displayed_as }}
                     </div>
-                    <div class="lesson_form_contents" style="float: left;">
-                        <input type="hidden" value="2">
-                        주2회
-                    </div>
-                    <div class="lesson_form_contents" style="float: left;">
-                        <input type="hidden" value="3">
-                        주3회
-                    </div>
-                    <div class="lesson_form_contents" style="float: left;">
-                        <input type="hidden" value="4">
-                        주4회
-                    </div>
-                    <div class="lesson_form_contents" style="float: left;">
-                        <input type="hidden" value="5">
-                        주5회
-                    </div>
-                    <div class="lesson_form_contents" style="float: left;">
-                        <input type="hidden" value="6">
-                        5회 이상
-                    </div>
+                    {% endfor %}
+
                 </div>
             </div>
             <div>
@@ -219,7 +202,7 @@
                     </a>
                 {% endfor %}
             {% else %}
-                <h5 class="mx-3">조건을 만족하는 수업이 없습니다</h5>
+                <h5 class="mx-3">조건을 만족하는 레슨이 없습니다</h5>
             {% endif %}
         </div>
     </section>

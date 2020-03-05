@@ -197,14 +197,14 @@ class LessonType(models.Model):
         verbose_name='레슨 유형',
     )
     CLASSIFED_CHOICE_SET = (
-        ('TRIAL', '체험형'),
-        ('REGULAR', '레슨형')
+        ('TRIAL', 'TRIAL'),
+        ('REGULAR', 'REGULAR')
 
     )
     classified_as = models.CharField(
         max_length=127,
         verbose_name='대분류',
-        default='레슨형',
+        default='REGULAR',
         choices=CLASSIFED_CHOICE_SET,
     )
 
@@ -214,6 +214,24 @@ class LessonType(models.Model):
 
     def __str__(self):
         return '(' + str(self.pk) + ')' + str(self.name)
+
+
+class LessonWeekFrequency(models.Model):
+    freq = models.PositiveSmallIntegerField(
+        unique=True,
+        verbose_name='주 레슨 횟수'
+    )
+    displayed_as = models.CharField(
+        verbose_name='표시 이름',
+        max_length=31,
+    )
+
+    class Meta:
+        verbose_name = '레슨 횟수'
+        verbose_name_plural = '레슨 횟수'
+
+    def __str__(self):
+        return self.displayed_as
 
 
 class Lesson(models.Model):
@@ -236,7 +254,11 @@ class Lesson(models.Model):
         max_length=255, verbose_name='레슨 시간',
         help_text='엔터로 구분해주세요. (ex)월,목 - 17:00 ~ 20:00 (enter키) 금 - 18:00 ~ 20:00'
     )
-    week_frequency = models.IntegerField(verbose_name='주간 횟수')
+    week_frequency = models.ManyToManyField(
+        LessonWeekFrequency,
+        related_name='lessons',
+        verbose_name='주간 횟수',
+    )
     coach = models.ForeignKey(
         Coach,
         null=True,
