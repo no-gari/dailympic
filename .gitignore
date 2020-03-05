@@ -9,7 +9,6 @@ envs_dev.json
 server.crt
 server.key
 local-ssl-server.py
-!/core/static/
 dailympic/secrets.json
 dailympic/settings/__init__.py
 static_root/
