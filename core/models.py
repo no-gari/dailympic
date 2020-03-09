@@ -257,13 +257,13 @@ class Lesson(models.Model):
     week_frequency = models.ManyToManyField(
         LessonWeekFrequency,
         related_name='lessons',
+        related_query_name='week_frequencies',
         verbose_name='주간 횟수',
     )
-    coach = models.ForeignKey(
+    coach = models.ManyToManyField(
         Coach,
-        null=True,
-        on_delete=models.CASCADE,
         related_name='lessons',
+        related_query_name='coaches',
         verbose_name='코치'
     )
     introduction = models.CharField(
