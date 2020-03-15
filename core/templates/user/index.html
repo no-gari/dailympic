@@ -68,16 +68,18 @@
                     <a href="{% url 'lesson_detail' lesson.id %}" style="text-decoration: none; color: black;">
                     <img src="{{ lesson.lessonimage_set.first.image.url }}" class="card-img-top" alt="...">
                     <div class="card-body">
-                        <p class="badge" style="color: #707070;">{{ lesson.academy.name }}</p>
                         <h5 class="card-title">{{ lesson.title }}</h5>
+                        <p style="color: #707070; font-size: 12px; font-weight: bold;">{{ lesson.academy.name }}</p>
                         <p class="card-text">{{ lesson.introduction }}</p>
                         {% if  not lesson.dc_price or lesson.dc_price == 0 %}
                             <h5 class="card-title">{{ lesson.org_price }}원</h5>
                         {% else %}
                             <h5 class="card-title">{{ lesson.dc_price }}원 <small>{{ lesson.org_price }}원</small></h5>
                         {% endif %}
-                        <p class="badge badge-success">{{ lesson.academy.small_district }}</p>
-                        <p class="badge badge-danger">HOT</p>
+                        <div class="d-flex justify-content-between">
+                            <p class="badge badge-danger">HOT</p>
+                            <p class="badge badge-success">{{ lesson.academy.small_district.big_district }}</p>
+                        </div>
                     </div>
                     </a>
                 </div>
@@ -98,16 +100,18 @@
                     <a href="{% url 'lesson_detail' lesson.id %}" style="text-decoration: none; color: black;">
                     <img src="{{ lesson.lessonimage_set.first.image.url }}" class="card-img-top" alt="...">
                     <div class="card-body">
-                        <p class="badge" style="color: #707070;">{{ lesson.academy.name }}</p>
                         <h5 class="card-title">{{ lesson.title }}</h5>
+                        <p style="color: #707070; font-size: 12px; font-weight: bold;">{{ lesson.academy.name }}</p>
                         <p class="card-text">{{ lesson.introduction }}</p>
                         {% if  not lesson.dc_price or lesson.dc_price == 0 %}
                             <h5 class="card-title">{{ lesson.org_price }}원</h5>
                         {% else %}
                             <h5 class="card-title">{{ lesson.dc_price }}원 <small>{{ lesson.org_price }}원</small></h5>
                         {% endif %}
-                        <p class="badge badge-success">{{ lesson.academy.small_district }}</p>
-                        <p class="badge badge-danger">HOT</p>
+                        <div class="d-flex justify-content-between">
+                            <p class="badge badge-info">NEW</p>
+                            <p class="badge badge-success">{{ lesson.academy.small_district.big_district }}</p>
+                        </div>
                     </div>
                     </a>
                 </div>

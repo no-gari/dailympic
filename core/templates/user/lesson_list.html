@@ -14,6 +14,7 @@
         .lesson_form_contents {background-color: #F4F3D9;padding: 5px 5px;margin: 5px;}
         #region_indicator {width: 100%;min-height: 15px;}
         .badge-dailympic {background-color: #A9D18E;color: white;margin: 4px 7px;padding: 5px 5px 5px 5px;}
+        .badge-dailympic-dark {background-color: #385723;color: white;margin: 4px 7px;padding: 5px 5px 5px 5px;}
         .active {background-color: #A9D18E;}
         .lesson_form_title {font-weight: bold;}
         .list-group-item a {text-decoration: none;color: black;}
@@ -216,6 +217,10 @@
                                 {% else %}
                                     <h5 class="card-title">{{ lesson.dc_price }}원 <small>{{ lesson.org_price }}원</small></h5>
                                 {% endif %}
+                                <div class="d-flex justify-content-between">
+                                    <div><i style="color: #ffc700;" class="fa fa-star"></i><span>  {{ lesson.rating }}</span></div>
+                                    <div class="badge badge-dailympic-dark">{{ lesson.academy.small_district.big_district }}</div>
+                                </div>
                             </div>
                         </div>
                     </a>
