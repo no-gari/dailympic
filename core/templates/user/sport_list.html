@@ -2,9 +2,6 @@
 {% load staticfiles %}
 {% block base_extra_head %}
     <style>
-        @media screen and (max-width: 766px) {
-            .sports_lists{height: 150px !important;}
-        }
         .sports_lists {background-color: #E2F0D9;}
         .sports_lists:hover {background-color: #A9D18E;}
     </style>
@@ -16,11 +13,10 @@
             <div class="card col-lg-4 col-md-6 col-sm-6 col-6 sports_lists">
                 <div style="text-decoration: none; color: black;" class="sports_lists_button">
                     <input type="hidden" value="{{ sport.id }}">
-                    <div class="card-body text-center">
+                    <div class="text-center my-2">
                         <h4 style="font-weight: bold;">{{ sport.name }}</h4>
                     </div>
-                    <div class="p-4">
-{#                        <img src="{% static 'img/sport1.png' %}" class="card-img-top" alt="...">#}
+                    <div class="px-4 my-1">
                         {% if sport.icon %}
                         <img src="{{ sport.icon.url }}" class="card-img-top" alt="...">
                         {% endif %}
