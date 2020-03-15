@@ -43,6 +43,13 @@ class LessonListView(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+        clicked = {
+            'clicked_sport': list(self.request.GET.get('sport', '').split(',')),
+            'clicked_type': list(self.request.GET.get('type', '').split(',')),
+            'clicked_region': list(self.request.GET.get('region', '').split(',')),
+            'clicked_order': list(self.request.GET.get('order', '').split(',')),
+            'clicked_week_frequency': list(self.request.GET.get('week_frequency', '').split(',')),
+        }
         tmp = {
             'sports': Sport.objects.all(),
             'districts': BigDistrict.objects.all(),
@@ -58,6 +65,7 @@ class LessonListView(ListView):
             'keyword': self.request.GET.get('keyword'),
         }
         context.update(tmp)
+        context.update(clicked)
         return context
 
     def get_queryset(self):
@@ -167,6 +175,12 @@ class SportListView(ListView):
     model = Sport
     context_object_name = 'sports'
     template_name = 'user/sport_list.html'
+
+
+class SportDetailView(DetailView):
+    model = Sport
+    context_object_name = 'sport_detail'
+    template_name = 'user/sports_detail.html'
 
 
 def user_create(request):

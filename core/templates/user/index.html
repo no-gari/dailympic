@@ -5,10 +5,15 @@
     <style>
         .wrapper { float: left; clear: left; display: table; table-layout: fixed; }
         img.img-responsive { display: table-cell; max-width: 100%; }
+        .card-img-top {
+            height: 280px;
+        }
         @media screen and (max-width: 600px) {
-            .main_menu1_contents{background-color: #F1F3F4; height:180px;}}
+            .main_menu1_contents{background-color: #F1F3F4; height:180px;}
+            .card-img-top {height: 120px;}
+        }
         .swiper-slide { text-align: center; font-size: 18px; background: #fff; display: -webkit-box; display: -ms-flexbox; display: -webkit-flex; display: flex; -webkit-box-pack: center; -ms-flex-pack: center; -webkit-justify-content: center; justify-content: center; -webkit-box-align: center; -ms-flex-align: center; -webkit-align-items: center; align-items: center;}
-        .card-text {white-space: normal; line-height: 1.2; height: 3.6em; text-align: left; word-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+        .card-text {white-space: normal; line-height: 1.2; height: 2.4em; text-align: left; word-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
                                 display: inline-block; width: 100%; overflow: hidden; text-overflow: ellipsis;}
     </style>
 {% endblock %}
@@ -28,21 +33,21 @@
         <div class="d-flex justify-content-between text-center">
             <a href="{% url 'sport_list' %}" class="w-33 mx-1" style="cursor: pointer; text-decoration: none; color: black;">
                 <div class="w-100 text-center rounded p-1 main_menu1_contents">
-                    <div class="w-100"><img src="{% static 'img/종목보기빨강.png' %}" alt="" class="img-fluid"></div>
+                    <div class="w-100"><img src="{% static 'img/종목보기초록.png' %}" alt="" class="img-fluid"></div>
                     <h6 style="font-weight: bold;">종목</h6>
                     <h6 style="font-weight: bold;">보기</h6>
                 </div>
             </a>
             <a href="/lesson/list/?type=1" class="w-33 mx-1" style="cursor: pointer; text-decoration: none; color: black;">
                 <div class="w-100 text-center rounded p-1 main_menu1_contents">
-                    <div class="w-100"><img src="{% static 'img/원데이빨강.png' %}" alt="" class="img-fluid"></div>
+                    <div class="w-100"><img src="{% static 'img/원데이초록.png' %}" alt="" class="img-fluid"></div>
                     <h6 style="font-weight: bold;">원데이</h6>
                     <h6 style="font-weight: bold;">클래스</h6>
                 </div>
             </a>
             <a href="{% url 'lesson_list' %}" class="w-33 mx-1" style="cursor: pointer; text-decoration: none; color: black;">
                 <div class="w-100 text-center rounded p-1 main_menu1_contents">
-                    <div class="w-100"><img src="{% static 'img/레슨보기빨강.png' %}" alt="" class="img-fluid"></div>
+                    <div class="w-100"><img src="{% static 'img/레슨보기초록.png' %}" alt="" class="img-fluid"></div>
                     <h6 style="font-weight: bold;">레슨</h6>
                     <h6 style="font-weight: bold;">보기</h6>
                 </div>
@@ -54,8 +59,8 @@
 
     <section id="main_menu2">
         <div class="index_hot d-flex justify-content-between px-3">
-            <div>지금 <span style="color: red; font-weight: bold;">HOT</span> 한 수업 보기</div>
-            <div><a href="/lesson/list/?order=추천순" style="text-decoration: none;">전체보기 >>></a></div>
+            <div style="font-size: 18px;">지금 <span style="color: red; font-weight: bold;">HOT</span> 한 수업 보기</div>
+            <div><a href="/lesson/list/?order=추천순" style="text-decoration: none; color: #707070; font-size: 18px;">전체보기</a></div>
         </div>
         <div class="row w-100 mx-0 px-2">
             {% for lesson in hot_lessons %}
@@ -63,6 +68,7 @@
                     <a href="{% url 'lesson_detail' lesson.id %}" style="text-decoration: none; color: black;">
                     <img src="{{ lesson.lessonimage_set.first.image.url }}" class="card-img-top" alt="...">
                     <div class="card-body">
+                        <p class="badge" style="color: #707070;">{{ lesson.academy.name }}</p>
                         <h5 class="card-title">{{ lesson.title }}</h5>
                         <p class="card-text">{{ lesson.introduction }}</p>
                         {% if  not lesson.dc_price or lesson.dc_price == 0 %}
@@ -70,6 +76,7 @@
                         {% else %}
                             <h5 class="card-title">{{ lesson.dc_price }}원 <small>{{ lesson.org_price }}원</small></h5>
                         {% endif %}
+                        <p class="badge badge-success">{{ lesson.academy.small_district }}</p>
                         <p class="badge badge-danger">HOT</p>
                     </div>
                     </a>
@@ -82,24 +89,26 @@
 
     <section id="main_menu3 my-3">
         <div class="index_hot d-flex justify-content-between px-3">
-            <div style="font-style: italic;"><span style="color: blue; font-weight: bold;">NOW</span> OPEN</div>
-            <div><a href="/lesson/list/?order=최신순" style="text-decoration: none;">전체보기 >>></a></div>
+            <div style="font-style: italic; font-size: 18px;"><span style="color: blue; font-weight: bold;">NOW</span> OPEN</div>
+            <div><a href="/lesson/list/?order=최신순" style="text-decoration: none; color:#707070; font-size: 18px;">전체보기</a></div>
         </div>
         <div class="row w-100 mx-0 px-2">
             {% for lesson in recent_lessons %}
                 <div class="card col-lg-4 col-md-6 col-sm-6 col-6">
                     <a href="{% url 'lesson_detail' lesson.id %}" style="text-decoration: none; color: black;">
-                        <img src="{{ lesson.lessonimage_set.first.image.url }}" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ lesson.title }}</h5>
-                            <p class="card-text">{{ lesson.introduction }}</p>
-                            {% if  not lesson.dc_price or lesson.dc_price == 0 %}
-                                <h5 class="card-title">{{ lesson.org_price }}원</h5>
-                            {% else %}
-                                <h5 class="card-title">{{ lesson.dc_price }}원 <small>{{ lesson.org_price }}원</small></h5>
-                            {% endif %}
-                            <p class="badge badge-success">New</p>
-                        </div>
+                    <img src="{{ lesson.lessonimage_set.first.image.url }}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <p class="badge" style="color: #707070;">{{ lesson.academy.name }}</p>
+                        <h5 class="card-title">{{ lesson.title }}</h5>
+                        <p class="card-text">{{ lesson.introduction }}</p>
+                        {% if  not lesson.dc_price or lesson.dc_price == 0 %}
+                            <h5 class="card-title">{{ lesson.org_price }}원</h5>
+                        {% else %}
+                            <h5 class="card-title">{{ lesson.dc_price }}원 <small>{{ lesson.org_price }}원</small></h5>
+                        {% endif %}
+                        <p class="badge badge-success">{{ lesson.academy.small_district }}</p>
+                        <p class="badge badge-danger">HOT</p>
+                    </div>
                     </a>
                 </div>
             {% endfor %}
