@@ -1,8 +1,9 @@
 {% extends 'user/base.html' %}
 {% load staticfiles %}
 {% block base_extra_head %}
+    {% load templatehelpers %}
     <style>
-        .w-25 { font-weight: bold; height: 30px;border: white 1px solid;background-color: #E2F0D9;padding-left: 10px;padding-right: 10px;margin-right: 5px; display: inline-block;}
+        .left_w { font-weight: bold; height: 30px;border: white 1px solid;background-color: #E2F0D9;padding-left: 10px;padding-right: 10px;margin-right: 5px; display: inline-block;}
         #filter_details {padding-left: 10px;padding-right: 10px;}
         .region_detail_hidden {width: 100%;display: none;z-index: 50;position: absolute;top: 86px;display: none;background-color: #E2F0D9; max-width: 1200px;}
         .table2 {display: none;}
@@ -19,28 +20,17 @@
     </style>
 {% endblock %}
 {% block maincontent %}
-{#    <div class="d-flex ml-3 mt-1" data-toggle="collapse" data-target="#sports_lists" aria-expanded="false" aria-controls="sports_lists" id="sports_lists_button">#}
-{#        <h4 class="sports_name" style="font-weight: bold;">펜싱</h4>#}
-{#        <i style="font-size: 33px;" class="fa fa-angle-down"></i>#}
-{#    </div>#}
-{#    <div class="collapse" id="sports_lists">#}
-{#        <ul class="list-group">#}
-{#            {% for sport in sports %}#}
-{#                <li class="list-group-item"><a href="/lesson_list/?sport={{ sport.id }}">펜싱</a></li>#}
-{#            {% endfor %}#}
-{#        </ul>#}
-{#    </div>#}
+
     <div>
-        <div id="filter_details" class="d-flex text-center">
-            <div class="w-25" id="sports_lists">스포츠</div>
-            <div class="w-25" id="region_detail">지역</div>
-            <div class="w-25" id="lesson_form">유형</div>
-            <div class="w-25" id="lesson_form_detail">정렬</div>
+        <div id="filter_details"  class="d-flex justify-content-between text-center">
+            <div class="d-flex text-center">
+                <div class="left_w" id="sports_lists">스포츠</div>
+                <div class="left_w" id="region_detail">지역</div>
+                <div class="left_w" id="lesson_form">유형</div>
+            </div>
+            <div id="lesson_form_detail" class="badge badge-dailympic"><i class="fa fa-bars"></i></div>
         </div>
     </div>
-{#    <div class="p-0 px-3 w-100">#}
-{#        <button class="btn btn-block btn-success btn-sm float-right my-1 filter_button pt-0 m-0" type="button" style="font-weight: bold;">검색</button>#}
-{#    </div>#}
 
     <div class="region_detail_hidden sports_lists_hidden">
         <form class="region_detail_hidden_inner">
@@ -50,15 +40,12 @@
                 </div>
                 <div class="lesson_form_body">
                     {% for sport in sports %}
-                        <div class="lesson_form_contents lesson_form_contents_detail" style="float: left;">
+                        <div class="lesson_form_contents sports_detail_ {% if sport.id|sport_active:clicked_sport == sport.id %}active{% endif %}" style="float: left;">
                             <input type="hidden" value="{{ sport.id }}">
                             {{ sport.name }}
                         </div>
                     {% endfor %}
                 </div>
-            </div>
-            <div>
-                <button class="btn btn-block btn-success btn-sm float-right my-1 filter_button" type="button">검색하기</button>
             </div>
         </form>
     </div>
@@ -77,19 +64,16 @@
                 </div>
                 <div style="width: 50%;">
                     {% for b_districts in districts %}
-                    <table class="table table2">
-                        {% for small_district in b_districts.small_districts.all %}
-                            <tr>
-                                <input type="hidden" value="{{ small_district.id }}">
-                                <td>{{ small_district.name }}</td>
-                            </tr>
-                        {% endfor %}
-                    </table>
+                        <table class="table table2">
+                            {% for small_district in b_districts.small_districts.all %}
+                                <tr {% if small_district.id|district_active:clicked_region == small_district.id %}class="active"{% endif %}>
+                                    <input type="hidden" value="{{ small_district.id }}">
+                                    <td>{{ small_district.name }}</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
                     {% endfor %}
                 </div>
-            </div>
-            <div>
-                <button class="btn btn-block btn-success btn-sm float-right my-1 filter_button" type="button">검색하기</button>
             </div>
         </form>
     </div>
@@ -100,40 +84,37 @@
                 <div class="lesson_form_title">
                     체험형
                 </div>
-                <div class="lesson_form_body d-flex">
-                {% for t in trial_lesson_types %}
-                    <div class="lesson_form_contents">
-                        <input type="hidden" value="{{ t.pk }}">
-                        {{ t.name }}
-                    </div>
-                {% endfor %}
+                <div class="lesson_form_body lesson_types d-flex lesson_types_find">
+                    {% for t in trial_lesson_types %}
+                        <div class="lesson_form_contents {% if t.id|type_active:clicked_type == t.id %}active{% endif %}">
+                            <input type="hidden" value="{{ t.pk }}">
+                            {{ t.name }}
+                        </div>
+                    {% endfor %}
                 </div>
                 <div class="lesson_form_title">
                     레슨형
                 </div>
-                <div class="lesson_form_body row pl-3">
+                <div class="lesson_form_body lesson_types row pl-3 lesson_types_find">
                     {% for t in regular_lesson_types %}
-                    <div class="lesson_form_contents">
-                        <input type="hidden" value="{{ t.pk }}">
-                        {{ t.name }}
-                    </div>
+                        <div class="lesson_form_contents {% if t.id|type_active:clicked_type == t.id %}active{% endif %}">
+                            <input type="hidden" value="{{ t.pk }}">
+                            {{ t.name }}
+                        </div>
                     {% endfor %}
                 </div>
                 <div class="lesson_form_title">
                     횟수
                 </div>
-                <div class="lesson_form_body">
+                <div class="lesson_form_body lesson_frequencies">
                     {% for wf in week_frequencies %}
-                    <div class="lesson_form_contents" style="float: left;">
-                        <input type="hidden" value="{{ wf.freq }}">
-                        {{ wf.displayed_as }}
-                    </div>
+                        <div class="lesson_form_contents {% if wf.freq|frequency_active:clicked_week_frequency == wf.freq %}active{% endif %}" style="float: left;">
+                            <input type="hidden" value="{{ wf.freq }}">
+                            {{ wf.displayed_as }}
+                        </div>
                     {% endfor %}
 
                 </div>
-            </div>
-            <div>
-                <button class="btn btn-block btn-success btn-sm float-right my-1 filter_button" type="button">검색하기</button>
             </div>
         </form>
     </div>
@@ -145,10 +126,10 @@
                     정렬
                 </div>
                 <div class="lesson_form_body d-flex">
-                    <div class="lesson_form_contents lesson_form_contents_detail">
+                    <div class="lesson_form_contents lesson_form__ {% if clicked_order.0 == '추천순' %}active{% endif %}">
                         추천순
                     </div>
-                    <div class="lesson_form_contents lesson_form_contents_detail">
+                    <div class="lesson_form_contents lesson_form__ {% if clicked_order.0 == '최신순' %}active{% endif %}">
                         최신순
                     </div>
                 </div>
@@ -156,10 +137,10 @@
                     가격
                 </div>
                 <div class="lesson_form_body d-flex">
-                    <div class="lesson_form_contents lesson_form_contents_detail">
+                    <div class="lesson_form_contents lesson_form__ {% if clicked_order.0 == '가격 낮은 순' %}active{% endif %}">
                         가격 낮은 순
                     </div>
-                    <div class="lesson_form_contents lesson_form_contents_detail">
+                    <div class="lesson_form_contents lesson_form__ {% if clicked_order.0 == '가격 높은 순' %}active{% endif %}">
                         가격 높은 순
                     </div>
                 </div>
@@ -167,19 +148,57 @@
                     평점
                 </div>
                 <div class="lesson_form_body d-flex">
-                    <div class="lesson_form_contents lesson_form_contents_detail">
+                    <div class="lesson_form_contents lesson_form__ {% if clicked_order.0 == '평점 낮은 순' %}active{% endif %}">
                         평점 낮은 순
                     </div>
-                    <div class="lesson_form_contents lesson_form_contents_detail">
+                    <div class="lesson_form_contents lesson_form__ {% if clicked_order.0 == '평점 높은 순' %}active{% endif %}">
                         평점 높은 순
                     </div>
                 </div>
             </div>
-            <div>
-                <button class="btn btn-block btn-success btn-sm float-right my-1 filter_button" type="button">검색하기</button>
-            </div>
         </form>
     </div>
+
+    <section class="my-1">
+        <table>
+            <tr id="filter_badge">
+                {% if not clicked_sport.0 == '' %}
+                    {% for c in clicked_sport %}
+                        <td class="badge badge-dailympic sports-badge">
+                            {{ c|clicked_sports }} <i class="fa fa-remove"></i>
+                            <input type="hidden" value="{{ c|sports_id }}">
+                        </td>
+                    {% endfor %}
+                {% endif %}
+
+                {% if not clicked_region.0 == '' %}
+                    {% for c in clicked_region %}
+                        <td class="badge badge-dailympic region-badge">
+                            {{ c|clicked_region }}<i class="fa fa-remove"></i>
+                            <input type="hidden" value="{{ c|region_id }}">
+                        </td>
+                    {% endfor %}
+                {% endif %}
+                {% if not clicked_type.0 == '' %}
+                    {% for c in clicked_type %}
+                        <td class="badge badge-dailympic type-badge">
+                            {{ c|clicked_type }}<i class="fa fa-remove"></i>
+                            <input type="hidden" value="{{ c|type_id }}">
+                        </td>
+                    {% endfor %}
+                {% endif %}
+                {% if not clicked_week_frequency.0 == '' %}
+                    {% for c in clicked_week_frequency %}
+                        <td class="badge badge-dailympic frequency-badge">
+                            {{ c|clicked_week_frequency }}<i class="fa fa-remove"></i>
+                            <input type="hidden" value="{{ c|frequency_id }}">
+                        </td>
+                    {% endfor %}
+                {% endif %}
+            </tr>
+        </table>
+    </section>
+
     <section class="w-100 my-3">
         <div class="row w-100 mx-0 px-2">
             {% if lessons %}
@@ -213,9 +232,11 @@
             $('.table2 tr').on('click', function () {
                 if ($(this).hasClass('active')) {
                     $(this).removeClass('active');
+                    give_request();
                     return false;
                 }
                 $(this).addClass('active');
+                give_request();
             });
             $('.table1 tr').on('click', function () {
                 try {
@@ -286,13 +307,19 @@
             });
 
             $('.lesson_form_contents').on('click', function () {
+                var jthis = $(this);
                 if ($(this).hasClass('active')) {
                     $(this).removeClass('active');
+                    give_request();
                 } else {
-                    if ($('.lesson_form_contents_detail').hasClass('active')) {
-                            $('.lesson_form_contents_detail').removeClass('active');
+                    if (jthis.hasClass('sports_detail_')){
+                        $('.sports_detail_').removeClass('active');
                     }
-                    $(this).addClass('active');
+                    if (jthis.hasClass('lesson_form__')){
+                        $('.lesson_form__').removeClass('active');
+                    }
+                    jthis.addClass('active');
+                    give_request();
                 }
             });
 
@@ -301,7 +328,55 @@
             }, 200);
         });
 
-        $(".filter_button").click(function () {
+        $('.sports-badge').on('click', function () {
+            var sports_id = $(this).find('input').val();
+            $('.sports_lists_hidden .active').each(function () {
+                    var sports = $(this).find('input').val();
+                    if (sports === sports_id) {
+                        $(this).removeClass('active');
+                    }
+                }
+            );
+            give_request();
+        });
+
+        $('.region-badge').on('click', function () {
+            var region_id = $(this).find('input').val();
+            $('#region_detail_hidden_inner .table2 .active').each(function () {
+                    var regions = $(this).find('input').val();
+                    if (regions === region_id) {
+                        $(this).removeClass('active');
+                    }
+                }
+            );
+            give_request();
+        });
+
+        $('.type-badge').on('click', function () {
+            var type_id = $(this).find('input').val();
+            $('.lesson_types_find .active').each(function () {
+                    var types = $(this).find('input').val();
+                    if (types === type_id) {
+                        $(this).removeClass('active');
+                    }
+                }
+            );
+            give_request();
+        });
+
+        $('.frequency-badge').on('click', function () {
+            var frequency_id = $(this).find('input').val();
+            $('.lesson_frequencies .active').each(function () {
+                    var frequencies = $(this).find('input').val();
+                    if (frequencies === frequency_id) {
+                        $(this).removeClass('active');
+                    }
+                }
+            );
+            give_request();
+        });
+
+        function give_request () {
             var region = [];
             var type = [];
             var order = [];
@@ -317,13 +392,14 @@
                     region.push(regions);
                 }
             );
-            $('#lesson_form_hidden_inner .lesson_form_body .active').each(function () {
+            $('.lesson_types_find .active').each(function () {
                     var types = $(this).find('input').val();
-                    if (types == '1' || types == '2' || types == '3' || types == '4' || types == '5' || types == '6') {
-                        week_frequency.push(types)
-                    } else {
-                        type.push(types);
-                    }
+                    type.push(types);
+                }
+            );
+            $('.lesson_frequencies .active').each(function () {
+                    var frequency = $(this).find('input').val();
+                    week_frequency.push(frequency);
                 }
             );
             $('.lesson_form_detail_hidden .active').each(function () {
@@ -338,7 +414,47 @@
             $('#hidden_order').val(order);
             $('#hidden_week_frequency').val(week_frequency);
             $('#hidden_form').submit();
-        });
+        }
+
+        function give_request () {
+            var region = [];
+            var type = [];
+            var order = [];
+            var week_frequency = [];
+            var sport = [];
+            $('.sports_lists_hidden .active').each(function () {
+                    var sports = $(this).find('input').val();
+                    sport.push(sports);
+                }
+            );
+            $('#region_detail_hidden_inner .table2 .active').each(function () {
+                    var regions = $(this).find('input').val();
+                    region.push(regions);
+                }
+            );
+            $('.lesson_types_find .active').each(function () {
+                    var types = $(this).find('input').val();
+                    type.push(types);
+                }
+            );
+            $('.lesson_frequencies .active').each(function () {
+                    var frequency = $(this).find('input').val();
+                    week_frequency.push(frequency);
+                }
+            );
+            $('.lesson_form_detail_hidden .active').each(function () {
+                    var orders = $(this).html().trim();
+                    order.push(orders);
+                }
+            );
+            $('#hidden_is_search').val(false);
+            $('#hidden_region').val(region);
+            $('#hidden_type').val(type);
+            $('#hidden_sports_lists').val(sport)
+            $('#hidden_order').val(order);
+            $('#hidden_week_frequency').val(week_frequency);
+            $('#hidden_form').submit();
+        }
         {% if request.user.is_authenticated and not request.user.profile %}
             alert('소셜 계정으로 가입하셔서 미기입된 정보가 있습니다.' +
                 '추가 정보를 입력하여 주시기 바랍니다.');location.href="{% url 'profile_create' %}";
