@@ -68,14 +68,14 @@
 {% block maincontent %}
     <div class="fixed-bottom w-100 px-2"><button class="btn w-100" role="button" style="background-color: #E2F0D9;"><a href="#sns" style="font-weight: bold;">문의하기</a></button></div>
     <div>
-        <div id="class_info" class="class_info">
-            <a href="#overview" class="slide mr-3">Overview</a>|
-            <a href="#coach" class="slide mx-3">코치</a>|
-            <a href="#program-detail" class="slide mx-3">상세 소개</a>|
-            <a href="#company" class="slide mx-3">업체정보</a>|
-            <a href="#review" class="slide mx-3">후기</a>|
-            <a href="#location" class="slide mx-3">위치</a>|
-            <a href="#sns" class="slide ml-3">Contact</a>
+        <div style="color: lightgray;" id="class_info" class="class_info">
+            <a style="color: black;" href="#overview" class="slide mr-3">Overview</a>|
+            <a style="color: black;" href="#coach" class="slide mx-3">코치</a>|
+            <a style="color: black;" href="#program-detail" class="slide mx-3">상세 소개</a>|
+            <a style="color: black;" href="#company" class="slide mx-3">업체정보</a>|
+            <a style="color: black;" href="#review" class="slide mx-3">후기</a>|
+            <a style="color: black;" href="#location" class="slide mx-3">위치</a>|
+            <a style="color: black;" href="#sns" class="slide ml-3">Contact</a>
         </div>
         <div class="swiper-container" id="swiper">
             <div class="swiper-wrapper">
@@ -83,18 +83,17 @@
                     <div class="swiper-slide"><a class="wrapper" href=""><img src="{{ images.image.url }}" alt="" class="img-responsive"></a></div>
                 {% endfor %}
             </div>
-{#            <!-- Add Arrows -->#}
-{#            <div class="swiper-button-next" style="color: #699A3C;"></div>#}
-{#            <div class="swiper-button-prev" style="color: #699A3C;"></div>#}
+            {#            <!-- Add Arrows -->#}
+            {#            <div class="swiper-button-next" style="color: #699A3C;"></div>#}
+            {#            <div class="swiper-button-prev" style="color: #699A3C;"></div>#}
             <!-- Add Pagination -->
             <div class="swiper-pagination"></div>
         </div>
         <div id="share_button" class="d-flex" style="position: absolute; top: 100px; right: 10px; z-index: 10000;">
-            <button id = "ShareUrl" type="button" style="border: none; background-color: rgba(0,0,0,0);" onclick="copyUrl()">
-                <input type="text" value="" id="myInput">
+            <button id="kakao-link-btn" href="javascript:;" style="background-color: transparent; border: none;">
                 <i class="fa fa-share mr-2" style="font-size: 25px;"></i>
             </button>
-            <i class="fa {% if likes == False %}fa-heart-o{% else %}fa-heart{% endif %} mr-1" style="font-size: 25px;" id="heart-icon"></i>
+            <i class="fa {% if likes == False %}fa-heart-o{% else %}fa-heart{% endif %} mr-1" style="font-size: 25px; color: red;" id="heart-icon"></i>
         </div>
         <div class="p-3" style="font-weight: bold;">
             <h5 style="">{{ lesson.title }}</h5>
@@ -129,7 +128,7 @@
                             </div>
                             <div style="width: 70%;">
                                 {% for types in lesson.lesson_type.all %}
-                                <span class="px-2" style="cursor: pointer; display: inline-block; background-color: #699A3C; color: white; font-weight: bold;">{{ types.name }}</span>
+                                    <span class="px-2" style="margin-top: 5px; cursor: pointer; display: inline-block; background-color: #699A3C; color: white; font-weight: bold;">{{ types.name }}</span>
                                 {% endfor %}
                             </div>
                         </div>
@@ -192,12 +191,12 @@
         <hr>
         <div id="program-detail" class="py-4">
             <h5 class="lesson_title">프로그램</h5>
-            <div class="d-flex px-3">
-            {% for types in lesson.lesson_type.all %}
-                <span style="background-color: #E2F0D9; margin:2px;" class="p-1">
+            <div class="px-3">
+                {% for types in lesson.lesson_type.all %}
+                    <span style="background-color: #E2F0D9; margin:2px; display: inline-block;" class="p-1">
                     {{ types.name }}
                 </span>
-            {% endfor %}
+                {% endfor %}
             </div>
             <div class="px-3 mt-1">
                 {{ lesson.description|linebreaksbr }}
@@ -442,6 +441,22 @@
 {% block base_extra_script %}
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b6ed4d84c9a34763dcf92d3b6e590838"></script>
     <script src="https://unpkg.com/swiper/js/swiper.min.js"></script>
+    <script>
+        var link = window.location.href;
+        Kakao.Link.createDefaultButton({
+            container: '#kakao-link-btn',
+            objectType: 'feed',
+            content: {
+                title: '데일림픽 - 일상에 올림픽을 더하다',
+                description: '{{ lesson.title }}',
+                imageUrl: '{% static 'dailympic_logo.png' %}',
+                link: {
+                    mobileWebUrl: link,
+                    webUrl: link
+                }
+            },
+        });
+    </script>
     <script>
         $('#review_write_button').on('click', function () {
             $('#reviewModal').find('textarea').val('');
