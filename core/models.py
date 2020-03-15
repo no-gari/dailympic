@@ -18,7 +18,7 @@ class Profile(models.Model):
         default=None,null=True,blank=True,verbose_name='프로필 사진',
         upload_to='profile/%Y/%m/%d',
     )
-    name = models.CharField(max_length=31, verbose_name='이름', default='너이름이뭐니?')
+    name = models.CharField(max_length=31, verbose_name='이름')
     SEX_CHOICES = (
         ('M', '남'),
         ('W', '여')
