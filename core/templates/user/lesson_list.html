@@ -18,6 +18,8 @@
         .active {background-color: #A9D18E;}
         .lesson_form_title {font-weight: bold;}
         .list-group-item a {text-decoration: none;color: black;}
+        .elipsis_text {white-space: normal; line-height: 1.2; height: 2.4em; text-align: left; word-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+            display: inline-block; width: 100%; overflow: hidden; text-overflow: ellipsis;}
     </style>
 {% endblock %}
 {% block maincontent %}
@@ -83,7 +85,7 @@
         <form class="region_detail_hidden_inner" id="lesson_form_hidden_inner">
             <div class="container">
                 <div class="lesson_form_title">
-                    체험형
+                    모집형태
                 </div>
                 <div class="lesson_form_body lesson_types d-flex lesson_types_find">
                     {% for t in trial_lesson_types %}
@@ -109,7 +111,7 @@
                 </div>
                 <div class="lesson_form_body lesson_frequencies">
                     {% for wf in week_frequencies %}
-                        <div class="lesson_form_contents {% if wf.freq|frequency_active:clicked_week_frequency == wf.freq %}active{% endif %}" style="float: left;">
+                        <div class="lesson_form_contents px-3 {% if wf.freq|frequency_active:clicked_week_frequency == wf.freq %}active{% endif %}" style="float: left;">
                             <input type="hidden" value="{{ wf.freq }}">
                             {{ wf.displayed_as }}
                         </div>
@@ -208,8 +210,8 @@
                         <div>
                             <img src="{{ lesson.lessonimage_set.first.image.url }}" class="card-img-top" alt="..">
                             <div class="card-body">
-                                <h5 class="card-title">{{ lesson.title }}</h5>
-                                <p class="card-text" style="
+                                <h5 class="card-title elipsis_text">{{ lesson.title }}</h5>
+                                <p class="card-text elipsis_text" style="
                                 white-space: normal; line-height: 1.2; height: 3.6em; text-align: left; word-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
                                 display: inline-block; width: 100%; overflow: hidden; text-overflow: ellipsis;">{{ lesson.description }}</p>
                                 {% if  not lesson.dc_price or lesson.dc_price == 0 %}
@@ -218,7 +220,7 @@
                                     <h5 class="card-title">{{ lesson.dc_price }}원 <small>{{ lesson.org_price }}원</small></h5>
                                 {% endif %}
                                 <div class="d-flex justify-content-between">
-                                    <div><i style="color: #ffc700;" class="fa fa-star"></i><span>  {{ lesson.rating }}</span></div>
+                                    <div><i style="color: #ffc700;" class="fa fa-star"></i><span>  {{ lesson.rating|rate_round }}</span></div>
                                     <div class="badge badge-dailympic-dark">{{ lesson.academy.small_district.big_district }}</div>
                                 </div>
                             </div>
