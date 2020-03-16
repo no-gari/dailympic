@@ -159,34 +159,57 @@
         <hr>
         <div id="coach" class="py-4">
             <h5 class="lesson_title">Coach</h5>
-            <div class="d-flex">
-                <div style="width: 30%;" class="p-3">
-                    {% if lesson.coach.image %}
-                        <img src="{{ lesson.coach.image.url }}" alt="" class="img-fluid">
-                    {% else %}
-                        이미지 준비중입니다
-                    {% endif %}
-                </div>
-                <div style="width: 70%;" class="px-2">
-                    <div style="width: 100%;">
-                        <span style="font-weight: bold; color: deepskyblue; font-size: 20px;">{{ lesson.coach.name }}</span><span> 코치</span>
+
+            <ul class="nav nav-tabs">
+                {% for coach in lesson.coach.all %}
+                    <li class="nav-item">
+                        <a class="nav-link tab-link {% if foloop.counter == 1 %}active{% endif %}" data-toggle="tab" href="#{{ coach.name }}">{{ coach.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+
+
+            <div class="tab-content">
+                {% for coach in lesson.coach.all %}
+                    <div class="tab-pane fade {% if forloop.counter == 1 %}show active{% endif %}" id="{{ coach.name }}">
+                        <div class="d-flex">
+                            <div style="width: 30%;" class="p-3">
+                                {% if coach.image %}
+                                    <img src="{{ coach.image.url }}" alt="" class="img-fluid">
+                                {% else %}
+                                    이미지 준비중입니다
+                                {% endif %}
+                            </div>
+                            <div style="width: 70%;" class="px-2">
+                                <div style="width: 100%;">
+                                    <span style="font-weight: bold; color: deepskyblue; font-size: 20px;">{{ coach.name }}</span><span> 코치</span>
+                                </div>
+                                <div>
+                                    <div style="font-weight: bold;">경력</div>
+                                    {% if coach.career %}
+                                        <div>{{ coach.career|linebreaksbr }}</div>
+                                    {% else %}
+                                        <div>등록된 경력이 없습니다</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="px-3">
+                            <div style="font-weight: bold;">자기소개</div>
+                            <div>
+                                {{ coach.introduction|linebreaksbr }}
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <div style="font-weight: bold;">경력</div>
-                        {% if lesson.coach.career %}
-                            <div>{{ lesson.coach.career|linebreaksbr }}</div>
-                        {% else %}
-                            <div>등록된 경력이 없습니다</div>
-                        {% endif %}
-                    </div>
-                </div>
+                {% endfor %}
             </div>
-            <div class="px-3">
-                <div style="font-weight: bold;">자기소개</div>
-                <div>
-                    {{ lesson.coach.introduction|linebreaksbr }}
-                </div>
-            </div>
+
+
+
+
+
+
+
         </div>
         <hr>
         <div id="program-detail" class="py-4">
@@ -357,45 +380,54 @@
         <div id="sns" class="mb-4" class="py-4">
             <h5 class="lesson_title">바로가기</h5>
             <div class="px-3" style="font-weight: bold;">업체 주소</div>
-            {% if lesson.academy.phone and not lesson.academy.phone == '-1' %}
-                <div class="phone px-4"><span><i class="fa fa-phone"></i></span> <span onclick="location.href='tel:{{ lesson.academy.phone }}'">업체에 전화하기</span></div>
-            {% endif %}
-            {% if lesson.academy.instagram and not lesson.academy.instagram == '-1' %}
-                <div class="instagram px-4"><span><i class="fa fa-instagram"></i>  </span><span><a href="{{ lesson.academy.instagram }}">업체 인스타그램 바로가기</a></span></div>
-            {% endif %}
-            {% if lesson.academy.facebook and not lesson.academy.facebook == '-1' %}
-                <div class="facebook px-4"><span><i class="fa fa-facebook-square"></i>  </span><span><a href="{{ lesson.academy.facebook }}">업체 페이스북 바로가기</a></span></div>
-            {% endif %}
-            {% if lesson.academy.website and not lesson.academy.website == '-1' %}
-                <div class="naver-cafe px-4">
-                    <span>
-                        <img src="{% static 'img/naver.png' %}" alt="" style="width: 14px;">
-                    </span>
-                    <span>
-                        <a href="{{ lesson.academy.website }}">웹사이트 바로가기</a>
-                    </span>
+            {% if request.user.is_authenticated %}
+                {% if lesson.academy.phone and not lesson.academy.phone == '-1' %}
+                    <div class="phone px-4"><span><i class="fa fa-phone"></i></span> <span onclick="location.href='tel:{{ lesson.academy.phone }}'">업체에 전화하기</span></div>
+                {% endif %}
+                {% if lesson.academy.instagram and not lesson.academy.instagram == '-1' %}
+                    <div class="instagram px-4"><span><i class="fa fa-instagram"></i>  </span><span><a href="{{ lesson.academy.instagram }}">업체 인스타그램 바로가기</a></span></div>
+                {% endif %}
+                {% if lesson.academy.facebook and not lesson.academy.facebook == '-1' %}
+                    <div class="facebook px-4"><span><i class="fa fa-facebook-square"></i>  </span><span><a href="{{ lesson.academy.facebook }}">업체 페이스북 바로가기</a></span></div>
+                {% endif %}
+                {% if lesson.academy.website and not lesson.academy.website == '-1' %}
+                    <div class="naver-cafe px-4">
+                        <span>
+                            <img src="{% static 'img/naver.png' %}" alt="" style="width: 14px;">
+                        </span>
+                        <span>
+                            <a href="{{ lesson.academy.website }}">웹사이트 바로가기</a>
+                        </span>
+                    </div>
+                {% endif %}
+                {% if lesson.academy.email and not lesson.academy.email == '-1' %}
+                    <div class="email px-4"><span><i class="fa fa-send"></i></span><span onclick="location.href='mailto:{{ lesson.academy.email }}'">{{ lesson.academy.email }}</span></div>
+                {% endif %}
+                <div class="px-3 mt-2" style="font-weight: bold;">코치 주소</div>
+                {% if lesson.coach.phone and not lesson.coach.phone == '-1' %}
+                    <div class="phone px-4">
+                        <span><i class="fa fa-phone"></i></span>
+                        <span onclick="location.href='tel:{{ lesson.coach.phone }}'">
+                            코치에게 전화하기
+                        </span>
+                    </div>
+                {% endif %}
+                {% if lesson.coach.instagram and not lesson.coach.instagram == '-1' %}
+                    <div class="instagram px-4"><span><i class="fa fa-instagram"></i>  </span><span><a href="{{ lesson.coach.instagram }}">코치 인스타그램 바로가기</a></span></div>
+                {% endif %}
+                {% if lesson.coach.facebook and not lesson.coach.facebook == '-1' %}
+                    <div class="facebook px-4"><span><i class="fa fa-facebook-square"></i>  </span><span><a href="{{ lesson.coach.facebook }}">코치 페이스북 바로가기</a></span></div>
+                {% endif %}
+                {% if lesson.coach.email and not lesson.coach.email == '-1' %}
+                    <div class="email px-4"><span><i class="fa fa-send"></i>  </span><span onclick="location.href='mailto:{{ lesson.coach.email }}'">{{ lesson.coach.email }}</span></div>
+                {% endif %}
+            {% else %}
+                <div class="container text-center">
+                    업체 정보를 확인하려면 로그인 해주세요
+                    <div>
+                        <button class="btn btn-info" type="button"><a style="font-weight: bold; color:white;" href="{% url 'login' %}">로그인</a></button>
+                    </div>
                 </div>
-            {% endif %}
-            {% if lesson.academy.email and not lesson.academy.email == '-1' %}
-                <div class="email px-4"><span><i class="fa fa-send"></i></span><span onclick="location.href='mailto:{{ lesson.academy.email }}'">{{ lesson.academy.email }}</span></div>
-            {% endif %}
-            <div class="px-3 mt-2" style="font-weight: bold;">코치 주소</div>
-            {% if lesson.coach.phone and not lesson.coach.phone == '-1' %}
-                <div class="phone px-4">
-                    <span><i class="fa fa-phone"></i></span>
-                    <span onclick="location.href='tel:{{ lesson.coach.phone }}'">
-                        코치에게 전화하기
-                    </span>
-                </div>
-            {% endif %}
-            {% if lesson.coach.instagram and not lesson.coach.instagram == '-1' %}
-                <div class="instagram px-4"><span><i class="fa fa-instagram"></i>  </span><span><a href="{{ lesson.coach.instagram }}">코치 인스타그램 바로가기</a></span></div>
-            {% endif %}
-            {% if lesson.coach.facebook and not lesson.coach.facebook == '-1' %}
-                <div class="facebook px-4"><span><i class="fa fa-facebook-square"></i>  </span><span><a href="{{ lesson.coach.facebook }}">코치 페이스북 바로가기</a></span></div>
-            {% endif %}
-            {% if lesson.coach.email and not lesson.coach.email == '-1' %}
-                <div class="email px-4"><span><i class="fa fa-send"></i>  </span><span onclick="location.href='mailto:{{ lesson.coach.email }}'">{{ lesson.coach.email }}</span></div>
             {% endif %}
         </div>
 
@@ -561,10 +593,14 @@
         marker.setMap(map);
 
         $(document).on('click', 'a[href^="#"]', function (event) {
-            event.preventDefault();
-            $('html, body').animate({
-                scrollTop: $($.attr(this, 'href')).offset().top
-            }, 500, 'swing');
+            if ($(this).hasClass('tab-link')) {
+                return True
+            } else {
+                event.preventDefault();
+                $('html, body').animate({
+                    scrollTop: $($.attr(this, 'href')).offset().top
+                }, 500, 'swing');
+            }
         });
         function copyUrl() {
             var copyText = document.getElementById("myInput");

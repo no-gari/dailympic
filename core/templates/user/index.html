@@ -15,6 +15,8 @@
         .swiper-slide { text-align: center; font-size: 18px; background: #fff; display: -webkit-box; display: -ms-flexbox; display: -webkit-flex; display: flex; -webkit-box-pack: center; -ms-flex-pack: center; -webkit-justify-content: center; justify-content: center; -webkit-box-align: center; -ms-flex-align: center; -webkit-align-items: center; align-items: center;}
         .card-text {white-space: normal; line-height: 1.2; height: 2.4em; text-align: left; word-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
                                 display: inline-block; width: 100%; overflow: hidden; text-overflow: ellipsis;}
+        .elipsis_text {white-space: normal; line-height: 1.2; height: 2.4em; text-align: left; word-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+                                display: inline-block; width: 100%; overflow: hidden; text-overflow: ellipsis;}
     </style>
 {% endblock %}
 {% block maincontent %}
@@ -68,7 +70,7 @@
                     <a href="{% url 'lesson_detail' lesson.id %}" style="text-decoration: none; color: black;">
                     <img src="{{ lesson.lessonimage_set.first.image.url }}" class="card-img-top" alt="...">
                     <div class="card-body">
-                        <h5 class="card-title">{{ lesson.title }}</h5>
+                        <h5 class="card-title elipsis_text">{{ lesson.title }}</h5>
                         <p style="color: #707070; font-size: 12px; font-weight: bold;">{{ lesson.academy.name }}</p>
                         <p class="card-text">{{ lesson.introduction }}</p>
                         {% if  not lesson.dc_price or lesson.dc_price == 0 %}
