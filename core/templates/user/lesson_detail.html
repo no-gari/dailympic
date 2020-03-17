@@ -177,7 +177,7 @@
                                 {% if coach.image %}
                                     <img src="{{ coach.image.url }}" alt="" class="img-fluid">
                                 {% else %}
-                                    이미지 준비중입니다
+                                    <img src="{% static 'img/KakaoTalk_20200317_182900901.png' %}" alt="" class="img-fluid">
                                 {% endif %}
                             </div>
                             <div style="width: 70%;" class="px-2">
@@ -203,11 +203,6 @@
                     </div>
                 {% endfor %}
             </div>
-
-
-
-
-
 
 
         </div>
