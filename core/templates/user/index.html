@@ -14,9 +14,9 @@
         }
         .swiper-slide { text-align: center; font-size: 18px; background: #fff; display: -webkit-box; display: -ms-flexbox; display: -webkit-flex; display: flex; -webkit-box-pack: center; -ms-flex-pack: center; -webkit-justify-content: center; justify-content: center; -webkit-box-align: center; -ms-flex-align: center; -webkit-align-items: center; align-items: center;}
         .card-text {white-space: normal; line-height: 1.2; height: 2.4em; text-align: left; word-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
-                                display: inline-block; width: 100%; overflow: hidden; text-overflow: ellipsis;}
+            display: inline-block; width: 100%; overflow: hidden; text-overflow: ellipsis;}
         .elipsis_text {white-space: normal; line-height: 1.2; height: 2.4em; text-align: left; word-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
-                                display: inline-block; width: 100%; overflow: hidden; text-overflow: ellipsis;}
+            display: inline-block; width: 100%; overflow: hidden; text-overflow: ellipsis;}
     </style>
 {% endblock %}
 {% block maincontent %}
@@ -24,9 +24,9 @@
         <div class="swiper-wrapper">
             <div class="swiper-slide"><a class="wrapper" href=""><img class="img-responsive" src="{% static 'img/메인배너1.jpg' %}" alt=""></a></div>
         </div>
-{#        <!-- Add Arrows -->#}
-{#        <div class="swiper-button-next" style="color: #699A3C;"></div>#}
-{#        <div class="swiper-button-prev" style="color: #699A3C;"></div>#}
+        {#        <!-- Add Arrows -->#}
+        {#        <div class="swiper-button-next" style="color: #699A3C;"></div>#}
+        {#        <div class="swiper-button-prev" style="color: #699A3C;"></div>#}
         <!-- Add Pagination -->
         <div class="swiper-pagination"></div>
     </div>
@@ -68,21 +68,25 @@
             {% for lesson in hot_lessons %}
                 <div class="card col-lg-4 col-md-6 col-sm-6 col-6">
                     <a href="{% url 'lesson_detail' lesson.id %}" style="text-decoration: none; color: black;">
-                    <img src="{{ lesson.lessonimage_set.first.image.url }}" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title elipsis_text">{{ lesson.title }}</h5>
-                        <p style="color: #707070; font-size: 12px; font-weight: bold;">{{ lesson.academy.name }}</p>
-                        <p class="card-text">{{ lesson.introduction }}</p>
-                        {% if  not lesson.dc_price or lesson.dc_price == 0 %}
-                            <h5 class="card-title">{{ lesson.org_price }}원</h5>
+                        {% if lesson.lessonimage %}
+                            <img src="{{ lesson.lessonimage_set.first.image.url }}" class="card-img-top" alt="...">
                         {% else %}
-                            <h5 class="card-title">{{ lesson.dc_price }}원 <small>{{ lesson.org_price }}원</small></h5>
+                            <img src="{% static 'img/KakaoTalk_20200317_182900204.png' %}" class="card-img-top" alt="">
                         {% endif %}
-                        <div class="d-flex justify-content-between">
-                            <p class="badge badge-danger">HOT</p>
-                            <p class="badge badge-success">{{ lesson.academy.small_district.big_district }}</p>
+                        <div class="card-body">
+                            <h5 class="card-title elipsis_text">{{ lesson.title }}</h5>
+                            <p style="color: #707070; font-size: 12px; font-weight: bold;">{{ lesson.academy.name }}</p>
+                            <p class="card-text">{{ lesson.introduction }}</p>
+                            {% if  not lesson.dc_price or lesson.dc_price == 0 %}
+                                <h5 class="card-title">{{ lesson.org_price }}원</h5>
+                            {% else %}
+                                <h5 class="card-title">{{ lesson.dc_price }}원 <small>{{ lesson.org_price }}원</small></h5>
+                            {% endif %}
+                            <div class="d-flex justify-content-between">
+                                <p class="badge badge-danger">HOT</p>
+                                <p class="badge badge-success">{{ lesson.academy.small_district.big_district }}</p>
+                            </div>
                         </div>
-                    </div>
                     </a>
                 </div>
             {% endfor %}
@@ -100,31 +104,35 @@
             {% for lesson in recent_lessons %}
                 <div class="card col-lg-4 col-md-6 col-sm-6 col-6">
                     <a href="{% url 'lesson_detail' lesson.id %}" style="text-decoration: none; color: black;">
-                    <img src="{{ lesson.lessonimage_set.first.image.url }}" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ lesson.title }}</h5>
-                        <p style="color: #707070; font-size: 12px; font-weight: bold;">{{ lesson.academy.name }}</p>
-                        <p class="card-text">{{ lesson.introduction }}</p>
-                        {% if  not lesson.dc_price or lesson.dc_price == 0 %}
-                            <h5 class="card-title">{{ lesson.org_price }}원</h5>
+                        {% if lesson.lessonimage %}
+                            <img src="{{ lesson.lessonimage_set.first.image.url }}" class="card-img-top" alt="...">
                         {% else %}
-                            <h5 class="card-title">{{ lesson.dc_price }}원 <small>{{ lesson.org_price }}원</small></h5>
+                            <img src="{% static 'img/KakaoTalk_20200317_182900204.png' %}" class="card-img-top" alt="">
                         {% endif %}
-                        <div class="d-flex justify-content-between">
-                            <p class="badge badge-info">NEW</p>
-                            <p class="badge badge-success">{{ lesson.academy.small_district.big_district }}</p>
+                        <div class="card-body">
+                            <h5 class="card-title elipsis_text">{{ lesson.title }}</h5>
+                            <p style="color: #707070; font-size: 12px; font-weight: bold;">{{ lesson.academy.name }}</p>
+                            <p class="card-text">{{ lesson.introduction }}</p>
+                            {% if  not lesson.dc_price or lesson.dc_price == 0 %}
+                                <h5 class="card-title">{{ lesson.org_price }}원</h5>
+                            {% else %}
+                                <h5 class="card-title">{{ lesson.dc_price }}원 <small>{{ lesson.org_price }}원</small></h5>
+                            {% endif %}
+                            <div class="d-flex justify-content-between">
+                                <p class="badge badge-info">NEW</p>
+                                <p class="badge badge-success">{{ lesson.academy.small_district.big_district }}</p>
+                            </div>
                         </div>
-                    </div>
                     </a>
                 </div>
             {% endfor %}
         </div>
     </section>
-{#    <section id="proceeding_event">#}
-{#        <div style="width: 100%; height: 50px; background-color: #1f7e9a;">#}
-{#            진행중인 이벤트 어쩌구 저쩌구#}
-{#        </div>#}
-{#    </section>#}
+    {#    <section id="proceeding_event">#}
+    {#        <div style="width: 100%; height: 50px; background-color: #1f7e9a;">#}
+    {#            진행중인 이벤트 어쩌구 저쩌구#}
+    {#        </div>#}
+    {#    </section>#}
 {% endblock %}
 
 {% block base_extra_script %}
