@@ -53,8 +53,8 @@ class LessonListView(ListView):
         tmp = {
             'sports': Sport.objects.all(),
             'districts': BigDistrict.objects.all(),
-            'trial_lesson_types': LessonType.objects.filter(classified_as='TRIAL'),
-            'regular_lesson_types': LessonType.objects.filter(classified_as='REGULAR'),
+            'recruit_lesson_types': LessonType.objects.filter(classified_as='RECRUIT'),
+            'method_lesson_types': LessonType.objects.filter(classified_as='METHOD'),
             'week_frequencies': LessonWeekFrequency.objects.all(),
             'sport': self.request.GET.get('sport'),
             'region': self.request.GET.get('region'),
