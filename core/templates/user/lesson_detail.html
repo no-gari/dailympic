@@ -177,7 +177,7 @@
                                 {% if coach.image %}
                                     <img src="{{ coach.image.url }}" alt="" class="img-fluid">
                                 {% else %}
-                                    <img src="{% static 'img/KakaoTalk_20200317_182900901.png' %}" alt="" class="img-fluid">
+                                    <img src="{% static 'img/default_user_img.png' %}" alt="" class="img-fluid">
                                 {% endif %}
                             </div>
                             <div style="width: 70%;" class="px-2">
@@ -306,7 +306,7 @@
                             {% if review.written_by.profile.image %}
                                 <img src="{{ review.written_by.profile.image.url }}" alt="" class="img-fluid rounded">
                             {% else %}
-                                이미지가 없습니다
+                                <img src="{% static 'img/default_user_img.png' %}" alt="" class="img-fluid rounded">
                             {% endif %}
                         </div>
                         <div style="width: 70%;" class="p-3">
