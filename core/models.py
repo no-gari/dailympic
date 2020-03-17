@@ -197,14 +197,14 @@ class LessonType(models.Model):
         verbose_name='레슨 유형',
     )
     CLASSIFED_CHOICE_SET = (
-        ('TRIAL', 'TRIAL'),
-        ('REGULAR', 'REGULAR')
+        ('RECRUIT', 'RECRUIT'),
+        ('METHOD', 'METHOD')
 
     )
     classified_as = models.CharField(
         max_length=127,
         verbose_name='대분류',
-        default='REGULAR',
+        default='METHOD',
         choices=CLASSIFED_CHOICE_SET,
     )
 
