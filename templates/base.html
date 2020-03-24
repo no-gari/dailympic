@@ -21,9 +21,6 @@
                 left: 50%;
                 transform: translateX(-50%);
             }
-            #main_content {
-                min-height: 35vh;
-            }
         }
         .search-container {	position: absolute; left: 0; top: 0; width: 100%; height: 100vh; background-color: rgba( 255, 255, 255, 0.9 ); z-index: 1000;}
     </style>
@@ -39,19 +36,27 @@
             <div class="collapse navbar-collapse"
                  id="navcol-1">
                 <ul class="nav navbar-nav ml-auto">
-                    {% if request.user.is_authencitated %}
+                    {% if request.user.is_authenticated %}
                         <li class="nav-item d-block d-sm-none" role="presentation"><span class="nav-link">안녕하세요 {{ request.user.profile.name }} 님</span></li>
                     {% endif %}
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="/community/notice">공지사항</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="/community/FAQ">자주 묻는 질문</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="/community/customer">고객센터</a></li>
+                    {% if request.user.is_authenticated %}
+                        <li class="nav-item" role="presentation"><a class="nav-link" href="/community/notice">공지사항</a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link" href="/community/FAQ">자주 묻는 질문</a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link" href="/community/customer">고객센터</a></li>
+                    {% endif %}
                 </ul>
                 <ul class="nav navbar-nav ml-auto">
                     {% if not request.user.is_authenticated %}
                         <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'login' %}">로그인</a></li>
-                        <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'user/create' %}">회원가입</a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'user_create' %}">회원가입</a></li>
                     {% else %}
                         <li class="nav-item d-none d-md-block" role="presentation"><span class="nav-link">안녕하세요 {{ request.user.profile.name }} 님</span></li>
+                        {% if request.user.is_authenticated and request.user.profile %}
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" href="{% url 'profile_update' request.user.profile.pk %}">
+                                    회원정보 수정하기</a>
+                            </li>
+                        {% endif %}
                         <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'liked_lesson_list' %}">관심목록</a></li>
                         <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'logout' %}">로그아웃</a></li>
                     {% endif %}
@@ -69,7 +74,7 @@
     </div>
 {% endblock %}
 {% block bootstrap4_content %}
-    <div id="main_content" class="px-3" style=" max-width: 1200px; margin: 0 auto;">
+    <div id="main_content" class="px-3" style="max-width: 1200px; margin: 0 auto;">
         {% block content %}
         {% endblock %}
         <div class="fixed-bottom w-100 text-center pb-5">
