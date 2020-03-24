@@ -98,10 +98,10 @@
         <form class="region_detail_hidden_inner" id="lesson_form_hidden_inner">
             <div class="container">
                 <div class="lesson_form_title">
-                    체험형
+                    모집 형태
                 </div>
                 <div class="lesson_form_body lesson_types d-flex lesson_types_find">
-                    {% for t in trial_lesson_types %}
+                    {% for t in recruit_lesson_types %}
                         <div class="lesson_form_contents {% if t.id|type_active:clicked_type == t.id %}active{% endif %}">
                             <input type="hidden" value="{{ t.pk }}">
                             {{ t.name }}
