@@ -67,7 +67,7 @@
                 <div class="col-lg-4 col-md-6 col-sm-6 col-6 p-2">
                     <div class="card" style="background-color: #E7E6E6;">
                         <a href="{% url 'lesson_detail' lesson.id %}" style="text-decoration: none; color: black;">
-                            {% if lesson.lessonimage %}
+                            {% if lesson.lessonimage_set.exists %}
                                 <img src="{{ lesson.lessonimage_set.first.image.url }}" class="card-img-top" alt="...">
                             {% else %}
                                 <img src="{% static 'img/KakaoTalk_20200317_182900204.png' %}" class="card-img-top" alt="">
@@ -108,7 +108,7 @@
                 <div class="col-lg-4 col-md-6 col-sm-6 col-6 p-2">
                     <div class="card" style="background-color: #E7E6E6;">
                         <a href="{% url 'lesson_detail' lesson.id %}" style="text-decoration: none; color: black;">
-                            {% if lesson.lessonimage %}
+                            {% if lesson.lessonimage_set.exists %}
                                 <img src="{{ lesson.lessonimage_set.first.image.url }}" class="card-img-top" alt="...">
                             {% else %}
                                 <img src="{% static 'img/KakaoTalk_20200317_182900204.png' %}" class="card-img-top" alt="">
