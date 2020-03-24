@@ -214,7 +214,7 @@
                 {% for lesson in lessons %}
                     <a href="{% url 'lesson_detail' lesson.id %}" class="col-lg-4 col-md-6 col-sm-6 col-6 mb-2" style="text-decoration: none; color: black;">
                         <div class="card" style="background-color: #E7E6E6;">
-                            {% if lesson.lessonimage %}
+                            {% if lesson.lessonimage_set.exists %}
                                 <img src="{{ lesson.lessonimage_set.first.image.url }}" class="card-img-top" alt="..">
                             {% else %}
                                 <img src="{% static 'img/KakaoTalk_20200317_182900204.png' %}" class="card-img-top" alt="">
