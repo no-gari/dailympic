@@ -1,5 +1,6 @@
 {% extends 'user/base.html' %}
 {% load staticfiles %}
+{% load humanize %}
 {% block base_extra_head %}
     <link rel="stylesheet" href="https://unpkg.com/swiper/css/swiper.min.css">
     <style>
@@ -17,6 +18,7 @@
             display: inline-block; width: 100%; overflow: hidden; text-overflow: ellipsis;}
         .elipsis_text {white-space: normal; line-height: 1.2; height: 2.4em; text-align: left; word-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
             display: inline-block; width: 100%; overflow: hidden; text-overflow: ellipsis;}
+        .card-title {font-size: 12px;}
     </style>
 {% endblock %}
 {% block maincontent %}
@@ -24,32 +26,28 @@
         <div class="swiper-wrapper">
             <div class="swiper-slide"><a class="wrapper" href=""><img class="img-responsive" src="{% static 'img/메인배너1.jpg' %}" alt=""></a></div>
         </div>
-        {#        <!-- Add Arrows -->#}
-        {#        <div class="swiper-button-next" style="color: #699A3C;"></div>#}
-        {#        <div class="swiper-button-prev" style="color: #699A3C;"></div>#}
-        <!-- Add Pagination -->
         <div class="swiper-pagination"></div>
     </div>
 
-    <section id="main_menu1">
+    <section id="main_menu1" class="my-2">
         <div class="d-flex justify-content-between text-center">
-            <a href="{% url 'sport_list' %}" class="w-33 mx-1" style="cursor: pointer; text-decoration: none; color: black;">
+            <a href="{% url 'sport_list' %}" class="mx-1" style="width: 33%; cursor: pointer; text-decoration: none; color: black;">
                 <div class="w-100 text-center rounded p-1 main_menu1_contents">
-                    <div class="w-100"><img src="{% static 'img/종목보기초록.png' %}" alt="" class="img-fluid"></div>
+                    <div class="w-100 p-4"><img src="{% static 'img/종목보기초록.png' %}" alt="" class="img-fluid"></div>
                     <h6 style="font-weight: bold;">종목</h6>
                     <h6 style="font-weight: bold;">보기</h6>
                 </div>
             </a>
-            <a href="/lesson/list/?type=1" class="w-33 mx-1" style="cursor: pointer; text-decoration: none; color: black;">
+            <a href="/lesson/list/?type=1" class="mx-1" style="width: 33%; cursor: pointer; text-decoration: none; color: black;">
                 <div class="w-100 text-center rounded p-1 main_menu1_contents">
-                    <div class="w-100"><img src="{% static 'img/원데이초록.png' %}" alt="" class="img-fluid"></div>
+                    <div class="w-100 p-4"><img style="width: 47%;" src="{% static 'img/원데이초록.png' %}" alt="" class="img-fluid"></div>
                     <h6 style="font-weight: bold;">원데이</h6>
                     <h6 style="font-weight: bold;">클래스</h6>
                 </div>
             </a>
-            <a href="{% url 'lesson_list' %}" class="w-33 mx-1" style="cursor: pointer; text-decoration: none; color: black;">
+            <a href="{% url 'lesson_list' %}" class="mx-1" style="width: 33%; cursor: pointer; text-decoration: none; color: black;">
                 <div class="w-100 text-center rounded p-1 main_menu1_contents">
-                    <div class="w-100"><img src="{% static 'img/레슨보기초록.png' %}" alt="" class="img-fluid"></div>
+                    <div class="w-100 p-4"><img src="{% static 'img/레슨보기초록.png' %}" alt="" class="img-fluid"></div>
                     <h6 style="font-weight: bold;">레슨</h6>
                     <h6 style="font-weight: bold;">보기</h6>
                 </div>
@@ -66,28 +64,31 @@
         </div>
         <div class="row w-100 mx-0 px-2">
             {% for lesson in hot_lessons %}
-                <div class="card col-lg-4 col-md-6 col-sm-6 col-6">
-                    <a href="{% url 'lesson_detail' lesson.id %}" style="text-decoration: none; color: black;">
-                        {% if lesson.lessonimage %}
-                            <img src="{{ lesson.lessonimage_set.first.image.url }}" class="card-img-top" alt="...">
-                        {% else %}
-                            <img src="{% static 'img/KakaoTalk_20200317_182900204.png' %}" class="card-img-top" alt="">
-                        {% endif %}
-                        <div class="card-body">
-                            <h5 class="card-title elipsis_text">{{ lesson.title }}</h5>
-                            <p style="color: #707070; font-size: 12px; font-weight: bold;">{{ lesson.academy.name }}</p>
-                            <p class="card-text">{{ lesson.introduction }}</p>
-                            {% if  not lesson.dc_price or lesson.dc_price == 0 %}
-                                <h5 class="card-title">{{ lesson.org_price }}원</h5>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-6 p-2">
+                    <div class="card" style="background-color: #E7E6E6;">
+                        <a href="{% url 'lesson_detail' lesson.id %}" style="text-decoration: none; color: black;">
+                            {% if lesson.lessonimage %}
+                                <img src="{{ lesson.lessonimage_set.first.image.url }}" class="card-img-top" alt="...">
                             {% else %}
-                                <h5 class="card-title">{{ lesson.dc_price }}원 <small>{{ lesson.org_price }}원</small></h5>
+                                <img src="{% static 'img/KakaoTalk_20200317_182900204.png' %}" class="card-img-top" alt="">
                             {% endif %}
-                            <div class="d-flex justify-content-between">
-                                <p class="badge badge-danger">HOT</p>
-                                <p class="badge badge-success">{{ lesson.academy.small_district.big_district }}</p>
+                            <div class="card-body">
+                                <h5 class="card-title elipsis_text">{{ lesson.title }}</h5>
+                                <p style="color: #707070; font-size: 12px; font-weight: bold;">{{ lesson.academy.name }}</p>
+                                <p class="card-text">{{ lesson.introduction }}</p>
+                                {% if  not lesson.dc_price or lesson.dc_price == 0 %}
+                                    <h6 class="card-title">{{ lesson.org_price|intcomma }}원</h6>
+                                {% else %}
+                                    <h6 class="card-title">{{ lesson.dc_price|intcomma }}원 <small>{{ lesson.org_price|intcomma }}원</small></h6>
+                                {% endif %}
+                                <div class="d-flex justify-content-between">
+                                    <p class="badge badge-danger">HOT</p>
+                                    <p class="badge badge-success">{{ lesson.academy.small_district.big_district }}</p>
+                                </div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
+
+                    </div>
                 </div>
             {% endfor %}
         </div>
@@ -100,33 +101,39 @@
             <div style="font-style: italic; font-size: 18px;"><span style="color: blue; font-weight: bold;">NOW</span> OPEN</div>
             <div><a href="/lesson/list/?order=최신순" style="text-decoration: none; color:#707070; font-size: 18px;">전체보기</a></div>
         </div>
+
+
         <div class="row w-100 mx-0 px-2">
             {% for lesson in recent_lessons %}
-                <div class="card col-lg-4 col-md-6 col-sm-6 col-6">
-                    <a href="{% url 'lesson_detail' lesson.id %}" style="text-decoration: none; color: black;">
-                        {% if lesson.lessonimage %}
-                            <img src="{{ lesson.lessonimage_set.first.image.url }}" class="card-img-top" alt="...">
-                        {% else %}
-                            <img src="{% static 'img/KakaoTalk_20200317_182900204.png' %}" class="card-img-top" alt="">
-                        {% endif %}
-                        <div class="card-body">
-                            <h5 class="card-title elipsis_text">{{ lesson.title }}</h5>
-                            <p style="color: #707070; font-size: 12px; font-weight: bold;">{{ lesson.academy.name }}</p>
-                            <p class="card-text">{{ lesson.introduction }}</p>
-                            {% if  not lesson.dc_price or lesson.dc_price == 0 %}
-                                <h5 class="card-title">{{ lesson.org_price }}원</h5>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-6 p-2">
+                    <div class="card" style="background-color: #E7E6E6;">
+                        <a href="{% url 'lesson_detail' lesson.id %}" style="text-decoration: none; color: black;">
+                            {% if lesson.lessonimage %}
+                                <img src="{{ lesson.lessonimage_set.first.image.url }}" class="card-img-top" alt="...">
                             {% else %}
-                                <h5 class="card-title">{{ lesson.dc_price }}원 <small>{{ lesson.org_price }}원</small></h5>
+                                <img src="{% static 'img/KakaoTalk_20200317_182900204.png' %}" class="card-img-top" alt="">
                             {% endif %}
-                            <div class="d-flex justify-content-between">
-                                <p class="badge badge-info">NEW</p>
-                                <p class="badge badge-success">{{ lesson.academy.small_district.big_district }}</p>
+                            <div class="card-body">
+                                <h5 class="card-title elipsis_text">{{ lesson.title }}</h5>
+                                <p style="color: #707070; font-size: 12px; font-weight: bold;">{{ lesson.academy.name }}</p>
+                                <p class="card-text">{{ lesson.introduction }}</p>
+                                {% if  not lesson.dc_price or lesson.dc_price == 0 %}
+                                    <h6 class="card-title">{{ lesson.org_price|intcomma }}원</h6>
+                                {% else %}
+                                    <h6 class="card-title">{{ lesson.dc_price|intcomma }}원 <small>{{ lesson.org_price|intcomma }}원</small></h6>
+                                {% endif %}
+                                <div class="d-flex justify-content-between">
+                                    <p class="badge badge-info">NEW</p>
+                                    <p class="badge badge-success">{{ lesson.academy.small_district.big_district }}</p>
+                                </div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
+
+                    </div>
                 </div>
             {% endfor %}
         </div>
+
     </section>
     {#    <section id="proceeding_event">#}
     {#        <div style="width: 100%; height: 50px; background-color: #1f7e9a;">#}
