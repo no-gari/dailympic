@@ -26,9 +26,7 @@ class CustomizedLoginView(LoginView):
 
 def index(request):
     hot_lessons = Lesson.objects.order_by('-likes_count')[:4]
-    recent_lessons = Lesson.objects.filter(
-        created_at__gte=dt.datetime.today() - dt.timedelta(days=14)
-    ).order_by('-created_at')[:4]
+    recent_lessons = Lesson.objects.order_by('-created_at')[:4]
     ctx = {
         'hot_lessons': hot_lessons,
         'recent_lessons': recent_lessons,
