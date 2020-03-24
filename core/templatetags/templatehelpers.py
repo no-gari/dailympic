@@ -136,7 +136,7 @@ def frequency_id(number):
 @register.filter(name='rate_round')
 def rate_round(number):
     try:
-        rounded = round(number, 2)
+        rounded = round(number, 1)
         return rounded
     except:
         return None

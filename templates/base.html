@@ -42,7 +42,6 @@
                     {% if request.user.is_authencitated %}
                         <li class="nav-item d-block d-sm-none" role="presentation"><span class="nav-link">안녕하세요 {{ request.user.profile.name }} 님</span></li>
                     {% endif %}
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'lesson_list' %}">레슨</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link" href="/community/notice">공지사항</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link" href="/community/FAQ">자주 묻는 질문</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link" href="/community/customer">고객센터</a></li>

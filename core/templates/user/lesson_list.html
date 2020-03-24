@@ -1,5 +1,6 @@
 {% extends 'user/base.html' %}
 {% load staticfiles %}
+{% load humanize %}
 {% block base_extra_head %}
     {% load templatehelpers %}
     <style>
@@ -24,6 +25,7 @@
         @media screen and (max-width: 600px) {
             .card-img-top {height: 120px;}
         }
+        .card-title {font-size: 12px;}
     </style>
 {% endblock %}
 {% block maincontent %}
@@ -92,7 +94,7 @@
                     모집형태
                 </div>
                 <div class="lesson_form_body lesson_types d-flex lesson_types_find">
-                    {% for t in recruit_lesson_types %}
+                    {% for t in trial_lesson_types %}
                         <div class="lesson_form_contents {% if t.id|type_active:clicked_type == t.id %}active{% endif %}">
                             <input type="hidden" value="{{ t.pk }}">
                             {{ t.name }}
@@ -100,10 +102,10 @@
                     {% endfor %}
                 </div>
                 <div class="lesson_form_title">
-                    레슨방식
+                    레슨형
                 </div>
                 <div class="lesson_form_body lesson_types row pl-3 lesson_types_find">
-                    {% for t in method_lesson_types %}
+                    {% for t in regular_lesson_types %}
                         <div class="lesson_form_contents {% if t.id|type_active:clicked_type == t.id %}active{% endif %}">
                             <input type="hidden" value="{{ t.pk }}">
                             {{ t.name }}
@@ -207,29 +209,30 @@
     </section>
 
     <section class="w-100 my-3">
-        <div class="row w-100 mx-0 px-2">
+        <div class="row w-100 mx-0 p-1">
             {% if lessons %}
                 {% for lesson in lessons %}
-                    <a href="{% url 'lesson_detail' lesson.id %}" class="card col-lg-4 col-md-6 col-sm-6 col-6" style="text-decoration: none; color: black;">
-                        <div>
-                            {% if lesson.lessonimage_set.exists %}
+                    <a href="{% url 'lesson_detail' lesson.id %}" class="col-lg-4 col-md-6 col-sm-6 col-6 mb-2" style="text-decoration: none; color: black;">
+                        <div class="card" style="background-color: #E7E6E6;">
+                            {% if lesson.lessonimage %}
                                 <img src="{{ lesson.lessonimage_set.first.image.url }}" class="card-img-top" alt="..">
                             {% else %}
-                                <img src="{% static 'img/default_lesson_img.png' %}" class="card-img-top" alt="">
+                                <img src="{% static 'img/KakaoTalk_20200317_182900204.png' %}" class="card-img-top" alt="">
                             {% endif %}
                             <div class="card-body">
                                 <h5 class="card-title elipsis_text">{{ lesson.title }}</h5>
+                                <p style="color: #707070; font-size: 12px; font-weight: bold;">{{ lesson.academy.name }}</p>
                                 <p class="card-text elipsis_text" style="
                                 white-space: normal; line-height: 1.2; height: 3.6em; text-align: left; word-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
                                 display: inline-block; width: 100%; overflow: hidden; text-overflow: ellipsis;">{{ lesson.description }}</p>
                                 {% if  not lesson.dc_price or lesson.dc_price == 0 %}
-                                    <h5 class="card-title">{{ lesson.org_price }}원</h5>
+                                    <h5 class="card-title">{{ lesson.org_price|intcomma }}원</h5>
                                 {% else %}
-                                    <h5 class="card-title">{{ lesson.dc_price }}원 <small>{{ lesson.org_price }}원</small></h5>
+                                    <h5 class="card-title">{{ lesson.dc_price|intcomma }}원 <small>{{ lesson.org_price|intcomma }}원</small></h5>
                                 {% endif %}
                                 <div class="d-flex justify-content-between">
-                                    <div><i style="color: #ffc700;" class="fa fa-star"></i><span>  {{ lesson.rating|rate_round }}</span></div>
-                                    <div class="badge badge-dailympic-dark">{{ lesson.academy.small_district.big_district }}</div>
+                                    <div><i style="color: #ffc700;" class="fa fa-star"></i><span style="font-size: 8px;">  {{ lesson.rating|rate_round }}</span></div>
+                                    <div class="badge badge-dailympic-dark" style="font-size: 10px;">{{ lesson.academy.small_district.big_district }}</div>
                                 </div>
                             </div>
                         </div>

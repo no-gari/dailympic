@@ -1,5 +1,6 @@
 {% extends 'user/base.html' %}
 {% load staticfiles %}
+{% load humanize %}
 {% block base_extra_head %}
     <style>
         .w-33 {font-weight: bold; height: 30px; border: white 1px solid; background-color: #E2F0D9; padding-left: 10px; padding-right: 10px; margin-right: 5px;}
@@ -227,9 +228,9 @@
                                 white-space: normal; line-height: 1.2; height: 3.6em; text-align: left; word-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
                                 display: inline-block; width: 100%; overflow: hidden; text-overflow: ellipsis;">{{ lesson.description }}</p>
                                 {% if  not lesson.dc_price or lesson.dc_price == 0 %}
-                                    <h5 class="card-title">{{ lesson.org_price }}원</h5>
+                                    <h5 class="card-title">{{ lesson.org_price|intcomma }}원</h5>
                                 {% else %}
-                                    <h5 class="card-title">{{ lesson.dc_price }}원 <small>{{ lesson.org_price }}원</small></h5>
+                                    <h5 class="card-title">{{ lesson.dc_price|intcomma }}원 <small>{{ lesson.org_price|intcomma }}원</small></h5>
                                 {% endif %}
                             </div>
                         </div>
