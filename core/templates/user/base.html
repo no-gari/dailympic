@@ -48,7 +48,6 @@
                                 회원정보 수정하기</a>
                         </li>
                     {% endif %}
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="{% url 'lesson_list' %}">레슨</a></li>
                     {% if request.user.is_authenticated %}
                         <li class="nav-item" role="presentation"><a class="nav-link" href="/community/notice">공지사항</a></li>
                         <li class="nav-item" role="presentation"><a class="nav-link" href="/community/FAQ">자주 묻는 질문</a></li>
