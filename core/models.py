@@ -18,7 +18,7 @@ class Profile(models.Model):
         default=None,null=True,blank=True,verbose_name='프로필 사진',
         upload_to='profile/%Y/%m/%d',
     )
-    name = models.CharField(max_length=31, verbose_name='이름', default='너이름이뭐니?')
+    name = models.CharField(max_length=31, verbose_name='이름')
     SEX_CHOICES = (
         ('M', '남'),
         ('W', '여')
@@ -116,11 +116,11 @@ class Academy(models.Model):
         verbose_name='업체 운영 시간',
         help_text='엔터로 구분해주세요. (ex)월,목 - 17:00 ~ 20:00 (enter키) 금 - 18:00 ~ 20:00'
     )
-    instagram = models.URLField(null=True, blank=True, default='-1',
+    instagram = models.URLField(default='-1',
                                 verbose_name='인스타그램 링크')
-    facebook = models.URLField(null=True, blank=True, default='-1',
+    facebook = models.URLField(default='-1',
                                verbose_name='페이스북 링크')
-    website = models.URLField(null=True, blank=True, default='-1',
+    website = models.URLField(default='-1',
                               verbose_name='웹사이트/카페 링크')
     small_district = models.ForeignKey(
         SmallDistrict,
@@ -197,14 +197,14 @@ class LessonType(models.Model):
         verbose_name='레슨 유형',
     )
     CLASSIFED_CHOICE_SET = (
-        ('TRIAL', 'TRIAL'),
-        ('REGULAR', 'REGULAR')
+        ('RECRUIT', 'RECRUIT'),
+        ('METHOD', 'METHOD')
 
     )
     classified_as = models.CharField(
         max_length=127,
         verbose_name='대분류',
-        default='REGULAR',
+        default='METHOD',
         choices=CLASSIFED_CHOICE_SET,
     )
 
