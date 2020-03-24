@@ -22,6 +22,8 @@
         .list-group-item a {text-decoration: none;color: black;}
         .elipsis_text {white-space: normal; line-height: 1.2; height: 2.4em; text-align: left; word-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
             display: inline-block; width: 100%; overflow: hidden; text-overflow: ellipsis;}
+        .elipsis_text2 {white-space: normal; line-height: 1.2; height: 1.2em; text-align: left; word-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+            display: inline-block; width: 100%; overflow: hidden; text-overflow: ellipsis;}
         @media screen and (max-width: 600px) {
             .card-img-top {height: 120px;}
         }
@@ -221,7 +223,7 @@
                             {% endif %}
                             <div class="card-body">
                                 <h5 class="card-title elipsis_text">{{ lesson.title }}</h5>
-                                <p style="color: #707070; font-size: 12px; font-weight: bold;">{{ lesson.academy.name }}</p>
+                                <p class="elipsis_text2" style="color: #707070; font-size: 12px; font-weight: bold;">{{ lesson.academy.name }}</p>
                                 <p class="card-text elipsis_text" style="
                                 white-space: normal; line-height: 1.2; height: 3.6em; text-align: left; word-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
                                 display: inline-block; width: 100%; overflow: hidden; text-overflow: ellipsis;">{{ lesson.description }}</p>
