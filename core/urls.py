@@ -16,7 +16,7 @@ urlpatterns = [
     path('lesson/list/', views.LessonListView.as_view(), name='lesson_list'),
 
     path('sport/list/', views.SportListView.as_view(), name='sport_list'),
-    path('sport/detail/<int:pk>', views.SportDetailView.as_view(), name='sport_detail'),
+    # path('sport/detail/<int:pk>', views.SportDetailView.as_view(), name='sport_detail'),
     path('lesson/detail/<int:pk>/', views.LessonDetailView.as_view(), name='lesson_detail'),
     path('lesson/list/liked', views.LikedLessonListView.as_view(), name='liked_lesson_list'),
 
