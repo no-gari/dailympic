@@ -307,7 +307,7 @@
                             {% if review.written_by.profile.image %}
                                 <img src="{{ review.written_by.profile.image.url }}" alt="" class="img-fluid rounded">
                             {% else %}
-                                <img src="{% static 'img/derfault_user_image.png' %}" alt="이미지가 없습니다">
+                                <img src="{% static 'img/derfault_user_image.png' %}" alt="이미지가 없습니다" class="img-fluid">
                             {% endif %}
                         </div>
                         <div style="width: 70%;" class="p-3">

@@ -18,6 +18,8 @@
             display: inline-block; width: 100%; overflow: hidden; text-overflow: ellipsis;}
         .elipsis_text {white-space: normal; line-height: 1.2; height: 2.4em; text-align: left; word-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
             display: inline-block; width: 100%; overflow: hidden; text-overflow: ellipsis;}
+        .elipsis_text2 {white-space: normal; line-height: 1.2; height: 1.2em; text-align: left; word-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+            display: inline-block; width: 100%; overflow: hidden; text-overflow: ellipsis;}
         .card-title {font-size: 12px;}
     </style>
 {% endblock %}
@@ -74,7 +76,7 @@
                             {% endif %}
                             <div class="card-body">
                                 <h5 class="card-title elipsis_text">{{ lesson.title }}</h5>
-                                <p style="color: #707070; font-size: 12px; font-weight: bold;">{{ lesson.academy.name }}</p>
+                                <p class="elipsis_text2" style="color: #707070; font-size: 12px; font-weight: bold;">{{ lesson.academy.name }}</p>
                                 <p class="card-text">{{ lesson.introduction }}</p>
                                 {% if  not lesson.dc_price or lesson.dc_price == 0 %}
                                     <h6 class="card-title">{{ lesson.org_price|intcomma }}원</h6>
@@ -115,7 +117,7 @@
                             {% endif %}
                             <div class="card-body">
                                 <h5 class="card-title elipsis_text">{{ lesson.title }}</h5>
-                                <p style="color: #707070; font-size: 12px; font-weight: bold;">{{ lesson.academy.name }}</p>
+                                <p class="elipsis_text2" style="color: #707070; font-size: 12px; font-weight: bold;">{{ lesson.academy.name }}</p>
                                 <p class="card-text">{{ lesson.introduction }}</p>
                                 {% if  not lesson.dc_price or lesson.dc_price == 0 %}
                                     <h6 class="card-title">{{ lesson.org_price|intcomma }}원</h6>
