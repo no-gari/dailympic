@@ -217,7 +217,7 @@
                             {% if lesson.lessonimage_set.exists %}
                                 <img src="{{ lesson.lessonimage_set.first.image.url }}" class="card-img-top" alt="..">
                             {% else %}
-                                <img src="{% static 'img/KakaoTalk_20200317_182900204.png' %}" class="card-img-top" alt="">
+                                <img src="{% static 'img/default_lesson_image.png' %}" class="card-img-top" alt="">
                             {% endif %}
                             <div class="card-body">
                                 <h5 class="card-title elipsis_text">{{ lesson.title }}</h5>
