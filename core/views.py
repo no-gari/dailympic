@@ -15,6 +15,10 @@ from core.forms import *
 from core.models import Lesson, Sport, BigDistrict, Like, Review, WrongInfo, LessonType, LessonWeekFrequency
 
 
+def redirect_password_reset(request):
+    return redirect('index')
+
+
 def redirect_login(request):
     return redirect('index')
 
