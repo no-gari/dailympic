@@ -15,6 +15,10 @@ from core.forms import *
 from core.models import Lesson, Sport, BigDistrict, Like, Review, WrongInfo, LessonType, LessonWeekFrequency
 
 
+def redirect_login(request):
+    return redirect('index')
+
+
 class CustomizedLoginView(LoginView):
     form_class = CustomizedAuthenticationForm
 
