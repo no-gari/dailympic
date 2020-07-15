@@ -6,7 +6,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('accounts/login/', views.redirect_login(), name='redirect-login'),
+    path('accounts/login/', views.redirect_login, name='redirect-login'),
     path('login/', views.CustomizedLoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     # path('register/', RegistrationView.as_view(success_url='/'), name='django_registration_register'),
